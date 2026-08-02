@@ -368,4 +368,21 @@ img {
   .section {
     padding: 60px 16px;
   }
+   
+  .fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.8s ease;
+  }
+
+  .section,
+  .hero-copy,
+  .hero-image {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+   .header-solid {
+      background: rgba(5, 7, 10, 0.95);
+      border-bottom-color: rgba(255, 255, 255, 0.12);
+}
 }
