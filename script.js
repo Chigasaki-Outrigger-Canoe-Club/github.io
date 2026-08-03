@@ -37,3 +37,16 @@ menuBtn.addEventListener('click', ()=>{
   menuBtn.classList.toggle('active');
   globalNav.classList.toggle('nav-open');
 });
+
+// ===============================
+// ヘッダー透明 → 黒背景切り替え
+// ===============================
+const header = document.querySelector('.site-header');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
