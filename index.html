@@ -1,299 +1,378 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <link rel="stylesheet" href="style.css">  
-  <script src="script.js"></script>
-  <meta charset="UTF-8">
-  <title>茅ヶ崎アウトリガーカヌークラブ | CHIGASAKI OUTRIGGER CANOE CLUB</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>茅ヶ崎アウトリガーカヌークラブ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+/* =========================
+   ベース設定
+   ========================= */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Sans JP", sans-serif;
+  background: #05070a;
+  color: #f5f5f5;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* =========================
+   ヘッダー
+   ========================= */
+.site-header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  background: rgba(10,14,20,0.95);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-main {
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.logo-sub {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: #ccc;
+  text-transform: uppercase;
+}
+
+.global-nav ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.global-nav a {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  position: relative;
+}
+
+.global-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 0; height: 1px;
+  background: #6fa8ff;
+  transition: width 0.2s ease;
+}
+.global-nav a:hover::after { width: 100%; }
+
+/* =========================
+   ヒーロー
+   ========================= */
+.hero {
+  padding-top: 120px;
+  padding-bottom: 100px;
+  background: radial-gradient(circle at top left,
+    rgba(27,39,53,0.25),
+    rgba(5,7,10,0.45),
+    rgba(2,3,8,0.55)
+  );
+}
+
+.hero-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-copy {
+  flex: 1;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-label {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: #6fa8ff;
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-size: 38px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.hero-text {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #fff;
+  margin-bottom: 32px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 14px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 12px 26px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6fa8ff, #315caa);
+  color: #05070a;
+  font-weight: 700;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #6fa8ff;
+  color: #6fa8ff;
+}
+
+.hero-image {
+  flex: 1;
+  min-height: 320px;
+  background: url("hero.jpg") center/cover;
+  border-radius: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  border-radius: 18px;
+}
+
+/* =========================
+   セクション共通
+   ========================= */
+.section {
+  padding: 100px 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.section-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: #6fa8ff;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 30px;
+  letter-spacing: 0.1em;
+  margin-bottom: 32px;
+}
+
+/* =========================
+   フェードイン
+   ========================= */
+.fade-target {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   ハンバーガー
+   ========================= */
+.menu-btn {
+  display: none;
+  width: 32px;
+  height: 24px;
+  position: relative;
+  cursor: pointer;
+}
+
+.menu-btn span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.menu-btn span:nth-child(1){ top:0; }
+.menu-btn span:nth-child(2){ top:10px; }
+.menu-btn span:nth-child(3){ top:20px; }
+
+.menu-btn.active span:nth-child(1){
+  transform: translateY(10px) rotate(45deg);
+}
+.menu-btn.active span:nth-child(2){
+  opacity:0;
+}
+.menu-btn.active span:nth-child(3){
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+@media(max-width:900px){
+  .global-nav ul { display:none; }
+  .menu-btn { display:block; }
+
+  .global-nav.nav-open ul {
+    display:flex;
+    flex-direction:column;
+    position:absolute;
+    top:60px; right:0;
+    width:75%;
+    background:rgba(5,7,10,0.95);
+    border-left:1px solid rgba(255,255,255,0.08);
+    padding:20px 0;
+  }
+
+  .hero-inner { flex-direction:column; }
+}
+</style>
 </head>
+
 <body>
 
-  <!-- ヘッダー -->
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="logo-area">
-        <a href="#top" class="logo">
-          <span class="logo-main">CHIGASAKI OUTRIGGER</span>
-          <span class="logo-sub">CANOE CLUB</span>
-        </a>
-      </div>
-      <div class="menu-btn">
-      <span></span>
-      <span></span>
-      <span></span>
-      </div>
-      <nav class="global-nav">
-        <ul>
-          <li><a href="#about">クラブ紹介</a></li>
-          <li><a href="#philosophy">クラブ理念</a></li>
-          <li><a href="#activity">活動内容</a></li>
-          <li><a href="#junior">ジュニア・キッズ</a></li>
-          <li><a href="#race">レース情報</a></li>
-          <li><a href="#access">アクセス</a></li>
-          <li><a href="#contact">お問い合わせ</a></li>
-        </ul>
-      </nav>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <span class="logo-main">CHIGASAKI OUTRIGGER</span>
+      <span class="logo-sub">CANOE CLUB</span>
     </div>
-  </header>
 
-  <!-- メインビジュアル -->
-  <section id="top" class="hero">
-    <div class="hero-inner">
-      <div class="hero-copy">
-        <p class="hero-label">OUTRIGGER CANOE CLUB</p>
-        <h1 class="hero-title">
-          茅ヶ崎の海から、<br>
-          男前に漕ぎ出せ。
-        </h1>
-        <p class="hero-text">
-          茅ヶ崎アウトリガーカヌークラブは、海と仲間を愛するパドラーが集うスポーツクラブです。<br>
-          波と風を相手に、シンプルでタフなパドルスポーツを通じて、世代を超えたつながりを育んでいます。
-        </p>
-        <div class="hero-buttons">
-          <a href="#trial" class="btn-primary">体験・見学のご案内</a>
-          <a href="#race" class="btn-secondary">レース情報を見る</a>
-        </div>
-      </div>
-      <div class="hero-image">
-        <!-- 背景画像やカヌー写真をCSSで設定予定 -->
-      </div>
+    <div class="menu-btn" id="menuBtn">
+      <span></span><span></span><span></span>
     </div>
-  </section>
 
-  <!-- クラブ紹介 -->
-  <section id="about" class="section section-about">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="section-label">ABOUT CLUB</p>
-        <h2 class="section-title">茅ヶ崎アウトリガーカヌークラブについて</h2>
-      </div>
-      <div class="section-body">
-        <p>
-          茅ヶ崎アウトリガーカヌークラブは、茅ヶ崎の海を拠点とするアウトリガーカヌー専門クラブです。<br>
-          早朝の静かな海から、荒れたコンディションのトレーニングまで、年間を通じてパドルスポーツに取り組んでいます。
-        </p>
-        <p>
-          メンバーは学生から社会人、ベテランまで幅広く在籍し、レース志向のパドラーも、純粋に海を楽しみたいメンバーも歓迎しています。<br>
-          「自分の力で海を漕ぎ切る」シンプルで男前なスポーツを通じて、心身のタフさとチームワークを磨きます。
-        </p>
-      </div>
-    </div>
-  </section>
+    <nav class="global-nav" id="globalNav">
+      <ul>
+        <li><a href="#about">クラブ紹介</a></li>
+        <li><a href="#activity">活動内容</a></li>
+        <li><a href="#contact">お問い合わせ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-  <!-- クラブ理念 -->
-  <section id="philosophy" class="section section-philosophy">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="section-label">PHILOSOPHY</p>
-        <h2 class="section-title">クラブの理念</h2>
-      </div>
-      <div class="philosophy-grid">
-        <article class="philosophy-item">
-          <h3>海を敬い、海と遊ぶ</h3>
-          <p>
-            海は常に変化し、時に厳しく、時に優しい存在です。<br>
-            私たちは海を敬い、そのコンディションを受け入れながら、安全に最大限楽しむことを大切にしています。
-          </p>
-        </article>
-        <article class="philosophy-item">
-          <h3>仲間と漕ぎ、仲間と鍛える</h3>
-          <p>
-            アウトリガーカヌーは、チームで漕ぐスポーツです。<br>
-            一艇を共有し、同じリズムで漕ぐことで、世代や立場を超えた一体感が生まれます。
-          </p>
-        </article>
-        <article class="philosophy-item">
-          <h3>次世代へ文化をつなぐ</h3>
-          <p>
-            ハワイをはじめとするアウトリガーカヌー文化を尊重し、その精神を茅ヶ崎の海で次世代へつないでいきます。<br>
-            キッズ・ジュニア世代の育成にも力を入れています。
-          </p>
-        </article>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy fade-target">
+      <p class="hero-label">OUTRIGGER CANOE CLUB</p>
+      <h1 class="hero-title">茅ヶ崎の海から、男前に漕ぎ出せ。</h1>
+      <p class="hero-text">
+        茅ヶ崎アウトリガーカヌークラブは、海と仲間を愛するパドラーが集うスポーツクラブです。
+      </p>
+      <div class="hero-buttons">
+        <a class="btn-primary" href="#contact">体験・見学</a>
+        <a class="btn-secondary" href="#activity">活動内容</a>
       </div>
     </div>
-  </section>
 
-  <!-- 活動内容 -->
-  <section id="activity" class="section section-activity">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="section-label">ACTIVITIES</p>
-        <h2 class="section-title">主な活動内容</h2>
-      </div>
-      <div class="activity-grid">
-        <article class="activity-item">
-          <h3>定期トレーニング</h3>
-          <p>
-            週末を中心に、茅ヶ崎沖での定期トレーニングを実施しています。<br>
-            ベーシックなパドリングから、ロングディスタンス、インターバルまで、レベルに応じたメニューを組んでいます。
-          </p>
-        </article>
-        <article class="activity-item">
-          <h3>レース参加</h3>
-          <p>
-            国内のアウトリガーカヌーレースやオーシャンレースに積極的に参加しています。<br>
-            チームで目標を共有し、レースに向けてコンディションを整えていく過程も大切な活動です。
-          </p>
-        </article>
-        <article class="activity-item">
-          <h3>クラブイベント</h3>
-          <p>
-            クラブ内レース、合同練習、BBQなど、メンバー同士の交流を深めるイベントも開催しています。<br>
-            海と仲間を軸にした、シンプルで男前な時間を共有します。
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
+    <div class="hero-image fade-target"></div>
+  </div>
+</section>
 
-  <!-- ジュニア・キッズ -->
-  <section id="junior" class="section section-junior">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="section-label">JUNIOR & KIDS</p>
-        <h2 class="section-title">ジュニア・キッズクラス</h2>
-      </div>
-      <div class="section-body">
-        <p>
-          小学生〜高校生を対象としたジュニア・キッズクラスでは、海を安全に楽しみながら、体力・集中力・チームワークを育てます。<br>
-          パドルスポーツを通じて、「自分で漕ぎ切る」経験を積み重ねることを大切にしています。
-        </p>
-        <p>
-          初めての海スポーツでも参加しやすいよう、基礎から丁寧に指導します。<br>
-          保護者向けの説明会や見学も随時受け付けています。
-        </p>
-      </div>
-    </div>
-  </section>
+<section id="about" class="section fade-target">
+  <div class="section-inner">
+    <p class="section-label">ABOUT</p>
+    <h2 class="section-title">クラブ紹介</h2>
+    <p>茅ヶ崎の海を拠点に活動するアウトリガーカヌークラブです。</p>
+  </div>
+</section>
 
-  <!-- 体験・見学 -->
-  <section id="trial" class="section section-trial">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="section-label">TRIAL</p>
-        <h2 class="section-title">体験・見学のご案内</h2>
-      </div>
-      <div class="section-body">
-        <p>
-          「アウトリガーカヌーに興味がある」「海で何か始めたい」という方に向けて、体験・見学を受け付けています。<br>
-          パドルの持ち方から乗艇・下艇まで、インストラクターが安全に配慮しながらサポートします。
-        </p>
-        <p>
-          体験希望の方は、事前にお問い合わせフォームからご連絡ください。<br>
-          コンディションやスケジュールに応じて、最適な日程をご案内します。
-        </p>
-        <div class="trial-buttons">
-          <a href="#contact" class="btn-primary">体験・見学について問い合わせる</a>
-        </div>
-      </div>
-    </div>
-  </section>
+<section id="activity" class="section fade-target">
+  <div class="section-inner">
+    <p class="section-label">ACTIVITY</p>
+    <h2 class="section-title">活動内容</h2>
+    <p>週末のトレーニング、レース参加、クラブイベントなどを行っています。</p>
+  </div>
+</section>
 
-  <!-- レース情報 -->
-  <section id="race" class="section section-race">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="section-label">RACE</p>
-        <h2 class="section-title">レース情報</h2>
-      </div>
-      <div class="race-list">
-        <article class="race-item">
-          <h3>Chigasaki Ocean Paddling Challenge</h3>
-          <p>
-            茅ヶ崎沖を舞台にしたオーシャンレース。クラブメンバーも毎年出場し、ロングディスタンスで自分の限界に挑戦します。
-          </p>
-        </article>
-        <article class="race-item">
-          <h3>国内アウトリガーカヌーレース</h3>
-          <p>
-            各地で開催されるアウトリガーカヌーレースに参加し、他クラブとの交流や競技レベルの向上を図っています。
-          </p>
-        </article>
-        <article class="race-item">
-          <h3>海外レースへのチャレンジ</h3>
-          <p>
-            将来的にはハワイなど海外レースへの挑戦も視野に入れ、長距離・外洋コンディションへの対応力を磨いています。
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
+<section id="contact" class="section fade-target">
+  <div class="section-inner">
+    <p class="section-label">CONTACT</p>
+    <h2 class="section-title">お問い合わせ</h2>
+    <p>体験・見学、入会などはこちらからご連絡ください。</p>
+  </div>
+</section>
 
-  <!-- アクセス -->
-  <section id="access" class="section section-access">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="section-label">ACCESS</p>
-        <h2 class="section-title">アクセス</h2>
-      </div>
-      <div class="section-body">
-        <p>
-          拠点：神奈川県茅ヶ崎市 周辺の海岸エリア<br>
-          集合場所や艇庫の詳細は、メンバー登録後にご案内しています。
-        </p>
-        <p>
-          電車でお越しの方：JR茅ヶ崎駅から徒歩またはバスで海岸方面へ。<br>
-          車でお越しの方：近隣のコインパーキングをご利用ください。
-        </p>
-      </div>
-    </div>
-  </section>
+<script>
+// ===============================
+// スムーススクロール
+// ===============================
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(!target) return;
+    window.scrollTo({ top: target.offsetTop - 60, behavior:"smooth" });
+  });
+});
 
-  <!-- お問い合わせ -->
-  <section id="contact" class="section section-contact">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="section-label">CONTACT</p>
-        <h2 class="section-title">お問い合わせ</h2>
-      </div>
-      <div class="section-body">
-        <p>
-          体験・見学、入会、ジュニアクラス、レース参加などに関するお問い合わせは、以下のフォームよりご連絡ください。
-        </p>
-        <form class="contact-form">
-          <div class="form-row">
-            <label for="name">お名前</label>
-            <input type="text" id="name" name="name" placeholder="例）茅ヶ崎 太郎">
-          </div>
-          <div class="form-row">
-            <label for="email">メールアドレス</label>
-            <input type="email" id="email" name="email" placeholder="例）example@example.com">
-          </div>
-          <div class="form-row">
-            <label for="type">お問い合わせ種別</label>
-            <select id="type" name="type">
-              <option value="trial">体験・見学について</option>
-              <option value="join">入会について</option>
-              <option value="junior">ジュニア・キッズについて</option>
-              <option value="race">レース参加について</option>
-              <option value="other">その他</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label for="message">お問い合わせ内容</label>
-            <textarea id="message" name="message" rows="5" placeholder="お問い合わせ内容をご記入ください。"></textarea>
-          </div>
-          <div class="form-row form-actions">
-            <button type="submit" class="btn-primary">送信する</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
+// ===============================
+// フェードイン（スクロール）
+// ===============================
+const fadeTargets = document.querySelectorAll('.fade-target');
 
-  <!-- フッター -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-logo">
-        <span class="footer-main">CHIGASAKI OUTRIGGER CANOE CLUB</span>
-      </div>
-      <div class="footer-info">
-        <p>© 茅ヶ崎アウトリガーカヌークラブ</p>
-        <p>海と仲間を愛する、男前なパドルスポーツクラブ。</p>
-      </div>
-    </div>
-  </footer>
+function fadeInOnScroll(){
+  fadeTargets.forEach(el=>{
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight - 80){
+      el.classList.add('fade-in');
+    }
+  });
+}
+
+window.addEventListener('scroll', fadeInOnScroll);
+window.addEventListener('load', fadeInOnScroll);
+
+// ===============================
+// ハンバーガーメニュー
+// ===============================
+const menuBtn = document.getElementById('menuBtn');
+const globalNav = document.getElementById('globalNav');
+
+menuBtn.addEventListener('click', ()=>{
+  menuBtn.classList.toggle('active');
+  globalNav.classList.toggle('nav-open');
+});
+</script>
 
 </body>
 </html>
