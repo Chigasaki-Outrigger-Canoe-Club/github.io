@@ -167,7 +167,7 @@ img { max-width: 100%; display: block; }
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, #faff6f, #315caa);
+  background: linear-gradient(135deg, #faff6f, #bdc144);
   color: #020101;
   font-weight: 700;
 }
