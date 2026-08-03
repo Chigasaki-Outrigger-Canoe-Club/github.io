@@ -23,14 +23,13 @@ img { max-width: 100%; display: block; }
   width: 100%;
   background: rgba(10,14,20,0); /* ← 完全透明に変更 */
   border-bottom: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(8px);
   z-index: 100;
   transition: background 0.3s ease; /* ← ふわっと変化 */
 }
 
 /* スクロールしたら黒背景 */
 .site-header.scrolled {
-  background: rgba(10,14,20,0.95); /* ← 元の黒背景 */
+  background: rgba(234, 242, 253, 0.95); /* ← 元の黒背景 */
 }
 
 .header-inner {
