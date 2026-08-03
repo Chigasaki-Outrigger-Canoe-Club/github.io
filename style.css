@@ -96,7 +96,7 @@ img { max-width: 100%; display: block; }
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0,0,0,0.18);
   display: flex;
   align-items: center;
   justify-content: center;
