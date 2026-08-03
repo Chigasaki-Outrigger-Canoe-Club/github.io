@@ -125,9 +125,12 @@ img { max-width: 100%; display: block; }
 }
 
 .hero-title {
-  font-size: 38px;
-  line-height: 1.5;
-  margin-bottom: 20px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; /* 明朝体 */
+  font-size: 48px;        /* 大きく */
+  font-weight: 500;       /* 明朝体は太くしすぎない */
+  letter-spacing: 0.08em; /* 字間を少し広げる */
+  line-height: 1.6;       /* 上品な余白 */
+  margin-bottom: 28px;    /* 下の余白を増やす */
 }
 
 .hero-text {
