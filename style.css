@@ -29,7 +29,7 @@ img { max-width: 100%; display: block; }
 
 /* スクロールしたら黒背景 */
 .site-header.scrolled {
-  background: rgba(234, 242, 253, 0.95); /* ← 元の黒背景 */
+  background: rgba(19, 19, 19, 0.95); /* ← 元の黒背景 */
 }
 
 .header-inner {
@@ -51,7 +51,7 @@ img { max-width: 100%; display: block; }
 .logo-sub {
   font-size: 11px;
   letter-spacing: 0.28em;
-  color: #000000;
+  color: #ffffff;
   text-transform: uppercase;
 }
 
@@ -65,7 +65,7 @@ img { max-width: 100%; display: block; }
   font-size: 13px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #000000;
+  color: #ffffff;
   position: relative;
 }
 
