@@ -10,12 +10,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
     e.preventDefault();
     window.scrollTo({
-      top: target.offsetTop - 60,
+      top: target.offsetTop - 80,
       behavior: "smooth"
     });
   });
 });
-
 
 // ===============================
 // 2. スクロールでフェードイン
@@ -34,7 +33,6 @@ const fadeInOnScroll = () => {
 window.addEventListener('scroll', fadeInOnScroll);
 window.addEventListener('load', fadeInOnScroll);
 
-
 // ===============================
 // 3. ヘッダーの背景をスクロールで濃くする
 // ===============================
@@ -48,9 +46,8 @@ window.addEventListener('scroll', () => {
   }
 });
 
-
 // ===============================
-// 4. スマホメニュー開閉（CSS追加で動く）
+// 4. スマホメニュー開閉
 // ===============================
 const menuBtn = document.querySelector('.menu-btn');
 const nav = document.querySelector('.global-nav');
@@ -61,7 +58,6 @@ if (menuBtn) {
     menuBtn.classList.toggle('active');
   });
 }
-
 
 // ===============================
 // 5. ボタンの軽いアニメーション
