@@ -125,7 +125,7 @@ img { max-width: 100%; display: block; }
 .hero-label {
   font-size: 12px;
   letter-spacing: 0.22em;
-  color: #6fa8ff;
+  color: #000000;
   margin-bottom: 16px;
 }
 
@@ -167,26 +167,9 @@ img { max-width: 100%; display: block; }
 }
 
 .btn-secondary {
-  background: transparent;
-  border: 1px solid #6fa8ff;
-  color: #6fa8ff;
-}
-
-.hero-image {
-  flex: 1;
-  min-height: 320px;
-  background: url("hero.jpg") center/cover;
-  border-radius: 18px;
-  position: relative;
-  z-index: 1;
-}
-
-.hero-image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  border-radius: 18px;
+  background: linear-gradient(135deg, #faff6f, #315caa);
+  color: #020101;
+  font-weight: 700;
 }
 
 /* =========================
