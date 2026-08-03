@@ -27,9 +27,9 @@ img { max-width: 100%; display: block; }
   transition: background 0.3s ease; /* ← ふわっと変化 */
 }
 
-/* スクロールしたら黒背景 */
+/* スクロールしたら白背景 */
 .site-header.scrolled {
-  background: rgba(10,14,20,0.95); /* ← 元の黒背景 */
+  background: rgba(235, 243, 255, 0.95); /* ← 元の黒背景 */
 }
 
 .header-inner {
@@ -41,7 +41,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
 }
 
-.logo-main {
+/*.logo-main {
   font-size: 15px;
   letter-spacing: 0.22em;
   font-weight: 700;
@@ -53,6 +53,18 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.28em;
   color: #ccc;
   text-transform: uppercase;
+} */
+
+.logo-img {
+  height: 40px;      /* ← ここを調整すればサイズが変わる */
+  width: auto;       /* ← 縦横比を維持 */
+  display: block;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center; /* ← 縦位置を中央に揃える */
+  gap: 8px;            /* ← 画像と文字の間隔 */
 }
 
 .global-nav ul {
