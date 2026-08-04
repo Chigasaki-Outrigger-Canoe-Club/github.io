@@ -187,7 +187,7 @@ img { max-width: 100%; display: block; }
 
 /* 改行*/
 .sp-br {
-  display: inline;
+  display: block;
 }
 
 /* スマホ用（900px以下） */
@@ -198,7 +198,7 @@ img { max-width: 100%; display: block; }
     letter-spacing: 0.05em;
   }
   .sp-br2 {
-    display: inline;
+    display: block;
   }
 }
 
