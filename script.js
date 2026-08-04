@@ -102,8 +102,8 @@ function changeImage() {
   setTimeout(() => {
     bg1.style.backgroundImage = bg2.style.backgroundImage;
     bg2.style.opacity = 0;
-  }, 1500);
+  }, 1000);
 }
 
 // 静止 + フェード = 7秒ごとに切り替え
-setInterval(changeImage, 7000);
+setInterval(changeImage, 6500);
