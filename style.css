@@ -96,8 +96,8 @@ img { max-width: 100%; display: block; }
 /* 共通設定 */
 .sunlight {
   position: absolute;
-  bottom: 10%;   /* ← 左下すぎるので「1割上」に */
-  left: 10%;     /* ← 左すぎるので「1割右」に」 */
+  bottom: 20%;   /* ← 左下すぎるので「1割上」に */
+  left: 18%;     /* ← 左すぎるので「1割右」に」 */
   border-radius: 50%;
   pointer-events: none;
 }
@@ -116,8 +116,8 @@ img { max-width: 100%; display: block; }
   width: 150px;
   height: 150px;
   border: 3px solid rgba(255,255,255,0.6);
-  /*filter: blur(12px);*/
-  transform: translate(140px, -120px); /* ← 角度を強くした */
+  filter: blur(12px);
+  transform: translate(-140px, 120px); /* ← 角度を強くした */
 }
 
 /* 3つ目（小さい）→ さらに右上へ */
@@ -125,8 +125,8 @@ img { max-width: 100%; display: block; }
   width: 90px;
   height: 90px;
   border: 2px solid rgba(255,255,255,0.5);
-  /*filter: blur(8px);*/
-  transform: translate(260px, -240px); /* ← もっと斜めに */
+  filter: blur(8px);
+  transform: translate(-260px, 240px); /* ← もっと斜めに */
 }
 
 /* ゆっくり膨らんだり縮んだりする */
