@@ -131,9 +131,9 @@ img { max-width: 100%; display: block; }
   margin-bottom: 28px;    /* 下の余白を増やす */
 }
 
-/* PCでは改行を無効化 */
+/* 改行*/
 .sp-br {
-  display: none;
+  display: inline;
 }
 
 /* スマホ用（900px以下） */
@@ -143,11 +143,6 @@ img { max-width: 100%; display: block; }
     font-size: 32px;      /* スマホで適切なサイズ */
     line-height: 1.5;     /* 少し詰める */
     letter-spacing: 0.05em;
-  }
-
-  /* スマホでは改行を有効化 */
-  .sp-br {
-    display: inline;
   }
 }
 
