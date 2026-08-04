@@ -52,15 +52,25 @@ window.addEventListener('scroll', () => {
 });
 
 // ===============================
-// 背景フェード式スライドショー（追加）
+// 背景フェード式スライドショー
 // ===============================
-const images = [
-  "images/hayama_hoe1.jpg",
-  "images/hayama_hoe2.jpg",
-  "images/kaioumaru.jpg",
-  "images/JOCA1.jpg"
-];
-
+let images;
+if (window.innerWidth > 900) {
+  // ★ スマホ用画像セット
+  images = [
+    "images/hayama_hoe1.jpg",
+    "images/hayama_hoe12.jpg",
+    "images/kaioumaru.jpg",
+    "images/JOCA1.jpg"
+  ];
+} else {
+  // ★ PC用画像セット
+  images = [
+    "images/hayama_hoe1_mobile.jpg",
+    "images/hayama_hoe2_mobile.jpg",
+    "images/kaioumaru_mobile.jpg",
+  ];
+}
 // ===============================
 // ★ 画像プリロード（裏で読み込む）
 // ===============================
