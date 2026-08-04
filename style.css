@@ -93,15 +93,6 @@ img { max-width: 100%; display: block; }
   padding: 0;
 }
 
-/* 共通設定 */
-.sunlight {
-  position: absolute;
-  bottom: 20%;   /* ← 左下すぎるので「1割上」に */
-  left: 18%;     /* ← 左すぎるので「1割右」に」 */
-  border-radius: 50%;
-  pointer-events: none;
-}
-
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -133,7 +124,7 @@ img { max-width: 100%; display: block; }
 
 .hero-title {
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; /* 明朝体 */
-  font-size: 48px;        /* 大きく */
+  font-size: 60px;        /* 大きく */
   font-weight: 500;       /* 明朝体は太くしすぎない */
   letter-spacing: 0.08em; /* 字間を少し広げる */
   line-height: 1.6;       /* 上品な余白 */
