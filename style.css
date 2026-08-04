@@ -219,7 +219,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* =========================
-   NEWS セクション
+   NEWS セクション（左右2カラム）
    ========================= */
 .news-section {
   padding: 100px 20px;
@@ -231,8 +231,12 @@ img { max-width: 100%; display: block; }
 .news-inner {
   max-width: 1080px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr; /* 左：固定 / 右：可変 */
+  gap: 60px;
 }
 
+/* 左側 */
 .news-label {
   font-size: 12px;
   letter-spacing: 0.22em;
@@ -243,21 +247,45 @@ img { max-width: 100%; display: block; }
 .news-title {
   font-size: 30px;
   letter-spacing: 0.1em;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
-.news-list {
+.news-more {
+  display: inline-block;
+  padding: 8px 24px;
+  border: 1px solid #020202;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.news-more:hover {
+  background: #020202;
+  color: #ffffff;
+}
+
+/* 右側：ニュース一覧 */
+.news-right {
   list-style: none;
   padding: 0;
-  margin: 0 0 40px 0;
+  margin: 0;
 }
 
-.news-list li {
+.news-item a {
+  display: grid;
+  grid-template-columns: 120px 1fr; /* 左：日付 / 右：本文 */
+  gap: 24px;
   padding: 18px 0;
   border-bottom: 1px solid rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  color: inherit;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* ホバー時 */
+.news-item a:hover {
+  background: rgba(0,0,0,0.05);
+  color: #0055ff;
 }
 
 .news-date {
@@ -270,19 +298,16 @@ img { max-width: 100%; display: block; }
   line-height: 1.7;
 }
 
-.news-more {
-  display: inline-block;
-  padding: 10px 28px;
-  border: 1px solid #020202;
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-}
+/* スマホ用（900px以下） */
+@media (max-width: 900px) {
+  .news-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
 
-.news-more:hover {
-  background: #020202;
-  color: #ffffff;
+  .news-item a {
+    grid-template-columns: 100px 1fr;
+  }
 }
 
 /* =========================
