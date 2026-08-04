@@ -95,12 +95,14 @@ img { max-width: 100%; display: block; }
 
 .sunlight {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 40px;
+  left: 40px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  pointer-events: none;
-  mix-blend-mode: screen; /* 光っぽくする */
-  animation: pulse 6s ease-in-out infinite alternate;
+  border: 4px solid white;   /* はっきり白枠 */
+  opacity: 1;                 /* 透明にしない */
+  filter: blur(0);            /* ぼかしなしで確認 */
 }
 
 /* 1つ目：大きくてぼやけ強め */
