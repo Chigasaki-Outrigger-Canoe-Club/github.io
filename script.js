@@ -50,22 +50,3 @@ window.addEventListener('scroll', () => {
     header.classList.remove('scrolled');
   }
 });
-
-// ===============================
-// 光がゆらゆらゆっくり揺れる
-// ===============================
-const sunlight = document.querySelector('.sunlight');
-
-let x = 0;
-let y = 0;
-
-function animateSunlight() {
-  x += (Math.random() - 0.5) * 0.5;
-  y += (Math.random() - 0.5) * 0.5;
-
-  sunlight.style.transform = `translate(${x}px, ${y}px)`;
-
-  requestAnimationFrame(animateSunlight);
-}
-
-animateSunlight();
