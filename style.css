@@ -29,7 +29,7 @@ img { max-width: 100%; display: block; }
 
 /* スクロールしたら黒背景 */
 .site-header.scrolled {
-  background: rgba(255, 255, 255, 0.95); /* ← 元の黒背景 */
+  background: rgba(0, 0, 0, 0.95); /* ← 元の黒背景 */
 }
 
 .header-inner {
@@ -49,18 +49,11 @@ img { max-width: 100%; display: block; }
   color: #ffffff;
 }
 
-.logo-main.scrolled {
-  background: rgba(0, 0, 0, 0.95);
-}
-
 .logo-sub {
   font-size: 11px;
   letter-spacing: 0.28em;
   color: #ffffff;
   text-transform: uppercase;
-}
-.logo-sub.scrolled {
-  background: rgba(0, 0, 0, 0.95);
 }
 
 .global-nav ul {
@@ -75,9 +68,6 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: #ffffff;
   position: relative;
-}
-.global-nav a.scrolled {
-  background: rgba(0, 0, 0, 0.95);
 }
 
 .global-nav a::after {
