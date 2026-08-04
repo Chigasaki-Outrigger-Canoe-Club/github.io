@@ -124,6 +124,7 @@ img { max-width: 100%; display: block; }
 @media (max-width: 900px) {
   .scroll-indicator {
     right: 10px;
+    transform: translateY(-50%) rotate(90deg);
   }
 }
 
