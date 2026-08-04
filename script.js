@@ -83,31 +83,15 @@ images.forEach(src => {
 });
 
 // ===============================
-// スライドショー本体
+// スライドショー
 // ===============================
 
 let index = 0;
-// const bg = document.querySelector('.hero-bg'); // ← HTMLに追加したレイヤー
-
-/*function changeImage() {
-  bg.style.opacity = 0; // フェードアウト
-
-  setTimeout(() => {
-    // ★ 先に index を進める（ここが重要）
-    index = (index + 1) % images.length;
-
-    // ★ 次の画像をセット
-    bg.style.backgroundImage = `url(${images[index]})`;
-
-    bg.style.opacity = 1; // フェードイン
-  }, 1800);
-}*/
-
 const bg1 = document.querySelector('.bg1');
 const bg2 = document.querySelector('.bg2');
 
-// 初期画像（1枚目）
 bg1.style.backgroundImage = `url(${images[0]})`;
+bg2.style.backgroundImage = `url(${images[0]})`;
 
 function changeImage() {
   index = (index + 1) % images.length;
@@ -121,8 +105,5 @@ function changeImage() {
   }, 1500);
 }
 
-// 初期画像（1枚目）
-//bg.style.backgroundImage = `url(${images[0]})`;
-
-// 静止 + フェード = 8秒ごとに切り替え
-setInterval(changeImage, 8000);
+// 静止 + フェード = 7秒ごとに切り替え
+setInterval(changeImage, 7000);
