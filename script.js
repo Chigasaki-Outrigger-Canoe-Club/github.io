@@ -61,6 +61,21 @@ const images = [
   "images/JOCA1.jpg"
 ];
 
+// ===============================
+// ★ 画像プリロード（裏で読み込む）
+// ===============================
+const preloaded = [];
+
+images.forEach(src => {
+  const img = new Image();
+  img.src = src;
+  preloaded.push(img);
+});
+
+// ===============================
+// スライドショー本体
+// ===============================
+
 let index = 0;
 const bg = document.querySelector('.hero-bg'); // ← HTMLに追加したレイヤー
 
@@ -68,13 +83,17 @@ function changeImage() {
   bg.style.opacity = 0; // フェードアウト
 
   setTimeout(() => {
-    bg.style.backgroundImage = `url(${images[index]})`; // 画像切り替え
+    // ★ 先に index を進める（ここが重要）
+    index = (index + 1) % images.length;
+
+    // ★ 次の画像をセット
+    bg.style.backgroundImage = `url(${images[index]})`;
+
     bg.style.opacity = 1; // フェードイン
-    index = (index + 1) % images.length; // 次の画像へ
-  }, 500); // フェード時間
+  }, 500);
 }
 
-// 初期画像
+// 初期画像（1枚目）
 bg.style.backgroundImage = `url(${images[0]})`;
 
 // 5秒静止 + 0.5秒フェード = 5.5秒ごとに切り替え
