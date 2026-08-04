@@ -101,7 +101,7 @@ img { max-width: 100%; display: block; }
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: opacity 0.5s ease-in-out; /* ← フェード時間 */
+  transition: opacity 1.5s ease-in-out; /* ← フェード時間 */
   opacity: 1;
 }
 
