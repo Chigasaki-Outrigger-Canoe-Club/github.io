@@ -117,6 +117,7 @@ img { max-width: 100%; display: block; }
   pointer-events: none; /* クリックを邪魔しない */
   display: flex;
   align-items: center;
+  gap: 8px; /* SCROLL と線の間隔 */
 }
 
 /* 線の基本形 */
@@ -126,16 +127,16 @@ img { max-width: 100%; display: block; }
   background: rgba(255, 241, 179, 0.95);
   margin: 10px auto 0;
   animation: scrollLineAnim 4.0s ease-in-out infinite;
-  transform-origin: right; /* 下を固定して上が縮む */
+  transform-origin: left; /* ← SCROLL側を固定して右側が縮む */
 }
 
 /* アニメーション */
 @keyframes scrollLineAnim {
-  0%   { transform: scaleY(1); opacity: 1; }   /* 最大長さで静止 */
-  20%  { transform: scaleY(1); opacity: 1; }   /* 0.5秒静止 */
-  60%  { transform: scaleY(0); opacity: 0; }   /* 上から縮んで消える */
-  80%  { transform: scaleY(0); opacity: 0; }   /* 消えた状態で0.5秒静止 */
-  100% { transform: scaleY(1); opacity: 1; }   /* また伸びる */
+  0%   { transform: scaleX(1); opacity: 1; }   /* 最大長さで静止 */
+  20%  { transform: scaleX(1); opacity: 1; }   /* 0.5秒静止 */
+  60%  { transform: scaleX(0); opacity: 0; }   /* 上から縮んで消える */
+  80%  { transform: scaleX(0); opacity: 0; }   /* 消えた状態で0.5秒静止 */
+  100% { transform: scaleX(1); opacity: 1; }   /* また伸びる */
 }
 
 .hero-overlay {
