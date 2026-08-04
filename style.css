@@ -93,11 +93,42 @@ img { max-width: 100%; display: block; }
   padding: 0;
 }
 
+.sunlight {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(
+    rgba(255, 255, 200, 0.6),
+    rgba(255, 255, 200, 0.0)
+  );
+  filter: blur(40px);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: sunlightMove 12s ease-in-out infinite alternate;
+}
+
+@keyframes sunlightMove {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  100% {
+    transform: translate(80px, -40px);
+  }
+}
+
 @media (max-width: 900px) {
   .hero {
     background-image: url("images/hayama_hoe1_mobile.jpg"); /* ← スマホ用画像 */
     background-position: center;
     background-size: cover;
+  }
+  .sunlight {
+    width: 180px;
+    height: 180px;
+    filter: blur(30px);
+    opacity: 0.5;
   }
 }
 
