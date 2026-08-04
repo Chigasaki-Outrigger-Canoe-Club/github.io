@@ -189,6 +189,9 @@ img { max-width: 100%; display: block; }
 .sp-br {
   display: block;
 }
+.sp-br2 {
+  display: none;
+}
 
 /* スマホ用（900px以下） */
 @media (max-width: 900px) {
