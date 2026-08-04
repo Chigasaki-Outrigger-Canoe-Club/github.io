@@ -89,7 +89,7 @@ images.forEach(src => {
 let index = 0;
 const bg = document.querySelector('.hero-bg'); // ← HTMLに追加したレイヤー
 
-function changeImage() {
+/*function changeImage() {
   bg.style.opacity = 0; // フェードアウト
 
   setTimeout(() => {
@@ -100,6 +100,16 @@ function changeImage() {
     bg.style.backgroundImage = `url(${images[index]})`;
 
     bg.style.opacity = 1; // フェードイン
+  }, 1800);
+}*/
+
+function changeImage() {
+  bg.style.filter = "blur(10px)";
+
+  setTimeout(() => {
+    index = (index + 1) % images.length;
+    bg.style.backgroundImage = `url(${images[index]})`;
+    bg.style.filter = "blur(0)";
   }, 1800);
 }
 
