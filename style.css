@@ -107,7 +107,7 @@ img { max-width: 100%; display: block; }
 
 .scroll-indicator {
   position: absolute;
-  right: 10%;        /* 画面右端から20px */
+  right: 20px;        /* 画面右端から20px */
   top: 80%;           /* 画面の縦中央 */
   transform: translateY(-50%) rotate(90deg); /* ← 90度回転で縦文字に */
   font-size: 14px;
@@ -118,6 +118,13 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   gap: 8px; /* SCROLL と線の間隔 */
+}
+
+/* スマホ用（900px以下） */
+@media (max-width: 900px) {
+  .scroll-indicator {
+    right: 10px;
+  }
 }
 
 /* 線の基本形 */
@@ -184,7 +191,6 @@ img { max-width: 100%; display: block; }
 
 /* スマホ用（900px以下） */
 @media (max-width: 900px) {
-
   .hero-title {
     font-size: 32px;      /* スマホで適切なサイズ */
     line-height: 1.5;     /* 少し詰める */
