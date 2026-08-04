@@ -90,11 +90,11 @@ function changeImage() {
     bg.style.backgroundImage = `url(${images[index]})`;
 
     bg.style.opacity = 1; // フェードイン
-  }, 1500);
+  }, 1800);
 }
 
 // 初期画像（1枚目）
 bg.style.backgroundImage = `url(${images[0]})`;
 
-// 5秒静止 + 0.5秒フェード = 5.5秒ごとに切り替え
-setInterval(changeImage, 8000);
+// 静止 + フェード = 9秒ごとに切り替え
+setInterval(changeImage, 9000);
