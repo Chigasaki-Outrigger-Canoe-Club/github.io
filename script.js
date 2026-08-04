@@ -70,4 +70,12 @@ function changeImage() {
   setTimeout(() => {
     bg.style.backgroundImage = `url(${images[index]})`; // 画像切り替え
     bg.style.opacity = 1; // フェードイン
-    index
+    index = (index + 1) % images.length; // 次の画像へ
+  }, 500); // フェード時間
+}
+
+// 初期画像
+bg.style.backgroundImage = `url(${images[0]})`;
+
+// 5秒静止 + 0.5秒フェード = 5.5秒ごとに切り替え
+setInterval(changeImage, 5500);
