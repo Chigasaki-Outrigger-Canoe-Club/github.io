@@ -87,7 +87,7 @@ images.forEach(src => {
 // ===============================
 
 let index = 0;
-const bg = document.querySelector('.hero-bg'); // ← HTMLに追加したレイヤー
+// const bg = document.querySelector('.hero-bg'); // ← HTMLに追加したレイヤー
 
 /*function changeImage() {
   bg.style.opacity = 0; // フェードアウト
@@ -103,14 +103,19 @@ const bg = document.querySelector('.hero-bg'); // ← HTMLに追加したレイ�
   }, 1800);
 }*/
 
+const bg1 = document.querySelector('.bg1');
+const bg2 = document.querySelector('.bg2');
+
 function changeImage() {
-  bg.style.filter = "blur(10px)";
+  index = (index + 1) % images.length;
+
+  bg2.style.backgroundImage = `url(${images[index]})`;
+  bg2.style.opacity = 1;
 
   setTimeout(() => {
-    index = (index + 1) % images.length;
-    bg.style.backgroundImage = `url(${images[index]})`;
-    bg.style.filter = "blur(0)";
-  }, 1800);
+    bg1.style.backgroundImage = bg2.style.backgroundImage;
+    bg2.style.opacity = 0;
+  }, 1500);
 }
 
 // 初期画像（1枚目）
