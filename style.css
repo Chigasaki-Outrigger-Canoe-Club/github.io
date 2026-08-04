@@ -8,7 +8,7 @@ html, body {
   padding: 0;
   font-family: "Noto Sans JP", sans-serif;
   background: #ffffff;
-  color: #020202;
+  color: #000000;
 }
 
 a { text-decoration: none; color: inherit; }
@@ -46,6 +46,11 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.22em;
   font-weight: 700;
   text-transform: uppercase;
+  color: #ffffff;
+}
+
+.logo-main.scrolled {
+  background: rgba(0, 0, 0, 0.95);
 }
 
 .logo-sub {
@@ -53,6 +58,9 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.28em;
   color: #ffffff;
   text-transform: uppercase;
+}
+.logo-sub.scrolled {
+  background: rgba(0, 0, 0, 0.95);
 }
 
 .global-nav ul {
@@ -67,6 +75,9 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: #ffffff;
   position: relative;
+}
+.global-nav a.scrolled {
+  background: rgba(0, 0, 0, 0.95);
 }
 
 .global-nav a::after {
@@ -187,6 +198,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.08em; /* 字間を少し広げる */
   line-height: 1.6;       /* 上品な余白 */
   margin-bottom: 28px;    /* 下の余白を増やす */
+  color: #ffffff;
 }
 
 /* 改行*/
