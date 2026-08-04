@@ -117,7 +117,7 @@ img { max-width: 100%; display: block; }
   height: 150px;
   border: 3px solid rgba(255,255,255,0.6);
   filter: blur(12px);
-  transform: translate(-140px, 120px); /* ← 角度を強くした */
+  transform: translate(-80px, 80px); /* ← 角度を強くした */
 }
 
 /* 3つ目（小さい）→ さらに右上へ */
@@ -126,7 +126,7 @@ img { max-width: 100%; display: block; }
   height: 90px;
   border: 2px solid rgba(255,255,255,0.5);
   filter: blur(8px);
-  transform: translate(-260px, 240px); /* ← もっと斜めに */
+  transform: translate(-120px, 160px); /* ← もっと斜めに */
 }
 
 /* ゆっくり膨らんだり縮んだりする */
