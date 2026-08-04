@@ -112,19 +112,21 @@ img { max-width: 100%; display: block; }
   transform: translateY(-50%) rotate(90deg); /* ← 90度回転で縦文字に */
   font-size: 14px;
   letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 241, 179, 0.95);
   font-weight: 300;
   pointer-events: none; /* クリックを邪魔しない */
+  display: flex;
+  align-items: center;
 }
 
 /* 線の基本形 */
 .scroll-line {
-  width: 2px;               /* 線の太さ */
-  height: 40px;             /* 線の最大の長さ */
-  background: rgba(255,255,255,0.95);
+  width: 60px;               /* 線の太さ */
+  height: 2px;             /* 線の最大の長さ */
+  background: rgba(255, 241, 179, 0.95);
   margin: 10px auto 0;
-  animation: scrollLineAnim 2.5s ease-in-out infinite;
-  transform-origin: bottom; /* 下を固定して上が縮む */
+  animation: scrollLineAnim 4.0s ease-in-out infinite;
+  transform-origin: right; /* 下を固定して上が縮む */
 }
 
 /* アニメーション */
