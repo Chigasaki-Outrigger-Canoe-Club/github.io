@@ -96,5 +96,5 @@ function changeImage() {
 // 初期画像（1枚目）
 bg.style.backgroundImage = `url(${images[0]})`;
 
-// 静止 + フェード = 9秒ごとに切り替え
-setInterval(changeImage, 9000);
+// 静止 + フェード = 8秒ごとに切り替え
+setInterval(changeImage, 8000);

@@ -108,11 +108,11 @@ img { max-width: 100%; display: block; }
 .scroll-indicator {
   position: absolute;
   right: 20px;        /* 画面右端から20px */
-  top: 50%;           /* 画面の縦中央 */
+  top: 80%;           /* 画面の縦中央 */
   transform: translateY(-50%) rotate(90deg); /* ← 90度回転で縦文字に */
   font-size: 14px;
   letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.911);
   font-weight: 300;
   pointer-events: none; /* クリックを邪魔しない */
 }
