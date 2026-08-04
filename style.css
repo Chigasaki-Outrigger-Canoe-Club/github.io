@@ -197,6 +197,9 @@ img { max-width: 100%; display: block; }
     line-height: 1.5;     /* 少し詰める */
     letter-spacing: 0.05em;
   }
+  .sp-br2 {
+    display: inline;
+  }
 }
 
 .hero-text {
