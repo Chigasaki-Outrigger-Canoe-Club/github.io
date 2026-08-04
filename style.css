@@ -139,6 +139,26 @@ img { max-width: 100%; display: block; }
   margin-bottom: 28px;    /* 下の余白を増やす */
 }
 
+/* PCでは改行を無効化 */
+.sp-br {
+  display: none;
+}
+
+/* スマホ用（900px以下） */
+@media (max-width: 900px) {
+
+  .hero-title {
+    font-size: 32px;      /* スマホで適切なサイズ */
+    line-height: 1.5;     /* 少し詰める */
+    letter-spacing: 0.05em;
+  }
+
+  /* スマホでは改行を有効化 */
+  .sp-br {
+    display: inline;
+  }
+}
+
 .hero-text {
   font-size: 15px;
   line-height: 1.9;
