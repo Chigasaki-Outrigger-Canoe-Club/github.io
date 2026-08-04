@@ -129,22 +129,39 @@ img { max-width: 100%; display: block; }
 }
 
 /* 線の基本形 */
-.scroll-line {
-  width: 60px;               /* 線の太さ */
-  height: 2px;             /* 線の最大の長さ */
+/*.scroll-line {
+  width: 60px;
+  height: 2px;
   background: rgba(255, 241, 179, 0.95);
   margin: 10px auto 0;
   animation: scrollLineAnim 4.0s ease-in-out infinite;
-  transform-origin: left; /* ← SCROLL側を固定して右側が縮む */
+  transform-origin: left;
+}*/
+
+/* 線の基本形 */
+.scroll-line {
+  width: 2px;               
+  height: 40px;             
+  background: rgba(255, 241, 179, 0.95);
+  margin: 10px auto 0;
+  animation: scrollLineAnim 3.5s ease-in-out infinite;
+  transform-origin: top; /* ← 上を固定して下へ伸びる */
 }
 
 /* アニメーション */
 @keyframes scrollLineAnim {
-  0%   { transform: scaleX(1); opacity: 1; }   /* 最大長さで静止 */
-  20%  { transform: scaleX(1); opacity: 1; }   /* 0.5秒静止 */
-  60%  { transform: scaleX(0); opacity: 0; }   /* 上から縮んで消える */
-  80%  { transform: scaleX(0); opacity: 0; }   /* 消えた状態で0.5秒静止 */
-  100% { transform: scaleX(1); opacity: 1; }   /* また伸びる */
+  /* 0〜14%（0.5秒）：線が伸びる */
+  0%   { transform: scaleY(0); opacity: 1; }
+  14%  { transform: scaleY(1); opacity: 1; }
+
+  /* 14〜57%（1.5秒）：最大長さで固定 */
+  57%  { transform: scaleY(1); opacity: 1; }
+
+  /* 57〜71%（0.5秒）：線が上から消える */
+  71%  { transform: scaleY(0); opacity: 1; }
+
+  /* 71〜100%（1秒）：完全に消えた状態で静止 */
+  100% { transform: scaleY(0); opacity: 1; }
 }
 
 .hero-overlay {
