@@ -106,6 +106,9 @@ let index = 0;
 const bg1 = document.querySelector('.bg1');
 const bg2 = document.querySelector('.bg2');
 
+// 初期画像（1枚目）
+bg1.style.backgroundImage = `url(${images[0]})`;
+
 function changeImage() {
   index = (index + 1) % images.length;
 
@@ -119,7 +122,7 @@ function changeImage() {
 }
 
 // 初期画像（1枚目）
-bg.style.backgroundImage = `url(${images[0]})`;
+//bg.style.backgroundImage = `url(${images[0]})`;
 
 // 静止 + フェード = 8秒ごとに切り替え
 setInterval(changeImage, 8000);
