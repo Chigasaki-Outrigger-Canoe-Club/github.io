@@ -50,3 +50,24 @@ window.addEventListener('scroll', () => {
     header.classList.remove('scrolled');
   }
 });
+
+// ===============================
+// 背景フェード式スライドショー（追加）
+// ===============================
+const images = [
+  "images/hayama_hoe1.jpg",
+  "images/hayama_hoe2.jpg",
+  "images/kaioumaru.jpg",
+  "images/JOCA1.jpg"
+];
+
+let index = 0;
+const bg = document.querySelector('.hero-bg'); // ← HTMLに追加したレイヤー
+
+function changeImage() {
+  bg.style.opacity = 0; // フェードアウト
+
+  setTimeout(() => {
+    bg.style.backgroundImage = `url(${images[index]})`; // 画像切り替え
+    bg.style.opacity = 1; // フェードイン
+    index
