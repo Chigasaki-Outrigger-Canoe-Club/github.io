@@ -35,15 +35,12 @@ async function markGenerated(article) {
   console.log(`generated を TRUE に更新: ${article.id}`);
 }
 
-// メイン処理
+// メイン処理（1つだけ）
 async function main() {
   const articles = await fetchArticles();
 
   for (const article of articles) {
-    // Status のキー名ゆらぎ対策（Status / status 両対応）
-    const statusValue = String(article.Status || article.status || "").trim();
-
-    if (statusValue !== "TRUE") {
+    if (article.status !== "TRUE") {
       console.log(`Skip draft: ${article.id}`);
       continue;
     }
