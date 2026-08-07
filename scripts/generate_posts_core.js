@@ -23,11 +23,17 @@ async function generatePost(article) {
   const doc = await docs.documents.get({ documentId: docId });
   const bodyHtml = convertDocsToHtml(doc.data);
 
-  // ③ HTMLテンプレートに埋め込む
+  // ③ posts フォルダがなければ作る
+  const postsDir = path.join(process.cwd(), "posts");
+  if (!fs.existsSync(postsDir)) {
+    fs.mkdirSync(postsDir);
+  }
+
+  // ④ HTMLテンプレートに埋め込む
   const html = buildHtml(article, bodyHtml);
 
-  // ④ posts/ に保存
-  const outputPath = path.join("posts", `${article.id}.html`);
+  // ⑤ posts/ に保存
+  const outputPath = path.join(postsDir, `${article.id}.html`);
   fs.writeFileSync(outputPath, html, "utf-8");
 
   console.log(`Generated: ${outputPath}`);
