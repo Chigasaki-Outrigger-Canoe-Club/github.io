@@ -1,0 +1,38 @@
+name: Generate Posts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install deps
+        run: npm install
+
+      - name: Run generate_posts.js
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+        run: node scripts/generate_posts.js
+
+      - name: Commit generated posts
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add posts/
+          git commit -m "Update posts" || echo "No changes"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
