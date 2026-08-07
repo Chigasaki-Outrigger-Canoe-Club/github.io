@@ -56,7 +56,7 @@ window.addEventListener('scroll', () => {
 // ===============================
 let images;
 if (window.innerWidth > 900) {
-  // ★ スマホ用画像セット
+  // ★ PC用画像セット
   images = [
     "images/hayama_hoe1.jpg",
     "images/hayama_hoe2.jpg",
@@ -64,7 +64,7 @@ if (window.innerWidth > 900) {
     "images/JOCA1.jpg"
   ];
 } else {
-  // ★ PC用画像セット
+  // ★ スマホ用画像セット
   images = [
     "images/hayama_hoe1_mobile.jpg",
     "images/hayama_hoe2_mobile.jpg",
