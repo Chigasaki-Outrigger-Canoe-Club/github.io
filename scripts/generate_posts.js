@@ -13,7 +13,6 @@ async function markGenerated(article) {
 
   const sheets = google.sheets({ version: "v4", auth });
 
-  // 記事一覧を再取得して行番号を特定
   const articles = await fetchArticles();
   const index = articles.findIndex(a => a.id === article.id);
 
@@ -22,12 +21,11 @@ async function markGenerated(article) {
     return;
   }
 
-  // 1行目はヘッダーなので +2
   const rowNumber = index + 2;
 
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
-    range: `articles!J${rowNumber}`, // J列 = generated
+    range: `articles!J${rowNumber}`,
     valueInputOption: "RAW",
     requestBody: { values: [["TRUE"]] }
   });
@@ -35,19 +33,20 @@ async function markGenerated(article) {
   console.log(`generated を TRUE に更新: ${article.id}`);
 }
 
-// メイン処理（1つだけ）
+// メイン処理
 async function main() {
   const articles = await fetchArticles();
 
   for (const article of articles) {
-    if (article.status !== "TRUE") {
+    const statusValue = String(article.status).toUpperCase().trim();
+
+    if (statusValue !== "TRUE") {
       console.log(`Skip draft: ${article.id}`);
       continue;
     }
 
     await generatePost(article);
 
-    // HTML生成後に generated を TRUE にする
     await markGenerated(article);
   }
 }
