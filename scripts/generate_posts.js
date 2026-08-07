@@ -40,7 +40,7 @@ async function main() {
   const articles = await fetchArticles();
 
   for (const article of articles) {
-    if (article.Status !== "TRUE") {
+    if (article.status !== "TRUE") {
       console.log(`Skip draft: ${article.id}`);
       continue;
     }
