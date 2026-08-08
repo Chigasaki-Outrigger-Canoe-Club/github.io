@@ -33,7 +33,7 @@ async function generatePost(article) {
   const html = buildHtml(article, bodyHtml);
 
   // ⑤ posts/ に保存
-  const outputPath = path.join(postsDir, `${article.id}.html`);
+  const outputPath = path.join(postsDir, `${article.date}_COCC_WEB_${article.id}.html`);
   fs.writeFileSync(outputPath, html, "utf-8");
 
   console.log(`Generated: ${outputPath}`);
@@ -56,7 +56,6 @@ function buildHtml(article, bodyHtml) {
     <body>
       <h1>${article.title}</h1>
       <p>${article.date}</p>
-      <p>${article.lead}</p>
 
       <div class="post-body">
         ${cleanedHtml}   <!-- ここを修正 -->
