@@ -12,7 +12,7 @@ async function fetchArticles() {
 
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.SHEET_ID,
-    range: "articles!A:I", // id〜status まで
+    range: "articles!A:J",
   });
 
   const rows = res.data.values;
