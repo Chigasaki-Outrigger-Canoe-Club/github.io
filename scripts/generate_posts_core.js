@@ -41,10 +41,11 @@ async function generatePost(article) {
 
 function buildHtml(article, bodyHtml) {
 
-    const cleanedHtml = bodyHtml
-    .replace(/\u000B/g, "<br>")        // VT → <br>
-    .replace(/NaN/g, "0");    
-    
+  const cleanedHtml = bodyHtml
+    .replace(/\u000B/g, "<br>")   // VT → <br>
+    .replace(//g, "<br>")       // 画面上の VT も確実に置換
+    .replace(/NaN/g, "0");        // NaN → 0
+
   return `
   <html>
     <head>
@@ -57,7 +58,7 @@ function buildHtml(article, bodyHtml) {
       <p>${article.lead}</p>
 
       <div class="post-body">
-        ${bodyHtml}
+        ${cleanedHtml}   <!-- ここを修正 -->
       </div>
 
       <div class="post-notes">
