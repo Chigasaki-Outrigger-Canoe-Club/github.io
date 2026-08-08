@@ -80,7 +80,9 @@ async function main() {
 
     // OPEN の記事だけ生成対象
     if (statusValue !== "OPEN") {
-      console.log(`Skip (status not OPEN): ${article.id}`);
+      console.log("RAW STATUS:", JSON.stringify(article.status));
+      console.log("AFTER CLEAN:", JSON.stringify(statusValue));
+      console.log(`Skip (status not OPEN): ${article.date}_COCC_WEB_${article.id}`);
       continue;
     }
 
