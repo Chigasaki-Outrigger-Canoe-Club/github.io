@@ -44,7 +44,8 @@ function buildHtml(article, bodyHtml) {
   const cleanedHtml = bodyHtml
     .replace(/\u000B/g, "<br>")   // VT → <br>
     .replace(/[\u0000-\u001F]/g, "<br>") // 制御文字を全部 <br> に
-    .replace(/NaN/g, "0");        // NaN → 0
+    .replace(/rgb\((\d+),\s*NaN,\s*NaN\)/g, "rgb($1,0,0)")
+    .replace(/NaN/g, "0");
 
   return `
   <html>
