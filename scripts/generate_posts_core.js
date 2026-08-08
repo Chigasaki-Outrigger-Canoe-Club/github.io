@@ -40,6 +40,11 @@ async function generatePost(article) {
 }
 
 function buildHtml(article, bodyHtml) {
+
+    const cleanedHtml = bodyHtml
+    .replace(/\u000B/g, "<br>")        // VT → <br>
+    .replace(/NaN/g, "0");    
+    
   return `
   <html>
     <head>
