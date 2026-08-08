@@ -43,7 +43,7 @@ function buildHtml(article, bodyHtml) {
 
   const cleanedHtml = bodyHtml
     .replace(/\u000B/g, "<br>")   // VT → <br>
-    .replace(//g, "<br>")       // 画面上の VT も確実に置換
+    .replace(/[\u0000-\u001F]/g, "<br>") // 制御文字を全部 <br> に
     .replace(/NaN/g, "0");        // NaN → 0
 
   return `
@@ -70,5 +70,6 @@ function buildHtml(article, bodyHtml) {
   </html>
   `;
 }
+
 
 module.exports = { generatePost };

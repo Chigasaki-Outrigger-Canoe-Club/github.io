@@ -49,21 +49,27 @@ const text = textRun.content
   }
 
   // 文字色（Google Docs の2種類の形式に対応）
-if (style.foregroundColor && style.foregroundColor.color) {
-  const col = style.foregroundColor.color;
+  // 文字色（Google Docs の2種類の形式に対応）
+  if (style.foregroundColor && style.foregroundColor.color) {
+    const col = style.foregroundColor.color;
 
-  // rgbColor がある場合はそれを使う
-  const rgb = col.rgbColor || col;
+    // rgbColor がある場合はそれを使う
+    const rgb = col.rgbColor || col;
 
-  if (rgb.red !== undefined) {
-    const r = Math.round((rgb.red ?? 0) * 255);
-    const g = Math.round((rgb.green ?? 0) * 255);
-    const b = Math.round((rgb.blue ?? 0) * 255);
+    if (rgb.red !== undefined) {
+      const r = Math.round((rgb.red ?? 0) * 255);
+      const g = Math.round((rgb.green ?? 0) * 255);
+      const b = Math.round((rgb.blue ?? 0) * 255);
 
-    const color = `rgb(${r}, ${g}, ${b})`;
-    html = `<span style="color:${color};">${html}</span>`;
+      // NaN を防ぐ
+      const safeR = isNaN(r) ? 0 : r;
+      const safeG = isNaN(g) ? 0 : g;
+      const safeB = isNaN(b) ? 0 : b;
+
+      const color = `rgb(${safeR}, ${safeG}, ${safeB})`;
+      html = `<span style="color:${color};">${html}</span>`;
+    }
   }
-}
 
   return html;
 }
