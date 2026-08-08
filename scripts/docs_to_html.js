@@ -13,6 +13,11 @@ function convertDocsToHtml(doc) {
 }
 
 function convertParagraph(paragraph) {
+  // 空行（elements がない）
+  if (!paragraph.elements || paragraph.elements.length === 0) {
+    return "<p><br></p>";
+  }
+
   let html = "<p>";
 
   for (const el of paragraph.elements) {
@@ -41,14 +46,21 @@ function convertTextRun(textRun) {
     html = `<span style="font-size:${style.fontSize.magnitude}pt;">${html}</span>`;
   }
 
-  // 文字色
-  if (style.foregroundColor && style.foregroundColor.color && style.foregroundColor.color.rgbColor) {
-    const c = style.foregroundColor.color.rgbColor;
-    const color = `rgb(${Math.round(c.red * 255)}, ${Math.round(c.green * 255)}, ${Math.round(c.blue * 255)})`;
-    html = `<span style="color:${color};">${html}</span>`;
+  // 文字色（Google Docs の2種類の形式に対応）
+  if (style.foregroundColor && style.foregroundColor.color) {
+    const col = style.foregroundColor.color;
+
+    // rgbColor がある場合はそれを使う
+    const rgb = col.rgbColor || col;
+
+    if (rgb.red !== undefined) {
+      const color = `rgb(${Math.round(rgb.red * 255)}, ${Math.round(rgb.green * 255)}, ${Math.round(rgb.blue * 255)})`;
+      html = `<span style="color:${color};">${html}</span>`;
+    }
   }
 
   return html;
 }
+
 
 module.exports = { convertDocsToHtml };
