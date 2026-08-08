@@ -71,7 +71,10 @@ async function main() {
   const articles = await fetchArticles();
 
   for (const article of articles) {
-    const statusValue = String(article.status).toUpperCase().trim();
+    const statusValue = String(article.status)
+      .toUpperCase()
+      .replace(/\s+/g, "")        // 全ての空白文字を除去
+      .replace(/\u00A0/g, "");  
     const generatedValue = String(article.generated).toUpperCase().trim();
     const modifiedValue = String(article.modified).toUpperCase().trim();
 
