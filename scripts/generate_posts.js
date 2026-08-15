@@ -28,7 +28,7 @@ async function markGenerated(article) {
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
     range: `articles!I${rowNumber}`,   // generated カラム
-    valueInputOption: "RAW",
+    valueInputOption: "USER_ENTERED",
     requestBody: { values: [["TRUE"]] }
   });
 
@@ -59,7 +59,7 @@ async function clearModified(article) {
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
     range: `articles!J${rowNumber}`,   // modified カラム
-    valueInputOption: "RAW",
+    valueInputOption: "USER_ENTERED",
     requestBody: { values: [["FALSE"]] }
   });
 
