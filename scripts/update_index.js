@@ -1,20 +1,19 @@
+const fs = require("fs");
+const path = require("path");
 const { fetchArticles } = require("./sheets_fetch");
 
 async function buildNewsList() {
   const articles = await fetchArticles();
 
-  // OPEN & generated=TRUE の記事だけ対象
   const filtered = articles.filter(a =>
     String(a.status).trim().toUpperCase() === "OPEN" &&
     String(a.generated).trim().toUpperCase() === "TRUE"
   );
 
-  // 日付で降順ソート（ファイル名の先頭が日付なのでそのまま使える）
   filtered.sort((a, b) => b.date.localeCompare(a.date));
 
   const count = filtered.length;
 
-  // 0件 → 「まだ記事はありません」
   if (count === 0) {
     return `
       <li class="news-item">
@@ -23,11 +22,9 @@ async function buildNewsList() {
     `;
   }
 
-  // 1〜4件 → 全件表示
   const targetArticles = count < 5 ? filtered : filtered.slice(0, 5);
 
-  // `<li>` を生成
-  const listItems = targetArticles.map(a => {
+  return targetArticles.map(a => {
     const fileName = `${a.date}_COCC_WEB_${a.id}.html`;
     const url = `posts/${fileName}`;
 
@@ -40,12 +37,21 @@ async function buildNewsList() {
       </li>
     `;
   }).join("\n");
-
-  return listItems;
 }
 
-// テスト実行
-buildNewsList().then(html => {
-  console.log("=== NEWS_LIST HTML ===");
-  console.log(html);
-});
+async function updateIndex() {
+  const newsListHtml = await buildNewsList();
+
+  const indexPath = path.join(process.cwd(), "index.html");
+  let indexHtml = fs.readFileSync(indexPath, "utf-8");
+
+  indexHtml = indexHtml.replace(
+    /<ul class="news-right">[\s\S]*?<\/ul>/,
+    `<ul class="news-right">\n${newsListHtml}\n</ul>`
+  );
+
+  fs.writeFileSync(indexPath, indexHtml, "utf-8");
+  console.log("index.html updated with latest NEWS_LIST");
+}
+
+updateIndex();
