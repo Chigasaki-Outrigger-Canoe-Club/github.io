@@ -28,7 +28,7 @@ async function markGenerated(article) {
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
     range: `articles!I${rowNumber}`,   // generated カラム
-    valueInputOption: "USER_ENTERED",
+    valueInputOption: "RAW",
     requestBody: { values: [["TRUE"]] }
   });
 
@@ -59,7 +59,7 @@ async function clearModified(article) {
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
     range: `articles!J${rowNumber}`,   // modified カラム
-    valueInputOption: "USER_ENTERED",
+    valueInputOption: "RAW",
     requestBody: { values: [["FALSE"]] }
   });
 
@@ -86,7 +86,7 @@ async function main() {
       continue;
     }
 
-    const fileName = `${article.date}_COCC_WEB_${article.id}.html`;
+    const fileName = `${article.date}_COCC_News_${article.id}.html`;
     const filePath = path.join(process.cwd(), "posts", fileName);
 
     // modified = TRUE → 既存HTMLを削除して再生成
