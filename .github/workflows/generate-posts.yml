@@ -2,6 +2,13 @@ name: Generate Posts
 
 on:
   workflow_dispatch:
+  
+permissions:
+  contents: write
+  
+concurrency:
+  group: generate-posts-main
+  cancel-in-progress: false
 
 jobs:
   generate:
