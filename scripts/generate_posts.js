@@ -1,10 +1,17 @@
 const { fetchArticles } = require("./sheets_fetch");
-const { generatePost } = require("./generate_posts_core");
+const { generatePostCore } = require("./generate_posts_core");
 const { google } = require("googleapis");
 const fs = require("fs");
 const path = require("path");
 
-// generated を TRUE に更新する
+// 「はい / いいえ」→ boolean に変換
+function normalizeBool(value) {
+  if (typeof value === "boolean") return value;
+  if (!value) return false;
+  return value.trim() === "はい";
+}
+
+// generated を「はい」に更新する
 async function markGenerated(article) {
   const creds = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 
@@ -23,19 +30,19 @@ async function markGenerated(article) {
     return;
   }
 
-  const rowNumber = index + 2;
+  const rowNumber = index + 3; // 1行目:列名, 2行目:説明行 → +3
 
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
-    range: `articles!I${rowNumber}`,   // generated カラム
+    range: `articles!G${rowNumber}`,   // 生成済？ の列（日本語化後）
     valueInputOption: "RAW",
-    requestBody: { values: [["TRUE"]] }
+    requestBody: { values: [["はい"]] }
   });
 
-  console.log(`generated を TRUE に更新: ${article.id}`);
+  console.log(`generated を「はい」に更新: ${article.id}`);
 }
 
-// modified を FALSE に戻す
+// modified を「いいえ」に戻す
 async function clearModified(article) {
   const creds = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 
@@ -54,16 +61,16 @@ async function clearModified(article) {
     return;
   }
 
-  const rowNumber = index + 2;
+  const rowNumber = index + 3;
 
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
-    range: `articles!J${rowNumber}`,   // modified カラム
+    range: `articles!H${rowNumber}`,   // 修正する？ の列（日本語化後）
     valueInputOption: "RAW",
-    requestBody: { values: [["FALSE"]] }
+    requestBody: { values: [["いいえ"]] }
   });
 
-  console.log(`modified を FALSE に更新: ${article.id}`);
+  console.log(`modified を「いいえ」に更新: ${article.id}`);
 }
 
 // メイン処理
@@ -71,46 +78,46 @@ async function main() {
   const articles = await fetchArticles();
 
   for (const article of articles) {
-    const statusValue = String(article.status)
-      .toUpperCase()
-      .replace(/\s+/g, "")        // 全ての空白文字を除去
-      .replace(/\u00A0/g, "");  
-    const generatedValue = String(article.generated).toUpperCase().trim();
-    const modifiedValue = String(article.modified).toUpperCase().trim();
 
-    // OPEN の記事だけ生成対象
-    if (statusValue !== "OPEN") {
-      console.log("RAW STATUS:", JSON.stringify(article.status));
-      console.log("AFTER CLEAN:", JSON.stringify(statusValue));
-      console.log(`Skip (status not OPEN): ${article.date}_COCC_WEB_${article.id}`);
+    const status = normalizeBool(article.status);
+    const generated = normalizeBool(article.generated);
+    const modified = normalizeBool(article.modified);
+
+    // 公開する？ が「はい」の記事だけ生成
+    if (!status) {
+      console.log(`Skip (公開しない): ${article.id}`);
       continue;
     }
 
-    const fileName = `${article.date}_COCC_News_${article.id}.html`;
+    const fileName = `${article.date}_COCC_WEB_${article.id}.html`;
     const filePath = path.join(process.cwd(), "posts", fileName);
 
-    // modified = TRUE → 既存HTMLを削除して再生成
-    if (modifiedValue === "TRUE") {
+    // 修正あり → 再生成
+    if (modified) {
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
         console.log(`Deleted old HTML: ${fileName}`);
       }
 
-      await generatePost(article);
-      await markGenerated(article);
-      await clearModified(article);
+      const result = await generatePostCore(article);
+      if (result) {
+        await markGenerated(result);
+        await clearModified(result);
+      }
       continue;
     }
 
-    // generated = TRUE → 既に生成済みなのでスキップ
-    if (generatedValue === "TRUE") {
+    // 生成済み → スキップ
+    if (generated) {
       console.log(`Skip (already generated): ${article.id}`);
       continue;
     }
 
     // 新規生成
-    await generatePost(article);
-    await markGenerated(article);
+    const result = await generatePostCore(article);
+    if (result) {
+      await markGenerated(result);
+    }
   }
 }
 

@@ -12,10 +12,16 @@ async function main() {
 
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.SHEET_ID,
-    range: "articles!A:E",
+    range: "articles!A:J",   // ← 列が増えたので修正
   });
 
-  console.log("記事一覧:", res.data.values);
+  const rows = res.data.values;
+
+  // 1行目：列名
+  // 2行目：説明行 → スキップ
+  const dataRows = rows.slice(2);
+
+  console.log("記事一覧:", dataRows);
 }
 
 main();
