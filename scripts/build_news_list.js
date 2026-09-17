@@ -1,20 +1,27 @@
 const { fetchArticles } = require("./sheets_fetch");
 
+// 「はい / いいえ」→ boolean に変換
+function normalizeBool(value) {
+  if (typeof value === "boolean") return value;
+  if (!value) return false;
+  return value.trim() === "はい";
+}
+
 async function buildNewsList() {
   const articles = await fetchArticles();
 
-  // OPEN & generated=TRUE の記事だけ対象
-  const filtered = articles.filter(a =>
-    String(a.status).trim().toUpperCase() === "OPEN" &&
-    String(a.generated).trim().toUpperCase() === "TRUE"
-  );
+  // 公開する？ = はい AND 生成済？ = はい の記事だけ対象
+  const filtered = articles.filter(a => {
+    const status = normalizeBool(a.status);
+    const generated = normalizeBool(a.generated);
+    return status && generated;
+  });
 
-  // 日付で降順ソート（ファイル名の先頭が日付なのでそのまま使える）
+  // 日付で降順ソート
   filtered.sort((a, b) => b.date.localeCompare(a.date));
 
   const count = filtered.length;
 
-  // 0件 → 「まだ記事はありません」
   if (count === 0) {
     return `
       <li class="news-item">
@@ -23,11 +30,9 @@ async function buildNewsList() {
     `;
   }
 
-  // 1〜4件 → 全件表示
   const targetArticles = count < 5 ? filtered : filtered.slice(0, 5);
 
-  // `<li>` を生成
-  const listItems = targetArticles.map(a => {
+  return targetArticles.map(a => {
     const fileName = `${a.date}_COCC_WEB_${a.id}.html`;
     const url = `posts/${fileName}`;
 
@@ -40,12 +45,6 @@ async function buildNewsList() {
       </li>
     `;
   }).join("\n");
-
-  return listItems;
 }
 
-// テスト実行
-buildNewsList().then(html => {
-  console.log("=== NEWS_LIST HTML ===");
-  console.log(html);
-});
+module.exports = { buildNewsList };

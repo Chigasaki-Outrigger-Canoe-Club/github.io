@@ -34,7 +34,7 @@ async function markGenerated(article) {
 
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
-    range: `articles!G${rowNumber}`,   // 生成済？ の列（日本語化後）
+    range: `articles!H${rowNumber}`,   // 生成済？ の列（日本語化後）
     valueInputOption: "RAW",
     requestBody: { values: [["はい"]] }
   });
@@ -65,7 +65,7 @@ async function clearModified(article) {
 
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
-    range: `articles!H${rowNumber}`,   // 修正する？ の列（日本語化後）
+    range: `articles!I${rowNumber}`,   // 修正する？ の列（日本語化後）
     valueInputOption: "RAW",
     requestBody: { values: [["いいえ"]] }
   });
