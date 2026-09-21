@@ -14,12 +14,9 @@ const COLUMN_MAP = {
 };
 
 // 「はい / いいえ」→ true / false
-function normalizeBool(value) {
-  if (typeof value === "boolean") return value;
+function yesNoToBool(value) {
   if (!value) return false;
-
-  const v = String(value).trim();
-  return ["はい", "true", "TRUE", "yes", "YES"].includes(v);
+  return value.trim() === "はい";
 }
 
 async function fetchArticles() {
@@ -57,7 +54,7 @@ async function fetchArticles() {
 
       // はい/いいえ → true/false に変換する列
       if (["status", "generated", "modified"].includes(internalKey)) {
-        value = normalizeBool(value);
+        value = yesNoToBool(value);
       }
 
       obj[internalKey] = value;
