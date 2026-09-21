@@ -16,7 +16,7 @@ async function buildNewsList() {
   const filtered = articles.filter(a => {
     const status = normalizeBool(a.status);
     const generated = normalizeBool(a.generated);
-    return status && generated;
+    return status;
   });
 
   // 日付降順
