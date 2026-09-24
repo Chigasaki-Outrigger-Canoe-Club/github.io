@@ -34,7 +34,7 @@ async function fetchArticles() {
 
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.SHEET_ID,
-    range: "articles!A:J",
+    range: "articles!A:I",
   });
 
   const rows = res.data.values;
