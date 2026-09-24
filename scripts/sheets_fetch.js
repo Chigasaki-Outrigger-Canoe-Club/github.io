@@ -41,9 +41,7 @@ async function fetchArticles() {
 
   // 1行目：列名
   const header = rows[0];
-
-  // 2行目：説明行 → スキップ
-  const dataRows = rows.slice(2);
+  const dataRows = rows.slice(1);
 
   const articles = dataRows.map(row => {
     const obj = {};
