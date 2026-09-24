@@ -53,10 +53,23 @@ async function buildNewsList() {
 async function updateIndex() {
   const newsListHtml = await buildNewsList();
 
-  // ★ ここで記事数を取得して index.html に埋め込む
+// ★ ここで記事数を取得して index.html に埋め込む
   const articles = await fetchArticles();
-  const filtered = articles.filter(a => normalizeBool(a.status));
-  const debugCountHtml = `<div class="debug-count">記事数（status=true）：${filtered.length}</div>`;
+
+  // ① status=true の件数
+  const countStatus = articles.filter(a => normalizeBool(a.status)).length;
+
+  // ② status=true AND generated=true の件数
+  const countStatusGenerated = articles.filter(a =>
+    normalizeBool(a.status) && normalizeBool(a.generated)
+  ).length;
+
+  const debugCountHtml = `
+    <div class="debug-count">
+      status=true：${countStatus} 件<br>
+      status=true AND generated=true：${countStatusGenerated} 件
+    </div>
+  `;
 
   const indexPath = path.join(process.cwd(), "index.html");
   let indexHtml = fs.readFileSync(indexPath, "utf-8");
@@ -66,7 +79,6 @@ async function updateIndex() {
     /<ul class="news-right">[\s\S]*?<\/ul>/m,
     `<ul class="news-right">\n${newsListHtml}\n</ul>\n${debugCountHtml}`
   );
-
 
   fs.writeFileSync(indexPath, indexHtml, "utf-8");
   console.log("index.html updated with latest NEWS_LIST");
