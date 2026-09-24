@@ -63,9 +63,10 @@ async function updateIndex() {
 
   // NEWS_LIST の部分を置き換え
   indexHtml = indexHtml.replace(
-    /<ul class="news-right">[\s\S]*?<\/ul>/,
-    `<ul class="news-right">\n${newsListHtml}\n</ul>`
+    /<ul class="news-right">[\s\S]*?<\/ul>/m,
+    `<ul class="news-right">\n${newsListHtml}\n</ul>\n${debugCountHtml}`
   );
+
 
   fs.writeFileSync(indexPath, indexHtml, "utf-8");
   console.log("index.html updated with latest NEWS_LIST");
