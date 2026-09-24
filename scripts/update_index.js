@@ -64,6 +64,8 @@ async function updateIndex() {
     normalizeBool(a.status) && normalizeBool(a.generated)
   ).length;
 
+  console.log("FETCHED:", articles);
+
   const debugCountHtml = `
     <div class="debug-count">
       status=true：${countStatus} 件<br>
