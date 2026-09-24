@@ -42,13 +42,6 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: node scripts/generate_posts.js
 
-      - name: Commit generated posts
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add posts/
-          git commit -m "Update posts" || echo "No changes"
-
       - name: Update index.html
         env:
           GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
