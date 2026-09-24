@@ -53,6 +53,11 @@ async function buildNewsList() {
 async function updateIndex() {
   const newsListHtml = await buildNewsList();
 
+  // ★ ここで記事数を取得して index.html に埋め込む
+  const articles = await fetchArticles();
+  const filtered = articles.filter(a => normalizeBool(a.status));
+  const debugCountHtml = `<div class="debug-count">記事数（status=true）：${filtered.length}</div>`;
+
   const indexPath = path.join(process.cwd(), "index.html");
   let indexHtml = fs.readFileSync(indexPath, "utf-8");
 
