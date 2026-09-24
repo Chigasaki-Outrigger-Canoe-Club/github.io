@@ -6,7 +6,7 @@ const COLUMN_MAP = {
   "記事タイトル": "title",
   "作成日": "date",
   "画像url(複数可)": "image_urls",
-  "本文URL(Google notes)": "body_doc_url",
+  "本文URL(Google Doc)": "body_doc_url",
   "notes": "category",
   "公開する?": "status",
   "生成済?": "generated",
