@@ -309,6 +309,18 @@ img { max-width: 100%; display: block; }
   color: #000;
 }
 
+.section-title::after {
+  content: "";
+  position: absolute;
+  right: -40px;   /* ← タイトルからの距離 */
+  top: 50%;
+  width: 50px;    /* ← ラインの長さ */
+  height: 1.5px;    /* ← ラインの太さ */
+  background: #000; /* ← 色（黒） */
+  transform: rotate(45deg); /* ← 斜め角度 */
+  transform-origin: left center;
+}
+
 /* =========================
    左右交互の配置
    ========================= */
