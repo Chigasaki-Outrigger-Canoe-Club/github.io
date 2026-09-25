@@ -281,6 +281,9 @@ img { max-width: 100%; display: block; }
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
   color: #000;
   align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* ← 上下中央 */
 }
 
 /* section-label（水色）はそのまま */
