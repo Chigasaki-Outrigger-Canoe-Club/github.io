@@ -258,6 +258,7 @@ img { max-width: 100%; display: block; }
    ========================= */
 .content-block {
   max-width: 90%;
+  margin: 0 auto;
   padding: 120px 60px;
   display: flex;
   gap: 20px;
