@@ -254,61 +254,33 @@ img { max-width: 100%; display: block; }
 }
 
 /* =========================
-   背景画像（画像だけのセクション）
+   横並びレイアウト（PC）
    ========================= */
-.hero-image {
-  width: 100%;
-  height: 500px;
-  background-size: cover;
-  background-position: center;
-}
-
-/* =========================
-   画像ブロック
-   ========================= */
-.image-block {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start; /* ← 左寄せ */
-  overflow: hidden;
-}
-
-.image-block img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
-/* 左半分に寄せたい場合（オプション） */
-/*
-.image-block img {
-  width: 50%;
-}
-*/
-
-/* =========================
-   body-text（ABOUT / ACTIVITY / CONTACT）
-   ========================= */
-.body-text {
+.content-block {
   max-width: 1080px;
   margin: 0 auto;
   padding: 120px 20px;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+/* 画像側 */
+.image-side img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* テキスト側 */
+.text-side {
+  width: 35%;
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
   color: #000;
 }
 
-.body-text-inner {
-  width: 35%;
-}
-
-.right-text .body-text-inner {
-  margin-left: auto;
-}
-
-.left-text .body-text-inner {
-  margin-right: auto;
-}
-
+/* section-label（水色）はそのまま */
 .section-label {
   font-size: 12px;
   letter-spacing: 0.22em;
@@ -316,6 +288,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 8px;
 }
 
+/* タイトル */
 .section-title {
   font-size: 30px;
   letter-spacing: 0.1em;
@@ -323,18 +296,28 @@ img { max-width: 100%; display: block; }
   color: #000;
 }
 
-/* スマホ */
-@media (max-width: 768px) {
-  .image-block img {
-    width: 100%;
-  }
+/* =========================
+   左右交互の配置
+   ========================= */
+.about-block .image-side { order: 1; }
+.about-block .text-side  { order: 2; }
 
-  .body-text {
+.activity-block .text-side { order: 1; }
+.activity-block .image-side { order: 2; }
+
+.contact-block .image-side { order: 1; }
+.contact-block .text-side  { order: 2; }
+
+/* =========================
+   スマホ表示（縦並び）
+   ========================= */
+@media (max-width: 768px) {
+  .content-block {
+    flex-direction: column;
     padding: 60px 20px;
   }
 
-  .body-text-inner {
+  .text-side {
     width: 100%;
-    margin: 0;
   }
 }
