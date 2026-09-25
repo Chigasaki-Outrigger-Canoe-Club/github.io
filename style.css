@@ -21,9 +21,15 @@ html::before {
   content: "";
   position: fixed;
   inset: 0;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(3px);
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
+}
+
+/* コンテンツを前面に出す */
+body {
+  position: relative;
+  z-index: 1;
 }
 
 /* =========================
