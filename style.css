@@ -303,7 +303,7 @@ img { max-width: 100%; display: block; }
 
 /* タイトル */
 .section-title {
-  font-size: 260%;
+  font-size: 230%;
   letter-spacing: 0.1em;
   margin-bottom: 32px;
   color: #000;
@@ -332,5 +332,12 @@ img { max-width: 100%; display: block; }
 
   .text-side {
     max-width: 100%;
+  }
+  /* ACTIVITY だけ画像→テキストにする */
+  .activity-block .image-side {
+    order: 1;
+  }
+  .activity-block .text-side {
+    order: 2;
   }
 }
