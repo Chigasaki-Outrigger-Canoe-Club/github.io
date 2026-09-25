@@ -283,6 +283,7 @@ img { max-width: 100%; display: block; }
 /* テキスト側 */
 .text-side {
   flex: 0 0 30%;
+  font-size: 80%;
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
   color: #000;
   align-items: center;
@@ -293,7 +294,7 @@ img { max-width: 100%; display: block; }
 
 /* section-label（水色）はそのまま */
 .section-label {
-  font-size: 12px;
+  font-size: 100%;
   letter-spacing: 0.22em;
   color: #6fa8ff;
   margin-bottom: 8px;
@@ -301,7 +302,7 @@ img { max-width: 100%; display: block; }
 
 /* タイトル */
 .section-title {
-  font-size: 30px;
+  font-size: 200%;
   letter-spacing: 0.1em;
   margin-bottom: 32px;
   color: #000;
