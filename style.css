@@ -307,6 +307,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.1em;
   margin-bottom: 32px;
   color: #000;
+  position: relative;
 }
 
 .section-title::after {
