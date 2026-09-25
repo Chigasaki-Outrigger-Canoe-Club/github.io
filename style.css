@@ -13,7 +13,17 @@ html, body {
   background-repeat: repeat; /* ← 和紙はrepeatが自然 */
   background-attachment: fixed;
   color: #000000;
-  filter: blur(4px); 
+  position: relative; /* ← これが必要 */
+}
+
+/* 背景だけをぼかすレイヤー */
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(3px); /* ← 背景だけぼける */
+  pointer-events: none;       /* ← クリック操作を邪魔しない */
+  z-index: -1;                /* ← 全コンテンツより後ろ */
 }
 
 a { text-decoration: none; color: inherit; }
