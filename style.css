@@ -402,13 +402,22 @@ img { max-width: 100%; display: block; }
   .hero-inner { flex-direction:column; }
 }
 
-/* PC・タブレット：横並び */
+/* 横並びレイアウト（PC） */
 .intro-block {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  padding: 40px 0;
+  padding: 60px 0;
+}
+
+/* 画像の比率を大きく（6〜7割） */
+.intro-image {
+  flex: 0 0 65%; /* ← ここがポイント：画像が65%を占める */
+}
+
+.intro-text {
+  flex: 0 0 35%; /* ← テキストは35% */
 }
 
 /* 左右の順番切り替え */
@@ -418,36 +427,36 @@ img { max-width: 100%; display: block; }
 .right-image .intro-text { order: 1; }
 .right-image .intro-image { order: 2; }
 
-/* 画像 */
+/* 画像はふちなし・画面いっぱい */
 .intro-image img {
   width: 100%;
-  max-width: 450px;
-  border-radius: 8px;
+  height: auto;
+  display: block;
 }
 
 /* テキスト */
-.intro-text {
-  flex: 1;
-}
-
 .intro-text p {
-  color: #e0e0e0;
+  color: #000000;
   line-height: 1.7;
   font-size: 18px;
 }
 
-/* スマホ表示：縦並びに変更 */
+.section-title {
+  margin-bottom: 20px;
+  color: #00aaff;
+}
+
+/* スマホ表示：縦並び（画像 → テキスト） */
 @media (max-width: 768px) {
   .intro-block {
-    flex-direction: column;   /* ← これで縦並びになる */
+    flex-direction: column;
     text-align: center;
   }
 
-  .intro-image img {
-    max-width: 100%;
+  .intro-image,
+  .intro-text {
+    flex: 0 0 auto;
+    width: 100%;
   }
-
-  /* スマホでは順番を固定（画像→テキスト） */
-  .intro-image { order: 1; }
-  .intro-text { order: 2; }
 }
+
