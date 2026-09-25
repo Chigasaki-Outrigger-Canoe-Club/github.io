@@ -266,6 +266,9 @@ img { max-width: 100%; display: block; }
 }
 
 /* 画像側 */
+.image-side {
+  flex: 1;
+}
 .image-side img {
   width: 100%;
   height: auto;
@@ -275,7 +278,8 @@ img { max-width: 100%; display: block; }
 
 /* テキスト側 */
 .text-side {
-  width: 35%;
+  flex: 1;
+  max-width: 35%;
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
   color: #000;
 }
@@ -318,6 +322,6 @@ img { max-width: 100%; display: block; }
   }
 
   .text-side {
-    width: 100%;
+    max-width: 100%;
   }
 }
