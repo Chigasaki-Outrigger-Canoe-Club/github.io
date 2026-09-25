@@ -401,3 +401,53 @@ img { max-width: 100%; display: block; }
 
   .hero-inner { flex-direction:column; }
 }
+
+/* PC・タブレット：横並び */
+.intro-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 40px 0;
+}
+
+/* 左右の順番切り替え */
+.left-image .intro-image { order: 1; }
+.left-image .intro-text { order: 2; }
+
+.right-image .intro-text { order: 1; }
+.right-image .intro-image { order: 2; }
+
+/* 画像 */
+.intro-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 8px;
+}
+
+/* テキスト */
+.intro-text {
+  flex: 1;
+}
+
+.intro-text p {
+  color: #e0e0e0;
+  line-height: 1.7;
+  font-size: 18px;
+}
+
+/* スマホ表示：縦並びに変更 */
+@media (max-width: 768px) {
+  .intro-block {
+    flex-direction: column;   /* ← これで縦並びになる */
+    text-align: center;
+  }
+
+  .intro-image img {
+    max-width: 100%;
+  }
+
+  /* スマホでは順番を固定（画像→テキスト） */
+  .intro-image { order: 1; }
+  .intro-text { order: 2; }
+}
