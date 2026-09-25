@@ -313,8 +313,8 @@ img { max-width: 100%; display: block; }
 .section-title::after {
   content: "";
   position: absolute;
-  right: -40px;   /* ← タイトルからの距離 */
-  top: 50%;
+  right: -70px;   /* ← タイトルからの距離 */
+  top: 80%;
   width: 70px;    /* ← ラインの長さ */
   height: 1.5px;    /* ← ラインの太さ */
   background: #333333; /* ← 色（黒） */
