@@ -310,7 +310,8 @@ img { max-width: 100%; display: block; }
   display: inline-block;     /* ← 下線の長さを制御するために必要 */
   padding-bottom: 8px;       /* ← 下線との余白 */
   border-bottom: 1.5px solid #333; /* ← 下線 */
-  width: 120%;               /* ← タイトルより少し長めにする */
+  width: 110%;               /* ← タイトルより少し長めにする */
+  text-align: center; 
 }
 
 /* =========================
