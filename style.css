@@ -403,21 +403,6 @@ img { max-width: 100%; display: block; }
 }
 
 /* =========================
-   背景画像ヒーロー型セクション
-   ========================= */
-.hero-section {
-  position: relative;
-  width: 100%;
-  height: 500px; /* ← 指定通り */
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  padding: 40px;
-  color: #000;
-}
-
-/* =========================
    背景画像（画像だけのセクション）
    ========================= */
 .hero-image {
@@ -441,31 +426,25 @@ img { max-width: 100%; display: block; }
 }
 
 /* =========================
-   テキストセクション
+   テキストセクション（うみのホテル風）
    ========================= */
 .hero-text {
   max-width: 1080px;
   margin: 0 auto;
-  padding: 60px 20px;
+  padding: 100px 20px; /* ← 余白を広く */
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
 }
 
-/* テキスト幅 35% */
-.hero-text > * {
-  width: 35%;
+.hero-text-inner {
+  width: 35%; /* ← テキスト幅 */
 }
 
-/* 右寄せ / 左寄せ */
-.right-text {
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
+.right-text .hero-text-inner {
+  margin-left: auto; /* 右寄せ */
 }
 
-.left-text {
-  text-align: left;
-  display: flex;
-  justify-content: flex-start;
+.left-text .hero-text-inner {
+  margin-right: auto; /* 左寄せ */
 }
 
 /* スマホ表示：縦並び（画像 → テキスト） */
@@ -475,16 +454,11 @@ img { max-width: 100%; display: block; }
   }
 
   .hero-text {
-    padding: 40px 20px;
+    padding: 60px 20px;
   }
 
-  .hero-text > * {
+  .hero-text-inner {
     width: 100%;
-    text-align: left;
-  }
-
-  .right-text,
-  .left-text {
-    justify-content: flex-start;
+    margin: 0;
   }
 }
