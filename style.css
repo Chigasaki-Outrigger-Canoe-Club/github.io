@@ -257,18 +257,15 @@ img { max-width: 100%; display: block; }
    横並びレイアウト（PC）
    ========================= */
 .content-block {
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: 100%;
   padding: 120px 10px;
   display: flex;
-  align-items: center;
   gap: 60px;
 }
 
 /* 画像側 */
 .image-side {
-  flex: 2;
-  min-width: 60%; 
+  flex: 0 0 70%;
 }
 .image-side img {
   width: 100%;
@@ -279,8 +276,7 @@ img { max-width: 100%; display: block; }
 
 /* テキスト側 */
 .text-side {
-  flex: 1;
-  max-width: 30%;
+  flex: 0 0 30%;
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
   color: #000;
 }
