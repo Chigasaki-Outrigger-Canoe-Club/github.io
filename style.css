@@ -307,19 +307,10 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.1em;
   margin-bottom: 32px;
   color: #000;
-  position: relative;
-}
-
-.section-title::after {
-  content: "";
-  position: absolute;
-  right: -55px;   /* ← タイトルからの距離 */
-  top: 120%;
-  width: 115px;    /* ← ラインの長さ */
-  height: 1.5px;    /* ← ラインの太さ */
-  background: #333333; /* ← 色（黒） */
-  transform: rotate(315deg); /* ← 斜め角度 */
-  transform-origin: left center;
+  display: inline-block;     /* ← 下線の長さを制御するために必要 */
+  padding-bottom: 8px;       /* ← 下線との余白 */
+  border-bottom: 1.5px solid #333; /* ← 下線 */
+  width: 120%;               /* ← タイトルより少し長めにする */
 }
 
 /* =========================
