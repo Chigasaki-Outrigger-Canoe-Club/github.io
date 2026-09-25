@@ -6,6 +6,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  font-size: 16px;
   font-family: "Noto Sans JP", sans-serif;
   background: url("./images/japanese-paper.jpg");
   background-size: auto;
@@ -283,7 +284,7 @@ img { max-width: 100%; display: block; }
 /* テキスト側 */
 .text-side {
   flex: 0 0 30%;
-  font-size: 80%;
+  font-size: 110%;
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
   color: #000;
   align-items: center;
@@ -294,7 +295,7 @@ img { max-width: 100%; display: block; }
 
 /* section-label（水色）はそのまま */
 .section-label {
-  font-size: 100%;
+  font-size: 130%;
   letter-spacing: 0.22em;
   color: #6fa8ff;
   margin-bottom: 8px;
@@ -302,7 +303,7 @@ img { max-width: 100%; display: block; }
 
 /* タイトル */
 .section-title {
-  font-size: 200%;
+  font-size: 260%;
   letter-spacing: 0.1em;
   margin-bottom: 32px;
   color: #000;
