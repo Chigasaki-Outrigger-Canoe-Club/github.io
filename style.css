@@ -402,61 +402,77 @@ img { max-width: 100%; display: block; }
   .hero-inner { flex-direction:column; }
 }
 
-/* 横並びレイアウト（PC） */
-.intro-block {
+/* =========================
+   背景画像ヒーロー型セクション
+   ========================= */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 500px; /* ← 指定通り */
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 60px 0;
+  padding: 40px;
+  color: #000;
 }
 
-/* 画像の比率を大きく（6〜7割） */
-.intro-image {
-  flex: 0 0 65%; /* ← ここがポイント：画像が65%を占める */
+/* 背景画像の設定（各セクションごと） */
+#about.hero-section {
+  background-image: url("images/club_intro.jpg");
 }
 
-.intro-text {
-  flex: 0 0 35%; /* ← テキストは35% */
+#activity.hero-section {
+  background-image: url("images/activity.jpg");
 }
 
-/* 左右の順番切り替え */
-.left-image .intro-image { order: 1; }
-.left-image .intro-text { order: 2; }
-
-.right-image .intro-text { order: 1; }
-.right-image .intro-image { order: 2; }
-
-/* 画像はふちなし・画面いっぱい */
-.intro-image img {
-  width: 100%;
-  height: auto;
-  display: block;
+#contact.hero-section {
+  background-image: url("images/contact.jpg");
 }
 
-/* テキスト */
-.intro-text p {
-  color: #000000;
-  line-height: 1.7;
-  font-size: 18px;
+/* テキストコンテナ */
+.hero-content {
+  width: 35%; /* ← 指定通り */
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  background: transparent; /* ← 背景透明 */
+  padding: 20px;
 }
 
-.section-title {
-  margin-bottom: 20px;
-  color: #00aaff;
+/* テキスト位置（左右交互） */
+.right-text {
+  margin-left: auto; /* 右寄せ */
+}
+
+.left-text {
+  margin-right: auto; /* 左寄せ */
 }
 
 /* スマホ表示：縦並び（画像 → テキスト） */
 @media (max-width: 768px) {
-  .intro-block {
-    flex-direction: column;
-    text-align: center;
+  .hero-section {
+    height: auto;
+    padding: 0;
+    display: block;
   }
 
-  .intro-image,
-  .intro-text {
-    flex: 0 0 auto;
+  .hero-section::before {
+    content: "";
+    display: block;
     width: 100%;
+    height: 300px; /* スマホ用の画像高さ */
+    background-size: cover;
+    background-position: center;
+    background-image: inherit;
+  }
+
+  .hero-content {
+    width: 100%;
+    padding: 30px 20px;
+    margin: 0;
+  }
+
+  .right-text,
+  .left-text {
+    margin: 0;
   }
 }
-
