@@ -323,3 +323,11 @@ img { max-width: 100%; display: block; }
     max-width: 100%;
   }
 }
+
+.parallax {
+  background-image: url("chigasaki_logo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* ← これがポイント */
+  height: 600px;
+}
