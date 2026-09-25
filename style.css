@@ -314,8 +314,8 @@ img { max-width: 100%; display: block; }
   content: "";
   position: absolute;
   right: -55px;   /* ← タイトルからの距離 */
-  top: 80%;
-  width: 90px;    /* ← ラインの長さ */
+  top: 100%;
+  width: 130px;    /* ← ラインの長さ */
   height: 1.5px;    /* ← ラインの太さ */
   background: #333333; /* ← 色（黒） */
   transform: rotate(315deg); /* ← 斜め角度 */
