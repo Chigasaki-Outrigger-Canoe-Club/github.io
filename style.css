@@ -257,9 +257,9 @@ img { max-width: 100%; display: block; }
    横並びレイアウト（PC）
    ========================= */
 .content-block {
-  max-width: 1080px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 120px 20px;
+  padding: 120px 10px;
   display: flex;
   align-items: center;
   gap: 60px;
