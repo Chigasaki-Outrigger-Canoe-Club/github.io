@@ -258,9 +258,9 @@ img { max-width: 100%; display: block; }
    ========================= */
 .content-block {
   max-width: 100%;
-  padding: 120px 10px;
+  padding: 120px 60px;
   display: flex;
-  gap: 60px;
+  gap: 30px;
 }
 
 /* 画像側 */
