@@ -17,30 +17,28 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  backdrop-filter: blur(3px);
-  pointer-events: none;
-  z-index: 0;
+  background: url("./images/chigasaki_beach.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px);      /* ← 画像だけぼかす */
+  z-index: -1;            /* ← コンテンツより後ろ */
 }
 
-/* コンテンツを前面に出す */
+/* コンテンツ本体 */
 body {
-  background: url("./images/chigasaki_beach.jpg");
-  background-size: cover;        /* ← 写真はcoverが自然 */
-  background-position: center;   /* ← 中央に配置 */
-  background-attachment: fixed;  /* ← 奥行きが出る */
   position: relative;
-  z-index: 1;
+  z-index: 0;             /* ← 前面に出す（ぼけない） */
 }
 
 /* =========================
    スマホだけ背景を変更
    ========================= */
 @media (max-width: 768px) {
-  html, body {
-    background: url("./images/chigasaki_beach_mobile.jpg"); /* ← スマホ用画像 */
+  body::before {
+    background: url("./images/chigasaki_beach_mobile.jpg");
     background-size: cover;
     background-position: center;
-    background-attachment: scroll; /* ← 固定だとスマホで不具合出るので変更 */
+    filter: blur(6px);
   }
 }
 
