@@ -326,28 +326,6 @@ img { max-width: 100%; display: block; }
   }
 }
 
-/* =========================
-   横並びレイアウト（PC）
-   ========================= */
-.content-block {
-  max-width: 90%;
-  margin: 0 auto;
-  padding: 120px 60px;
-  display: flex;
-  gap: 20px;
-}
-
-/* 画像側 */
-.image-side {
-  flex: 0 0 70%;
-}
-.image-side img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
 /* ABOUT */
 .about-hero {
   position: relative;
@@ -381,68 +359,39 @@ img { max-width: 100%; display: block; }
   line-height: 1.8;
 }
 
-/* テキスト側 */
-.text-side {
-  flex: 0 0 30%;
-  font-size: 110%;
-  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
-  color: #000;
-  align-items: center;
+/* CONTACT（ABOUT US と同じ構成） */
+.contact-hero {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  background: url("images/2_CONTACT/mc10_217.jpg") center/cover no-repeat;
   display: flex;
-  flex-direction: column;
-  justify-content: center; /* ← 上下中央 */
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1% 6%;
 }
 
-/* section-label（水色）はそのまま */
-.section-label {
-  font-size: 130%;
-  letter-spacing: 0.22em;
-  color: #6fa8ff;
-  margin-bottom: 8px;
+.contact-overlay {
+  position: absolute;
+  top: 10%;
+  right: 6%;
+  max-width: 600px;
+  background: rgba(255,255,255,0.92);
+  padding: 40px 50px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-/* タイトル */
-.section-title {
-  font-size: 230%;
-  letter-spacing: 0.1em;
-  margin-bottom: 32px;
+.contact-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 7vw, 72px);
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
   color: #000;
-  display: inline-block;     /* ← 下線の長さを制御するために必要 */
-  padding-bottom: 8px;       /* ← 下線との余白 */
-  border-bottom: 1.5px solid #333; /* ← 下線 */
-  width: 110%;               /* ← タイトルより少し長めにする */
-  text-align: center; 
 }
 
-/* =========================
-   左右交互の配置
-   ========================= */
-.about-block .image-side { order: 1; }
-.about-block .text-side  { order: 2; }
-
-.activity-block .text-side { order: 1; }
-.activity-block .image-side { order: 2; }
-
-.contact-block .image-side { order: 1; }
-.contact-block .text-side  { order: 2; }
-
-/* =========================
-   スマホ表示（縦並び）
-   ========================= */
-@media (max-width: 768px) {
-  .content-block {
-    flex-direction: column;
-    padding: 60px 20px;
-  }
-
-  .text-side {
-    max-width: 100%;
-  }
-  /* ACTIVITY だけ画像→テキストにする */
-  .activity-block .image-side {
-    order: 1;
-  }
-  .activity-block .text-side {
-    order: 2;
-  }
+.contact-text {
+  font-size: clamp(12px, 2.2vw, 16px);
+  line-height: 1.8;
+  color: #000;
 }
