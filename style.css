@@ -65,7 +65,7 @@ img { max-width: 100%; display: block; }
 .header-inner {
   max-width: 1080px;
   margin: 0 auto;
-  padding: 14px 20px;
+  padding: 8px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -78,7 +78,7 @@ img { max-width: 100%; display: block; }
 }
 
 .header-logo {
-  height: 60px;   /* PCサイズ（Patagonia風） */
+  height: 48px;   /* PCサイズ（Patagonia風） */
   width: auto;
   display: block;
 }
@@ -88,11 +88,15 @@ img { max-width: 100%; display: block; }
   .header-logo {
     height: 36px;
   }
+
+  .header-inner{
+    padding: 6px 16px;
+  }
 }
 
 .global-nav ul {
   display: flex;
-  gap: 24px;
+  gap: 20px;
   list-style: none;
 }
 
