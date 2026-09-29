@@ -71,19 +71,23 @@ img { max-width: 100%; display: block; }
   align-items: center;
 }
 
-.logo-main {
-  font-size: 15px;
-  letter-spacing: 0.22em;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #ffffff;
+/* ロゴ画像 */
+.logo-area {
+  display: flex;
+  align-items: center;
 }
 
-.logo-sub {
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  color: #ffffff;
-  text-transform: uppercase;
+.header-logo {
+  height: 48px;   /* PCサイズ（Patagonia風） */
+  width: auto;
+  display: block;
+}
+
+/* スマホ用ロゴサイズ */
+@media (max-width: 768px) {
+  .header-logo {
+    height: 36px;
+  }
 }
 
 .global-nav ul {
