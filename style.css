@@ -83,24 +83,39 @@ img { max-width: 100%; display: block; }
   display: block;
 }
 
-/* スマホ用ロゴサイズ */
-@media (max-width: 768px) {
-  .header-logo {
-    height: 36px;
-  }
-
-  .header-inner{
-    padding: 4px 10px;
-  }
-}
-
-.logo-text {
+.logo-text-pc {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 22px;          /* NAISH風の細めヘッダーに合う */
   letter-spacing: 0.08em;   /* Bebasは詰まりやすいので少し広げる */
   color: #ffffff;
   margin-left: 12px;        /* ロゴとの距離 */
   line-height: 1;           /* 無駄な上下余白を消す */
+}
+
+.logo-text-mobile {
+  display: none;
+}
+
+/* スマホ用ロゴサイズ */
+@media (max-width: 768px) {
+  .header-logo {
+    height: 36px;
+  }
+  .header-inner{
+    padding: 4px 2%;
+  }
+  .logo-text-pc {
+    display: none;
+  }
+  .logo-text-mobile {
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+    margin-left: 10px;
+    line-height: 1;
+  }
 }
 
 .global-nav ul {
