@@ -78,7 +78,7 @@ img { max-width: 100%; display: block; }
 }
 
 .header-logo {
-  height: 48px;   /* PCサイズ（Patagonia風） */
+  height: 60px;   /* PCサイズ（Patagonia風） */
   width: auto;
   display: block;
 }
