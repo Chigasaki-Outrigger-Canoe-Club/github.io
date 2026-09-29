@@ -58,17 +58,18 @@ let images;
 if (window.innerWidth > 900) {
   // ★ PC用画像セット
   images = [
-    "images/hayama_hoe1.jpg",
-    "images/hayama_hoe2.jpg",
-    "images/kaioumaru.jpg",
-    "images/JOCA1.jpg"
+    "images/1_HERO/pc_hayama_hoe1.jpg",
+    "images/1_HERO/pc_mc10_272.jpg",
+    "images/1_HERO/pc_hayama_hoe2.jpg",
+    "images/1_HERO/pc_mc10_368.jpg"
   ];
 } else {
   // ★ スマホ用画像セット
   images = [
-    "images/hayama_hoe1_mobile.jpg",
-    "images/hayama_hoe2_mobile.jpg",
-    "images/kaioumaru_mobile.jpg",
+    "images/1_HERO/mobile_hayama_hoe1.jpg",
+    "images/1_HERO/mobile_mc10_033.jpg",
+    "images/1_HERO/mobile_hayama_hoe2.jpg",
+    "images/1_HERO/mobile_mc10_015.jpg"
   ];
 }
 // ===============================
