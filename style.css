@@ -110,7 +110,7 @@ img { max-width: 100%; display: block; }
   .logo-text-mobile {
     display: inline-block;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     letter-spacing: 0.1em;
     color: #ffffff;
     margin-left: 10px;
@@ -162,6 +162,7 @@ img { max-width: 100%; display: block; }
 /* スマホ時だけハンバーガー表示、ナビ非表示 */
 @media (max-width: 768px) {
   .menu-btn {
+    margin-right: 2%;
     display: flex;
   }
 
