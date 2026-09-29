@@ -377,7 +377,7 @@ img { max-width: 100%; display: block; }
 }
 
 .about-text {
-  font-size: clamp(14px, 2.2vw, 20px);
+  font-size: clamp(10px, 2.2vw, 16px);
   line-height: 1.8;
 }
 
