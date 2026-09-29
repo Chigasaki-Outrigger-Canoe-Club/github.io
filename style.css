@@ -412,7 +412,9 @@ img { max-width: 100%; display: block; }
   color: #000;
 }
 
-/* フッター上Lastメッセージ */
+/*****************/
+/* Lastメッセージ */
+/*****************/
 .last-message {
   background: #fff;
   padding: 60px 6%;
@@ -421,13 +423,16 @@ img { max-width: 100%; display: block; }
 
 .last-quote {
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
-  font-size: clamp(18px, 3vw, 26px);
+  font-size: clamp(15px, 3vw, 26px);
   letter-spacing: 0.08em;
   line-height: 1.9;
   color: #000;
   opacity: 0.85;
 }
 
+/**********/
+/* Footer */
+/**********/
 .site-footer {
   background: #000;
   color: #fff;
