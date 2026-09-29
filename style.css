@@ -420,10 +420,25 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.03em;
 }
 
-/* スマホ対応 */
+/* スマホ時は横スクロールに変更 */
 @media (max-width: 900px) {
-  .news-inner {
-    grid-template-columns: 1fr;
+  .news-right {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 10px;
+
+    /* スクロールバーを消す（iOS/Android対応） */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .news-right::-webkit-scrollbar {
+    display: none;
+  }
+
+  .news-item {
+    flex: 0 0 260px;   /* カード幅を固定 */
   }
 }
 
