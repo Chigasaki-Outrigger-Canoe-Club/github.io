@@ -359,7 +359,23 @@ img { max-width: 100%; display: block; }
   line-height: 1.8;
 }
 
-/* CONTACT（ABOUT US と同じ構成） */
+/* divide(区切り) */
+.divider-section {
+  width: 100%;
+  padding: 60px 0;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.wave-line {
+  width: 120px;
+  height: 2px;
+  background: #6fa8ff;
+  border-radius: 2px;
+}
+
+/* CONTACT */
 .contact-hero {
   position: relative;
   width: 100%;
