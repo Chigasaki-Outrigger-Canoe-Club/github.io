@@ -364,7 +364,7 @@ img { max-width: 100%; display: block; }
   position: relative;
   width: 100%;
   height: 70vh;
-  background: url("images/2_CONTACT/mc10_217.jpg") center/cover no-repeat;
+  background: url("images/2_CONTACT/mc10_217.jpg") top center/cover no-repeat;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
