@@ -250,82 +250,6 @@ img { max-width: 100%; display: block; }
   }
 }
 
-/* =========================
-   NEWS
-   ========================= */
-.news-section {
-  background: rgba(255,255,255,0.6);
-  color: #020202;
-  border: 1px solid rgba(0,0,0,0.25); /* 薄い黒で上品に */
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.08);
-  padding: 60px 20px;                /* 枠と内容の間に余白 */
-  border-radius: 4px;                /* 角を少し丸く */
-}
-
-.news-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 60px;
-}
-
-.news-label {
-  font-size: 12px;
-  letter-spacing: 0.22em;
-  color: #6fa8ff;
-  margin-bottom: 8px;
-}
-
-.news-title {
-  font-size: 30px;
-  letter-spacing: 0.1em;
-  margin-bottom: 24px;
-}
-
-.news-more {
-  display: inline-block;
-  padding: 8px 24px;
-  border: 1px solid #020202;
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-}
-
-.news-more:hover {
-  background: #020202;
-  color: #ffffff;
-}
-
-.news-right {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.news-item a {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 24px;
-  padding: 18px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-  color: inherit;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.news-item a:hover {
-  background: rgba(0,0,0,0.05);
-  color: #0055ff;
-}
-
-@media (max-width: 900px) {
-  .news-inner {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-}
-
 /* ABOUT */
 .about-hero {
   position: relative;
@@ -410,6 +334,98 @@ img { max-width: 100%; display: block; }
   font-size: clamp(12px, 2.2vw, 16px);
   line-height: 1.8;
   color: #000;
+}
+
+/* =========================
+   NEWS
+   ========================= */
+.news-section {
+  background: #fff;
+  padding: 80px 20px;
+  border: none;
+  box-shadow: none;
+}
+
+/* NEWS 左側（タイトル部分） */
+.news-left {
+  text-align: left;
+}
+
+/* NEWS ラベル（NEWSを大きく） */
+.news-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 8vw, 72px);
+  letter-spacing: 0.08em;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+/* MORE ボタン */
+.news-more {
+  display: inline-block;
+  padding: 10px 28px;
+  border: 1px solid #000;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.news-more:hover {
+.news-more:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* NEWS 右側（カード一覧） */
+.news-right {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+/* カード本体 */
+.news-item a {
+  display: block;
+  padding: 24px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 6px;
+  background: #fafafa;
+  transition: all 0.25s ease;
+}
+
+/* ホバー時のカード */
+.news-item a:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* 日付 */
+.news-date {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+  margin-bottom: 8px;
+}
+
+/* タイトル（記事名） */
+.news-text {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* スマホ対応 */
+@media (max-width: 900px) {
+  .news-inner {
+    grid-template-columns: 1fr;
+  }
 }
 
 /*****************/
