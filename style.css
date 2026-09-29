@@ -352,25 +352,25 @@ img { max-width: 100%; display: block; }
 .about-hero {
   position: relative;
   width: 100%;
-  height: 80vh; /* Patagonia は 70〜90vh が多い */
+  height: 80vh;
   background: url("images/2_ABOUT/mc10_296.jpg") center/cover no-repeat;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 8% 6%;
 }
 
 .about-overlay {
-  text-align: center;
   color: #fff;
-  max-width: 700px;
-  padding: 40px;
+  max-width: 600px;
 }
 
-.about-overlay .section-label {
-  font-size: 14px;
-  letter-spacing: 0.22em;
+.about-overlay .about-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 6vw, 64px);
+  letter-spacing: 0.08em;
   color: #cce6ff;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .about-overlay .section-title {
