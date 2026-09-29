@@ -465,7 +465,7 @@ img { max-width: 100%; display: block; }
 
 .footer-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
+  font-size: clamp(20px, 3vw, 28px);
   letter-spacing: 0.08em;
   margin-bottom: 12px;
 }
