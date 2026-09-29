@@ -10,36 +10,13 @@ html, body {
   font-family: "Noto Sans JP", sans-serif;
   color: #000000;
   position: relative;
-}
-
-/* 背景だけをぼかすレイヤー */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("./images/chigasaki_beach.jpg");
-  background-size: cover;
-  background-position: center;
-  filter: blur(4px);      /* ← 画像だけぼかす */
-  z-index: -1;            /* ← コンテンツより後ろ */
+  background:#fff;
 }
 
 /* コンテンツ本体 */
 body {
   position: relative;
   z-index: 0;             /* ← 前面に出す（ぼけない） */
-}
-
-/* =========================
-   スマホだけ背景を変更
-   ========================= */
-@media (max-width: 768px) {
-  body::before {
-    background: url("./images/chigasaki_beach_mobile.jpg");
-    background-size: cover;
-    background-position: center;
-    filter: blur(6px);
-  }
 }
 
 a { text-decoration: none; color: inherit; }
