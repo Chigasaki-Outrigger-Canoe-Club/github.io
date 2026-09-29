@@ -432,8 +432,17 @@ img { max-width: 100%; display: block; }
 /*****************/
 .last-message {
   background: #fff;
+  display: flex;
   padding: 60px 6%;
+  justify-content: center;
   text-align: center;
+}
+
+.last-illustration {
+  max-width: 260px;/* NAISHのロゴサイズ感 */
+  margin: 0 auto 40px;
+  display: block;
+  opacity: 0.9;/* 少し薄くして上品に */
 }
 
 .last-quote {
