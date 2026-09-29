@@ -357,33 +357,24 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 8% 6%;
+  padding: 4% 6%;
 }
 
 .about-overlay {
-  color: #fff;
   max-width: 600px;
+  color: #000;
 }
 
-.about-overlay .about-label {
+.about-label {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(32px, 6vw, 64px);
   letter-spacing: 0.08em;
-  color: #cce6ff;
   margin-bottom: 20px;
 }
 
-.about-overlay .section-title {
-  font-size: 42px;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
-  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
-}
-
 .about-text {
-  font-size: 18px;
+  font-size: clamp(14px, 2.4vw, 18px);
   line-height: 1.9;
-  color: #ffffff;
 }
 
 /* テキスト側 */
