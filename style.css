@@ -357,7 +357,8 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 4% 6%;
+  padding-top: 0;
+  padding: 2% 6%;
 }
 
 .about-overlay {
@@ -369,7 +370,7 @@ img { max-width: 100%; display: block; }
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(36px, 7vw, 72px);
   letter-spacing: 0.08em;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .about-text {
