@@ -358,10 +358,13 @@ img { max-width: 100%; display: block; }
   align-items: flex-start;
   justify-content: flex-start;
   padding-top: 0;
-  padding: 2% 6%;
+  padding: 1% 6%;
 }
 
 .about-overlay {
+  position: absolute;
+  top: 2%;
+  left: 6%;
   max-width: 600px;
   color: #000;
 }
