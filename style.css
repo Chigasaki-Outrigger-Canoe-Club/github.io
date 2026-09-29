@@ -373,7 +373,7 @@ img { max-width: 100%; display: block; }
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(36px, 7vw, 72px);
   letter-spacing: 0.08em;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .about-text {
