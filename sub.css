@@ -262,3 +262,124 @@
   .page-cta { padding: 56px 6%; }
   .page-toc a { padding: 8px 16px; font-size: 13px; }
 }
+
+/* =========================================================
+   大会ページ用の部品
+   ========================================================= */
+
+/* ---------- 大きな数字で見せる概要 ---------- */
+.stat-grid {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  border-top: 1px solid #000;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+.stat-grid li { padding: 24px 16px 20px 0; }
+.stat-num {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 6vw, 60px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.stat-label {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+/* ---------- 過去サイトなど、ボタン付きカード ---------- */
+.card .card-link { margin-top: 16px; }
+
+/* ---------- 主催大会への入口（大会・イベントページ） ---------- */
+.race-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.race-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 280px;
+  padding: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+  color: #fff;
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+}
+.race-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.6));
+  transition: background 0.25s ease;
+}
+.race-card:hover::before { background: rgba(0,0,0,0.6); }
+.race-card > span { position: relative; }
+.race-card-en {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(30px, 5vw, 44px);
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+}
+.race-card-jp { margin-top: 6px; font-size: 14px; letter-spacing: 0.05em; }
+.race-card-more {
+  margin-top: 18px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.5);
+}
+.race-card--hoaikane { background-color: #da506d; }
+.race-card--hoaikane::before { background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.25)); }
+.race-card--hoaikane:hover::before { background: rgba(0,0,0,0.25); }
+
+/* ---------- ロゴを見せるページ上部（Ho'aikane） ---------- */
+.page-hero--logo {
+  background: #da506d;
+  height: auto;
+  min-height: 56vh;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 110px 6% 56px;
+}
+.page-hero--logo::before { display: none; }
+.page-hero-catch {
+  margin: 18px 0 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(14px, 2.2vw, 18px);
+  letter-spacing: 0.1em;
+}
+.page-hero-logo {
+  position: relative;
+  width: min(34vw, 340px);
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* Ho'aikane のページだけ、差し色をロゴの色にする */
+.theme-hoaikane .section-title::after { background: #da506d; }
+.theme-hoaikane .step-list > li::before { color: #da506d; }
+
+@media (max-width: 768px) {
+  .page-hero--logo {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    padding: 90px 6% 40px;
+  }
+  .page-hero-logo { width: min(60vw, 260px); align-self: center; }
+  .race-card { min-height: 220px; }
+}
