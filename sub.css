@@ -464,3 +464,37 @@
     scroll-snap-align: start;
   }
 }
+
+/* =========================================================
+   年間スケジュール（大会・イベント）
+   ========================================================= */
+/* 年の切り替え */
+.year-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px; }
+.year-nav a {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  padding: 9px 16px 7px;
+  border: 1px solid #000;
+  color: #000;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.year-nav a:hover,
+.year-nav a[aria-current="true"] { background: #000; color: #fff; }
+
+/* スケジュールの表：日付の列は折り返さない。主催大会へのリンクは下線つき */
+.schedule-table tbody th { white-space: nowrap; font-weight: 600; width: 22%; }
+.schedule-table td a { border-bottom: 1px solid currentColor; }
+.schedule-table td a:hover { color: #2f6fd0; }
+
+@media (max-width: 768px) {
+  /* スマホ：1件を「日付／イベント名／主催」の縦積みにして、横スクロールなしで読めるようにする */
+  .schedule-table { min-width: 0; }
+  .schedule-table thead { display: none; }
+  .schedule-table tbody tr { display: block; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+  .schedule-table tbody th,
+  .schedule-table tbody td { display: block; padding: 0; border: none; white-space: normal; width: auto; }
+  .schedule-table tbody th { width: auto; text-align: left; font-size: 13px; letter-spacing: 0.06em; color: #2f6fd0; margin-bottom: 4px; }
+  .schedule-table tbody td:last-child { font-size: 12px; opacity: 0.65; margin-top: 4px; }
+}

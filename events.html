@@ -61,9 +61,8 @@
     <nav class="page-toc" aria-label="このページの内容">
       <a href="#hosted">主催大会</a>
       <a href="#overview">開催概要</a>
-      <a href="#event-schedule">スケジュール</a>
-      <a href="#result">結果</a>
-      <a href="#gallery">ギャラリー</a>
+      <a href="#event-schedule">年間スケジュール</a>
+      <a href="#report">イベントレポート</a>
     </nav>
 
     <section id="hosted" class="page-section">
@@ -94,54 +93,49 @@
     <section id="event-schedule" class="page-section">
       <div class="section-inner">
         <p class="section-label">SCHEDULE</p>
-        <h2 class="section-title">スケジュール</h2>
-        <p>日程は確定しだい掲載します。<span class="kari">【仮】</span></p>
-        <div class="table-wrap">
-          <table class="info-table">
-            <thead><tr><th>時期</th><th>イベント</th><th>場所</th></tr></thead>
-            <tbody>
-              <tr><th>未定</th><td>新規体験会<span class="kari">【仮】</span></td><td>茅ヶ崎</td></tr>
-              <tr><th>未定</th><td>大会出場<span class="kari">【仮】</span></td><td>未定</td></tr>
-              <tr><th>未定</th><td>ビーチクリーン<span class="kari">【仮】</span></td><td>茅ヶ崎</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <h2 class="section-title">年間スケジュール</h2>
+        <p>1年間の大会とイベントの予定です。海況などにより、日程が変わることがあります。</p>
+        <!-- 年の切り替え。翌年になったら、新しい年を先頭に足し、過去の年は schedule-2026.html のような別ページへのリンクにする（docs/IMPLEMENTATION_PLAN.md 参照） -->
+        <nav class="year-nav" aria-label="年の切り替え">
+          <a href="events.html#event-schedule" aria-current="true">2026</a>
+        </nav>
+        <div class="table-wrap"><table class="info-table schedule-table">
+          <thead><tr><th>開催日</th><th>イベント・レース</th><th>主催（開催地）</th></tr></thead>
+          <tbody>
+            <tr><th>3/22</th><td>新入会員対象 活動セミナー（天候、ルール、装備、安全対策ほか）</td><td>クラブ</td></tr>
+            <tr><th>4/4・5</th><td>シーズンイン</td><td>—</td></tr>
+            <tr><th>4/18・19</th><td>OC1V1 JAPAN CUP　南伊豆OC1レース</td><td>Va'a JAPAN／下田 弓ヶ浜</td></tr>
+            <tr><th>5/4</th><td>GW Paddletrip</td><td>COCC／三浦方面</td></tr>
+            <tr><th>5/6</th><td>MOLOKAI SOLO</td><td>モロカイ島→オアフ島（ワイキキ）</td></tr>
+            <tr><th>5月（GW・日程未定）</th><td>BBQ</td><td>COCC／茅ヶ崎ビーチ</td></tr>
+            <tr><th>5/23・24</th><td>JOCAカップ　逗子OC6レース</td><td>JOCA／逗子海岸</td></tr>
+            <tr><th>6/7（予備日 6/14）</th><td>湘南パドリングチャレンジ　江の島OC6レース</td><td>SOCC／江ノ島東浜</td></tr>
+            <tr><th>6/27（予備日 6/28）</th><td>The Race</td><td>Wailea／鎌倉 材木座</td></tr>
+            <tr><th>7/18・19</th><td>大島クロッシング　茅ヶ崎⇔大島</td><td>COCC／伊豆大島</td></tr>
+            <tr><th>7/20（月・祝）</th><td>浜降祭</td><td>茅ヶ崎</td></tr>
+            <tr><th>8/4〜9</th><td>小笠原KIDSキャンプ</td><td>COCC／小笠原 父島</td></tr>
+            <tr><th>8/29（予備日 8/30）</th><td><a href="hoaikane.html">Women's Paddle Meet Ho'aikane</a></td><td>COCC／茅ヶ崎</td></tr>
+            <tr><th>9/3〜7</th><td>QUEEN LILI'UOKALANI CANOE RACE　KONA</td><td>ハワイ島</td></tr>
+            <tr><th>9/26</th><td>三浦半島Paddle　和田浜－油壷－城ヶ島</td><td>COCC・SPC／油壷周辺</td></tr>
+            <tr><th>10/3・4</th><td>HAWAIKI NUI VA'A</td><td>OCEAN／葉山</td></tr>
+            <tr><th>10月（日程未定）</th><td>逗子パドルミート　逗子OC6スプリントレース</td><td>Ohana Hoe／逗子</td></tr>
+            <tr><th>10月（日程未定）</th><td>湘南パドリングチャレンジU19　江ノ島OC6レース</td><td>SOCC／江ノ島東浜</td></tr>
+            <tr><th>10/31・11/1</th><td><a href="hukilau.html">HUKILAU CHALLENGE</a>　茅ヶ崎OC6チャンピオンシップ</td><td>COCC／茅ヶ崎</td></tr>
+            <tr><th>12/19</th><td>Christmas Race ＆ 忘年会</td><td>COCC／茅ヶ崎</td></tr>
+          </tbody>
+        </table></div>
+        <p>※ COCCファミリーデーは日程未定です。</p>
       </div>
     </section>
 
-    <section id="result" class="page-section">
+    <section id="report" class="page-section">
       <div class="section-inner">
-        <p class="section-label">RESULT</p>
-        <h2 class="section-title">結果</h2>
-        <p>大会の結果は、決まりしだいここに掲載します。<span class="kari">【仮】</span></p>
-        <div class="table-wrap">
-          <table class="info-table">
-            <thead><tr><th>開催日</th><th>大会名</th><th>種目</th><th>結果</th></tr></thead>
-            <tbody>
-              <tr><th>—</th><td>—</td><td>—</td><td>準備中</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="section-label">REPORT</p>
+        <h2 class="section-title">イベントレポート</h2>
+        <p>大会やイベントの様子は、トップページのNEWSでお知らせしています。このページにも一覧で表示できるよう準備中です。<span class="kari">【仮】</span></p>
+        <a class="btn" href="index.html#news">NEWSを見る</a>
       </div>
     </section>
-
-    <section id="gallery" class="page-section">
-      <div class="section-inner">
-        <p class="section-label">GALLERY</p>
-        <h2 class="section-title">ギャラリー</h2>
-        <ul class="gallery">
-          <li><img src="images/1_HERO/pc_hayama_hoe1.jpg" alt="大会・イベントの写真1" loading="lazy"></li>
-          <li><img src="images/1_HERO/pc_hayama_hoe2.jpg" alt="大会・イベントの写真2" loading="lazy"></li>
-          <li><img src="images/2_ABOUT/mc10_296.jpg" alt="大会・イベントの写真3" loading="lazy"></li>
-          <li><img src="images/2_ABOUT/mc10_316.jpg" alt="大会・イベントの写真4" loading="lazy"></li>
-          <li><img src="images/2_CONTACT/mc10_217.jpg" alt="大会・イベントの写真5" loading="lazy"></li>
-          <li><img src="images/1_HERO/mobile_hayama_hoe1.jpg" alt="大会・イベントの写真6" loading="lazy"></li>
-        </ul>
-        <p>最新の写真はInstagramでもご覧いただけます。</p>
-        <p><a class="btn" href="https://www.instagram.com/cocc_chigasaki/" target="_blank" rel="noopener">Instagramを見る</a></p>
-      </div>
-    </section>
-
 
     <footer class="site-footer">
       <div class="footer-inner">
