@@ -108,3 +108,30 @@ function changeImage() {
 
 // 静止 + フェード = 7秒ごとに切り替え
 setInterval(changeImage, 6500);
+
+// ===============================
+// NEWS：横に流せるときの現在位置バー
+// ===============================
+(function () {
+  const list = document.querySelector('.news-right');
+  const bar = document.querySelector('.news-progress');
+  if (!list || !bar) return;
+  const thumb = bar.querySelector('span');
+
+  function updateNewsProgress() {
+    const max = list.scrollWidth - list.clientWidth;
+    // 流す余地がなければバーを出さない
+    if (max <= 4) { bar.classList.remove('is-active'); return; }
+    bar.classList.add('is-active');
+    const ratio = list.clientWidth / list.scrollWidth;      // バーの長さ＝見えている割合
+    const pos = list.scrollLeft / max;                      // 0（先頭）〜1（末尾）
+    thumb.style.width = (ratio * 100) + '%';
+    thumb.style.left = (pos * (1 - ratio) * 100) + '%';
+  }
+
+  list.addEventListener('scroll', updateNewsProgress, { passive: true });
+  window.addEventListener('resize', updateNewsProgress);
+  window.addEventListener('load', updateNewsProgress);
+  updateNewsProgress();
+})();
+

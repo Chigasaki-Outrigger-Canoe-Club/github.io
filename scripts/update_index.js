@@ -35,19 +35,52 @@ async function buildNewsList() {
   // 最大5件まで
   const targetArticles = count < 5 ? filtered : filtered.slice(0, 5);
 
-  return targetArticles.map(a => {
-    const fileName = `${a.date}_COCC_WEB_${a.id}.html`;
-    const url = `posts/${fileName}`;
+  return targetArticles.map((a, i) => renderNewsItem(a, i)).join("\n");
+}
 
-    return `
+// 記事に画像がないとき（または読み込めないとき）に使う写真。順番に割り当てる。
+const DEFAULT_IMAGES = [
+  "images/2_ABOUT/mc10_296.jpg",
+  "images/1_HERO/pc_hayama_hoe1.jpg",
+  "images/2_ABOUT/mc10_316.jpg",
+  "images/1_HERO/pc_hayama_hoe2.jpg",
+  "images/1_HERO/pc_mc10_272.jpg"
+];
+
+// HTML に入れても安全な文字にする
+function escapeHtml(value) {
+  return String(value == null ? "" : value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+// スプレッドシートの「画像url(複数可)」から、最初の1枚の URL を取り出す
+function firstImageUrl(imageUrls) {
+  if (!imageUrls) return "";
+  const first = String(imageUrls).split(/[\s,、]+/).find(u => /^https?:\/\//.test(u));
+  return first || "";
+}
+
+// NEWS の1件分（画像つきカード）
+function renderNewsItem(a, i) {
+  const fileName = `${a.date}_COCC_WEB_${a.id}.html`;
+  const url = `posts/${fileName}`;
+  const fallback = DEFAULT_IMAGES[i % DEFAULT_IMAGES.length];
+  const image = firstImageUrl(a.image_urls) || fallback;
+
+  return `
       <li class="news-item">
         <a href="${url}">
-          <span class="news-date">${a.date}</span>
-          <span class="news-text">${a.title}</span>
+          <span class="news-thumb"><img src="${escapeHtml(image)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'"></span>
+          <span class="news-body">
+            <span class="news-date">${escapeHtml(a.date)}</span>
+            <span class="news-text">${escapeHtml(a.title)}</span>
+          </span>
         </a>
       </li>
     `;
-  }).join("\n");
 }
 
 async function updateIndex() {
