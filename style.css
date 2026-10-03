@@ -342,40 +342,59 @@ img { max-width: 100%; display: block; }
    ========================= */
 .news-section {
   background: #fff;
-  padding: 80px 20px;
+  padding: 72px 6%;
   border: none;
   box-shadow: none;
 }
 
-/* NEWS 左側（タイトル部分） */
-.news-left {
-  text-align: left;
+/* 全体の幅をそろえる */
+.news-inner {
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
-/* NEWS ラベル（NEWSを大きく） */
+/* 見出しの行：左に NEWS、右端に小さく MORE */
+.news-left {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+/* NEWS ラベル */
 .news-label {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(48px, 8vw, 72px);
-  letter-spacing: 0.08em;
+  font-size: clamp(30px, 4.5vw, 42px);
+  letter-spacing: 0.1em;
+  line-height: 1;
   color: #000;
-  margin-bottom: 20px;
+  margin: 0;
 }
 
-/* MORE ボタン */
+/* MORE：記事より目立たないよう、小さな文字のリンクにする */
 .news-more {
   display: inline-block;
-  padding: 10px 28px;
-  border: 1px solid #000;
-  font-size: 14px;
-  letter-spacing: 0.12em;
+  padding: 4px 0;
+  font-size: 12px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  transition: all 0.2s ease;
+  color: rgba(0,0,0,0.55);
+  transition: color 0.2s ease;
+}
+.news-more::after {
+  content: "→";
+  margin-left: 8px;
+  display: inline-block;
+  transition: transform 0.2s ease;
 }
 
 .news-more:hover {
-  background: #000;
-  color: #fff;
+  color: #000;
 }
+.news-more:hover::after { transform: translateX(4px); }
 
 /* NEWS 右側（カード一覧） */
 .news-right {
