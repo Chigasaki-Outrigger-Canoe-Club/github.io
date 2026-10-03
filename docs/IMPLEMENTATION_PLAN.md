@@ -83,3 +83,9 @@
   3. 年の切り替え（`<nav class="year-nav">`）に、新しい年を先頭に足す。今の年は `events.html#event-schedule`、過去の年は `schedule-2026.html` へリンクする。過去の年のページにも同じ切り替えを置く。
 - 「結果」と「ギャラリー」は削除した。代わりに「イベントレポート」の欄があり、今はトップページの NEWS へ案内している。
 
+## 共有時の画像（OGP）
+
+- 全ページの `<head>` に OGP のタグを入れている。画像は `images/ogp.png`（1200×630、白地にヘッダーのロゴ）。
+- タグの中の URL は `https://chigasaki-outrigger-canoe-club.github.io/github.io/` で始まる絶対 URL。独自ドメインに変えたら、全ページの `og:url` と `og:image` を書き換える。
+- 新しいページを作るときは、既存ページの OGP のタグをコピーして、`og:title` `og:description` `og:url` を直す。
+
