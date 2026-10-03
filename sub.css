@@ -245,16 +245,6 @@
   border-radius: 6px;
 }
 
-/* ---------- ページ下部の案内 ---------- */
-.page-cta { padding: 80px 6%; text-align: center; }
-.page-cta p {
-  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
-  font-size: clamp(15px, 3vw, 22px);
-  letter-spacing: 0.08em;
-  line-height: 1.9;
-  margin: 0 0 24px;
-}
-
 /* スクロール位置が固定ヘッダーに隠れないようにする */
 .page-section[id] { scroll-margin-top: 70px; }
 
@@ -262,7 +252,6 @@
   .page-hero { height: 44vh; padding-bottom: 32px; }
   .page-section { padding-top: 56px; }
   .page-section:last-of-type { padding-bottom: 56px; }
-  .page-cta { padding: 56px 6%; }
   .page-toc a { padding: 8px 16px; font-size: 13px; }
 }
 
