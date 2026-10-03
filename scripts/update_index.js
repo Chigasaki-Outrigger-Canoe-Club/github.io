@@ -66,12 +66,13 @@ async function updateIndex() {
 
   console.log("FETCHED:", articles);
 
-  const debugCountHtml = `
-    <div class="debug-count">
-      status=true：${countStatus} 件<br>
-      status=true AND generated=true：${countStatusGenerated} 件
-    </div>
-  `;
+  // デバッグ用の件数表示（公開ページに出さないためコメントアウト）
+  // const debugCountHtml = `
+  //   <div class="debug-count">
+  //     status=true：${countStatus} 件<br>
+  //     status=true AND generated=true：${countStatusGenerated} 件
+  //   </div>
+  // `;
 
   const indexPath = path.join(process.cwd(), "index.html");
   let indexHtml = fs.readFileSync(indexPath, "utf-8");
@@ -79,7 +80,8 @@ async function updateIndex() {
   // NEWS_LIST の部分を置き換え
   indexHtml = indexHtml.replace(
     /<ul class="news-right">[\s\S]*?<\/ul>/m,
-    `<ul class="news-right">\n${newsListHtml}\n</ul>\n${debugCountHtml}`
+    `<ul class="news-right">\n${newsListHtml}\n</ul>`
+    // デバッグ表示を戻す場合: `<ul class="news-right">\n${newsListHtml}\n</ul>\n${debugCountHtml}`
   );
 
   fs.writeFileSync(indexPath, indexHtml, "utf-8");
