@@ -498,3 +498,27 @@
   .schedule-table tbody th { width: auto; text-align: left; font-size: 13px; letter-spacing: 0.06em; color: #2f6fd0; margin-bottom: 4px; }
   .schedule-table tbody td:last-child { font-size: 12px; opacity: 0.65; margin-top: 4px; }
 }
+
+/* =========================================================
+   アクセス（住所と Google マップ）
+   ========================================================= */
+.access {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 2fr;
+  gap: 32px;
+  align-items: start;
+  margin-top: 24px;
+}
+.access-info h3 { margin-top: 0; }
+.access-map {
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #e9eef2;
+}
+.access-map iframe { display: block; width: 100%; height: 340px; border: 0; }
+
+@media (max-width: 768px) {
+  .access { grid-template-columns: 1fr; gap: 20px; }
+  .access-map iframe { height: 260px; }
+}
