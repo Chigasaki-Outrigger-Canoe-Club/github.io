@@ -178,7 +178,7 @@
 
 /* ---------- 表 ---------- */
 .table-wrap { overflow-x: auto; margin: 0 0 1.2em; }
-.info-table { width: 100%; border-collapse: collapse; min-width: 420px; }
+.info-table { width: 100%; border-collapse: collapse; min-width: 300px; }
 .info-table th,
 .info-table td {
   padding: 14px 16px;
@@ -196,6 +196,11 @@
   border-bottom: 1px solid #000;
 }
 .info-table tbody th { width: 30%; font-weight: 600; white-space: nowrap; }
+@media (max-width: 768px) {
+  .info-table th,
+  .info-table td { padding: 12px 8px; }
+  .info-table tbody th { white-space: normal; width: 28%; }
+}
 
 /* ---------- よくある質問 ---------- */
 .faq { border-top: 1px solid rgba(0,0,0,0.12); margin: 0 0 1.2em; }
