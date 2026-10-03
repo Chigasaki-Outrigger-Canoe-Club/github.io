@@ -1,0 +1,34 @@
+/* =========================================================
+   nav.css  スマホ用メニューの開閉
+   style.css には開いた状態の指定がなかったため、ここで補う。
+   トップページ・サブページの両方から読み込む。
+   ========================================================= */
+@media (max-width: 768px) {
+  .global-nav.nav-open {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .global-nav.nav-open ul {
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 8px 6% 16px;
+  }
+  .global-nav.nav-open li a {
+    display: block;
+    padding: 14px 0;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .global-nav.nav-open li a::after { display: none; }
+
+  .menu-btn span { transition: transform 0.2s ease, opacity 0.2s ease; }
+  .menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-btn.active span:nth-child(2) { opacity: 0; }
+  .menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}

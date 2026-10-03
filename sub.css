@@ -1,0 +1,259 @@
+/* =========================================================
+   sub.css  サブページ共通スタイル
+   トップページ (style.css) の書体・色・余白に合わせている。
+   style.css は変更せず、サブページだけがこのファイルを読み込む。
+   ========================================================= */
+
+/* ロゴはトップへのリンク */
+.logo-area a { display: flex; align-items: center; }
+
+/* ---------- ページ上部の写真とタイトル ---------- */
+.page-hero {
+  position: relative;
+  width: 100%;
+  height: 56vh;
+  min-height: 320px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 6% 48px;
+}
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.30), rgba(0,0,0,0.10) 40%, rgba(0,0,0,0.45));
+}
+.page-hero-copy { position: relative; color: #fff; }
+.page-hero-en {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 7vw, 72px);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  margin: 0 0 10px;
+}
+.page-hero-title {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+/* ---------- 準備中のお知らせ ---------- */
+.draft-notice {
+  max-width: 1080px;
+  margin: 32px auto 0;
+  padding: 0 6%;
+}
+.draft-notice p {
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-left: 3px solid #fc4040;
+  border-radius: 6px;
+  background: #fafafa;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.kari { color: #fc4040; font-size: 0.85em; letter-spacing: 0.04em; white-space: nowrap; }
+
+/* ---------- ページ内の目次 ---------- */
+.page-toc {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 6% 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.page-toc a,
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border: 1px solid #000;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  transition: all 0.2s ease;
+  background: #fff;
+  color: #000;
+}
+.page-toc a:hover,
+.btn:hover { background: #000; color: #fff; }
+
+/* ---------- 本文セクション ---------- */
+.page-section { padding: 80px 6% 0; }
+.page-section:last-of-type { padding-bottom: 80px; }
+.section-inner { max-width: 1080px; margin: 0 auto; }
+.section-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 6vw, 56px);
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  margin: 0 0 4px;
+  color: #000;
+}
+.section-title {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(16px, 2.6vw, 22px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  margin: 0 0 28px;
+  padding-bottom: 16px;
+  position: relative;
+}
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 60px; height: 2px;
+  background: #6fa8ff;
+  border-radius: 2px;
+}
+.section-inner p,
+.section-inner li {
+  font-size: clamp(14px, 2.2vw, 16px);
+  line-height: 1.9;
+}
+.section-inner p { margin: 0 0 1.2em; }
+.section-inner .section-label {
+  font-size: clamp(32px, 6vw, 56px);
+  line-height: 1.1;
+  margin: 0 0 4px;
+}
+.section-inner h3 {
+  font-size: clamp(15px, 2.4vw, 18px);
+  letter-spacing: 0.05em;
+  margin: 2em 0 0.6em;
+}
+.section-inner ul.plain,
+.section-inner ol.plain { margin: 0 0 1.2em; padding-left: 1.4em; }
+
+.section-photo { margin: 28px 0 0; border-radius: 6px; overflow: hidden; }
+.section-photo img { width: 100%; height: auto; }
+
+/* ---------- カード（NEWSカードと同じ見た目） ---------- */
+.card-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+.card {
+  padding: 24px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 6px;
+  background: #fafafa;
+}
+.card-title {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+.card p { margin: 0; font-size: 14px; line-height: 1.8; }
+
+/* ---------- 流れ（番号つき） ---------- */
+.step-list { list-style: none; padding: 0; margin: 0 0 1.2em; counter-reset: step; }
+.step-list > li {
+  position: relative;
+  padding: 20px 0 20px 64px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  counter-increment: step;
+}
+.step-list > li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 14px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 0.04em;
+  color: #6fa8ff;
+}
+.step-list strong { display: block; font-size: 16px; letter-spacing: 0.03em; }
+
+/* ---------- 表 ---------- */
+.table-wrap { overflow-x: auto; margin: 0 0 1.2em; }
+.info-table { width: 100%; border-collapse: collapse; min-width: 420px; }
+.info-table th,
+.info-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  text-align: left;
+  font-size: clamp(13px, 2.2vw, 15px);
+  line-height: 1.7;
+  vertical-align: top;
+}
+.info-table thead th {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+  font-weight: 400;
+  border-bottom: 1px solid #000;
+}
+.info-table tbody th { width: 30%; font-weight: 600; white-space: nowrap; }
+
+/* ---------- よくある質問 ---------- */
+.faq { border-top: 1px solid rgba(0,0,0,0.12); margin: 0 0 1.2em; }
+.faq details { border-bottom: 1px solid rgba(0,0,0,0.12); }
+.faq summary {
+  cursor: pointer;
+  padding: 18px 32px 18px 0;
+  font-weight: 600;
+  font-size: clamp(14px, 2.2vw, 16px);
+  letter-spacing: 0.03em;
+  list-style: none;
+  position: relative;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 4px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  font-weight: 300;
+}
+.faq details[open] summary::after { content: "−"; }
+.faq details p { margin: 0; padding: 0 0 18px; }
+
+/* ---------- 写真ギャラリー ---------- */
+.gallery {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.gallery img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* ---------- ページ下部の案内 ---------- */
+.page-cta { padding: 80px 6%; text-align: center; }
+.page-cta p {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(15px, 3vw, 22px);
+  letter-spacing: 0.08em;
+  line-height: 1.9;
+  margin: 0 0 24px;
+}
+
+/* スクロール位置が固定ヘッダーに隠れないようにする */
+.page-section[id] { scroll-margin-top: 70px; }
+
+@media (max-width: 768px) {
+  .page-hero { height: 44vh; padding-bottom: 32px; }
+  .page-section { padding-top: 56px; }
+  .page-section:last-of-type { padding-bottom: 56px; }
+  .page-cta { padding: 56px 6%; }
+  .page-toc a { padding: 8px 16px; font-size: 13px; }
+}
