@@ -225,6 +225,9 @@
 }
 .faq details[open] summary::after { content: "−"; }
 .faq details p { margin: 0; padding: 0 0 18px; }
+.faq details > .table-wrap,
+.faq details > ul.plain { margin-bottom: 18px; }
+.btn + .faq, p + .faq { margin-top: 8px; }
 
 /* ---------- 写真ギャラリー ---------- */
 .gallery {
