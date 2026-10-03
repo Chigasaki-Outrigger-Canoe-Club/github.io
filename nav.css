@@ -1,43 +1,63 @@
 /* =========================================================
-   nav.css  スマホ用メニューの開閉
-   style.css には開いた状態の指定がなかったため、ここで補う。
+   nav.css  メニューボタンとメニューの開閉
+   PC・スマホの両方で、メニューボタンを押して開く形にしている。
+   style.css は変更せず、ここで上書きしている。
    トップページ・サブページの両方から読み込む。
    ========================================================= */
+
+/* ---------- メニューボタン（全画面幅で表示） ---------- */
+.menu-btn {
+  display: flex;
+  flex-shrink: 0;
+  margin-left: 16px;
+  padding: 10px 6px;
+}
+.menu-btn span { transition: transform 0.2s ease, opacity 0.2s ease; }
+.menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-btn.active span:nth-child(2) { opacity: 0; }
+.menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ロゴの文字が長くても、メニューボタンが画面の外に押し出されないようにする */
+.logo-area { min-width: 0; overflow: hidden; }
+
+/* ---------- メニュー本体（閉じているときは非表示） ---------- */
+.global-nav { display: none; }
+
+/* メニューを開いている間は、ヘッダーの帯も黒にする */
+.site-header:has(.global-nav.nav-open) {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+.global-nav.nav-open {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: min(420px, 100%);
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.95);
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.global-nav.nav-open ul {
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 12px 32px 24px;
+}
+.global-nav.nav-open li a {
+  display: block;
+  padding: 16px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: padding-left 0.2s ease, color 0.2s ease;
+}
+.global-nav.nav-open li a::after { display: none; }
+.global-nav.nav-open li a:hover { padding-left: 8px; color: #9cc4ff; }
+
 @media (max-width: 768px) {
-  /* ロゴの文字が長くても、メニューボタンが画面の外に押し出されないようにする */
-  .logo-area { min-width: 0; overflow: hidden; }
-  .menu-btn { flex-shrink: 0; margin-left: 8px; }
-
-  /* メニューを開いている間は、ヘッダーの帯も黒にする（開いたメニューと色をそろえる） */
-  .site-header:has(.global-nav.nav-open) {
-    background: rgba(0, 0, 0, 0.95);
-  }
-
-  .global-nav.nav-open {
-    display: block;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    border-top: 1px solid rgba(255,255,255,0.12);
-  }
-  .global-nav.nav-open ul {
-    flex-direction: column;
-    gap: 0;
-    margin: 0;
-    padding: 8px 6% 16px;
-  }
-  .global-nav.nav-open li a {
-    display: block;
-    padding: 14px 0;
-    font-size: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .global-nav.nav-open li a::after { display: none; }
-
-  .menu-btn span { transition: transform 0.2s ease, opacity 0.2s ease; }
-  .menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .menu-btn.active span:nth-child(2) { opacity: 0; }
-  .menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .menu-btn { margin-left: 8px; }
+  .global-nav.nav-open { left: 0; width: 100%; }
+  .global-nav.nav-open ul { padding: 8px 6% 16px; }
+  .global-nav.nav-open li a { padding: 14px 0; }
 }
