@@ -4,6 +4,10 @@
    トップページ・サブページの両方から読み込む。
    ========================================================= */
 @media (max-width: 768px) {
+  /* ロゴの文字が長くても、メニューボタンが画面の外に押し出されないようにする */
+  .logo-area { min-width: 0; overflow: hidden; }
+  .menu-btn { flex-shrink: 0; margin-left: 8px; }
+
   .global-nav.nav-open {
     display: block;
     position: absolute;
