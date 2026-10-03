@@ -48,12 +48,12 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: node scripts/update_index.js
 
-      - name: Commit updated index.html
+      - name: Commit generated posts and index.html
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add index.html
-          git commit -m "Update index.html" || echo "No changes"
+          git add -A posts index.html
+          git commit -m "Update posts and index.html" || echo "No changes"
 
       - name: Push changes
         run: |
