@@ -59,7 +59,8 @@ function escapeHtml(value) {
 // スプレッドシートの「画像url(複数可)」から、最初の1枚の URL を取り出す
 function firstImageUrl(imageUrls) {
   if (!imageUrls) return "";
-  const first = String(imageUrls).split(/[\s,、]+/).find(u => /^https?:\/\//.test(u));
+  // 「https://〜」のような記入例は URL として扱わない（ドメイン名まで書かれているものだけ使う）
+  const first = String(imageUrls).split(/[\s,、]+/).find(u => /^https?:\/\/[A-Za-z0-9.-]+\.[A-Za-z]{2,}(\/|$)/.test(u));
   return first || "";
 }
 
