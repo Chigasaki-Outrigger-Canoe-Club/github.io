@@ -8,6 +8,11 @@
   .logo-area { min-width: 0; overflow: hidden; }
   .menu-btn { flex-shrink: 0; margin-left: 8px; }
 
+  /* メニューを開いている間は、ヘッダーの帯も黒にする（開いたメニューと色をそろえる） */
+  .site-header:has(.global-nav.nav-open) {
+    background: rgba(0, 0, 0, 0.95);
+  }
+
   .global-nav.nav-open {
     display: block;
     position: absolute;
