@@ -72,6 +72,12 @@
 .global-nav.nav-open li a:hover { padding-left: 8px; color: #9cc4ff; }
 
 @media (max-width: 768px) {
+  /* スマホのヘッダーの「COCC」：大きめにして、字の間を広げる */
+  .logo-text-mobile {
+    font-size: 26px;
+    letter-spacing: 0.18em;
+    margin-left: 12px;
+  }
   .menu-btn { margin-left: 8px; }
   .global-nav.nav-open { left: 0; width: 100%; }
   .global-nav.nav-open ul { padding: 8px 6% 16px; }
