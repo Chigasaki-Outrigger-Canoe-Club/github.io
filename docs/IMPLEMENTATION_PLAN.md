@@ -25,6 +25,8 @@
 | `kids.html` | COCC KIDS | プログラム / 活動内容 / 練習風景 / 保護者向け案内 / 料金 / Instagram |
 | `events.html` | 大会・イベント | 開催概要 / スケジュール / 結果 / ギャラリー |
 | `contact.html` | お問い合わせ | 一般 / 取材依頼 / 企業協賛 / その他 |
+| `hukilau.html` | COCC Hukilau Challenge | 主催大会。「大会・イベント」から入る（メニューには出さない） |
+| `hoaikane.html` | All Japan Women's Ho'aikane | 主催大会。同上。差し色はロゴの色 |
 
 ## 元に戻す場所
 
