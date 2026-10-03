@@ -375,3 +375,92 @@
   .page-hero-logo { width: min(60vw, 260px); align-self: center; }
   .race-card { min-height: 220px; }
 }
+
+/* =========================================================
+   Instagram ギャラリー（COCC KIDS）
+   PC・タブレット: 大きな1枚と小さな4枚を組み合わせた並べ方
+   スマホ: 指で横に流せるカルーセル（次の写真が少し見える）
+   ========================================================= */
+.section-inner .insta-note { font-size: 13px; opacity: 0.7; margin: 0 0 4px; }
+
+.insta-grid {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 28px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.insta-grid li { aspect-ratio: 1 / 1; }
+.insta-grid li:first-child { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+
+.insta-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #000;
+}
+.insta-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.insta-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.25s ease;
+  pointer-events: none;
+}
+.insta-tile::after {
+  content: "↗";
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  z-index: 2;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+.insta-tile:hover img { transform: scale(1.06); }
+.insta-tile:hover::before { background: rgba(0, 0, 0, 0.3); }
+.insta-tile:hover::after { opacity: 1; transform: none; }
+.insta-tile:focus-visible { outline: 2px solid #6fa8ff; outline-offset: 3px; }
+
+/* ウィジェット（外部サービスの埋め込みコード）を使うときの余白 */
+.insta-embed { margin: 24px 0 28px; }
+
+@media (max-width: 768px) {
+  .insta-grid {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    /* 画面の端まで広げて、はみ出した次の写真で「横に流せる」ことが伝わるようにする */
+    margin-left: -6vw;
+    margin-right: -6vw;
+    padding: 0 6vw;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 6vw;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .insta-grid::-webkit-scrollbar { display: none; }
+  .insta-grid li,
+  .insta-grid li:first-child {
+    flex: 0 0 66%;
+    aspect-ratio: 1 / 1;
+    scroll-snap-align: start;
+  }
+}
