@@ -3,6 +3,7 @@ const path = require("path");
 const { google } = require("googleapis");
 const { convertDocsToHtml } = require("./docs_to_html");
 const { extractDocumentId } = require("./utils");
+const { buildPostHtml } = require("./post_template");
 
 // 「はい / いいえ」→ boolean に正規化
 function normalizeBool(value) {
@@ -63,36 +64,9 @@ async function generatePostCore(article) {
   };
 }
 
+// 記事ページのひな形は post_template.js にまとめている
 function buildHtml(article, bodyHtml) {
-
-  const cleanedHtml = bodyHtml
-    .replace(/\u000B/g, "<br>")
-    .replace(/[\u0000-\u001F]/g, "<br>")
-    .replace(/rgb\((\d+),\s*NaN,\s*NaN\)/g, "rgb($1,0,0)")
-    .replace(/NaN/g, "0");
-
-  return `
-  <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>${article.title}</title>
-    </head>
-    <body>
-      <h1>${article.title}</h1>
-      <p>${article.date}</p>
-
-      <div class="post-body">
-        ${cleanedHtml}
-      </div>
-
-      <div class="post-category">
-        ${article.category || ""}
-      </div>
-
-      ${article.entry_url ? `<a href="${article.entry_url}" target="_blank">参加する</a>` : ""}
-    </body>
-  </html>
-  `;
+  return buildPostHtml(article, bodyHtml);
 }
 
 module.exports = { generatePostCore };

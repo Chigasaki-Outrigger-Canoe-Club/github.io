@@ -522,3 +522,62 @@
   .access { grid-template-columns: 1fr; gap: 20px; }
   .access-map iframe { height: 260px; }
 }
+
+/* =========================================================
+   記事ページ（posts/*.html）
+   ひな形は scripts/post_template.js
+   ========================================================= */
+/* 記事ページは上部に写真がないので、ヘッダーを最初から黒にする */
+.post-page .site-header { background: rgba(0, 0, 0, 0.95); }
+
+.post { padding: 120px 6% 96px; background: #fff; }
+.post-inner { max-width: 760px; margin: 0 auto; }
+
+/* 上の「NEWS」：一覧へ戻る小さなリンク */
+.post-back { margin: 0 0 28px; }
+.post-back a {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  color: rgba(0,0,0,0.55);
+}
+.post-back a::before { content: "←"; margin-right: 8px; font-family: sans-serif; }
+.post-back a:hover { color: #000; }
+
+/* 日付・カテゴリ・タイトル */
+.post-head { padding-bottom: 28px; margin-bottom: 36px; border-bottom: 1px solid rgba(0,0,0,0.12); }
+.post-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 0 0 14px; }
+.post-date { font-size: 13px; letter-spacing: 0.14em; opacity: 0.6; }
+.post-category {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border: 1px solid rgba(0,0,0,0.35);
+  border-radius: 999px;
+}
+.post-title {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(24px, 4.4vw, 36px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 本文（Google ドキュメントから変換された HTML） */
+.post-body { font-size: 16px; line-height: 2; letter-spacing: 0.03em; overflow-wrap: anywhere; }
+.post-body p { margin: 0; min-height: 1em; }
+.post-body a { color: #2f6fd0; border-bottom: 1px solid currentColor; }
+.post-body img { max-width: 100%; height: auto; border-radius: 6px; }
+
+/* 記事の写真 */
+.post-images { list-style: none; padding: 0; margin: 40px 0 0; display: grid; gap: 16px; }
+.post-images img { display: block; width: 100%; height: auto; border-radius: 6px; }
+
+.post-entry { margin: 40px 0 0; }
+.post-foot { margin: 56px 0 0; padding-top: 32px; border-top: 1px solid rgba(0,0,0,0.12); text-align: center; }
+
+@media (max-width: 768px) {
+  .post { padding: 96px 6% 64px; }
+  .post-body { font-size: 15px; }
+}
