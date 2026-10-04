@@ -110,6 +110,7 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
             <li><a href="../kids.html">COCC KIDS</a></li>
             <li><a href="../events.html">大会・イベント</a></li>
             <li><a href="../contact.html">お問い合わせ</a></li>
+            <li><a href="../faq.html">FAQ</a></li>
           </ul>
         </nav>
       </div>

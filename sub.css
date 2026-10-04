@@ -627,3 +627,6 @@
   .post { padding: 96px 6% 64px; }
   .post-body { font-size: 15px; }
 }
+
+/* FAQ の答えの中のリンク */
+.faq details p a { color: #2f6fd0; border-bottom: 1px solid currentColor; }
