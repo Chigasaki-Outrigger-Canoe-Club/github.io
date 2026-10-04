@@ -106,35 +106,10 @@
         <p class="section-label">SCHEDULE</p>
         <h2 class="section-title">Annual schedule</h2>
         <p>Races and events for the year. Dates may change depending on sea conditions.</p>
-        <nav class="year-nav" aria-label="Year">
-          <a href="events.html#event-schedule" aria-current="true">2026</a>
-        </nav>
-        <div class="table-wrap"><table class="info-table schedule-table">
-          <thead><tr><th>Date</th><th>Event / race</th><th>Organizer (venue)</th></tr></thead>
-          <tbody>
-            <tr><th>3/22</th><td>Seminar for new members (weather, rules, equipment, safety and more)</td><td>Club</td></tr>
-            <tr><th>4/4–5</th><td>Season opening</td><td>—</td></tr>
-            <tr><th>4/18–19</th><td>OC1V1 JAPAN CUP — Minami-Izu OC1 race</td><td>Va'a JAPAN / Yumigahama, Shimoda</td></tr>
-            <tr><th>5/4</th><td>GW Paddletrip</td><td>COCC / Miura area</td></tr>
-            <tr><th>5/6</th><td>MOLOKAI SOLO</td><td>Molokai to Oahu (Waikiki)</td></tr>
-            <tr><th>May (Golden Week, date TBC)</th><td>BBQ</td><td>COCC / Chigasaki Beach</td></tr>
-            <tr><th>5/23–24</th><td>JOCA Cup — Zushi OC6 race</td><td>JOCA / Zushi Beach</td></tr>
-            <tr><th>6/7 (backup 6/14)</th><td>Shonan Paddling Challenge — Enoshima OC6 race</td><td>SOCC / Enoshima Higashihama</td></tr>
-            <tr><th>6/27 (backup 6/28)</th><td>The Race</td><td>Wailea / Zaimokuza, Kamakura</td></tr>
-            <tr><th>7/18–19</th><td>Oshima Crossing — Chigasaki to Oshima and back</td><td>COCC / Izu Oshima</td></tr>
-            <tr><th>7/20 (Mon, holiday)</th><td>Hamaori Festival</td><td>Chigasaki</td></tr>
-            <tr><th>8/4–9</th><td>Ogasawara KIDS Camp</td><td>COCC / Chichijima, Ogasawara</td></tr>
-            <tr><th>8/29 (backup 8/30)</th><td><a href="hoaikane.html">Women's Paddle Meet Ho'aikane</a></td><td>COCC / Chigasaki</td></tr>
-            <tr><th>9/3–7</th><td>QUEEN LILI'UOKALANI CANOE RACE, KONA</td><td>Island of Hawaii</td></tr>
-            <tr><th>9/26</th><td>Miura Peninsula Paddle — Wadahama, Aburatsubo, Jogashima</td><td>COCC, SPC / around Aburatsubo</td></tr>
-            <tr><th>10/3–4</th><td>HAWAIKI NUI VA'A</td><td>OCEAN / Hayama</td></tr>
-            <tr><th>October (date TBC)</th><td>Zushi Paddle Meet — Zushi OC6 sprint race</td><td>Ohana Hoe / Zushi</td></tr>
-            <tr><th>October (date TBC)</th><td>Shonan Paddling Challenge U19 — Enoshima OC6 race</td><td>SOCC / Enoshima Higashihama</td></tr>
-            <tr><th>10/31–11/1</th><td><a href="hukilau.html">HUKILAU CHALLENGE</a> — Chigasaki OC6 Championship</td><td>COCC / Chigasaki</td></tr>
-            <tr><th>12/19</th><td>Christmas Race &amp; year-end party</td><td>COCC / Chigasaki</td></tr>
-          </tbody>
-        </table></div>
-        <p>COCC Family Day: date to be decided.</p>
+        <!-- The schedule is drawn from data/schedule.js by sub.js. To add a year, edit data/schedule.js only. -->
+        <div class="schedule" id="scheduleApp">
+          <noscript><p>Please turn on JavaScript to see the schedule.</p></noscript>
+        </div>
       </div>
     </section>
 
@@ -167,6 +142,7 @@
     </footer>
 
     <!-- External JS -->
+    <script src="../data/schedule.js"></script>
     <script src="../sub.js"></script>
 
   </body>

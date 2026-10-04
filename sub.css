@@ -467,36 +467,82 @@
 
 /* =========================================================
    年間スケジュール（大会・イベント）
+   データは data/schedule.js、表示するプログラムは sub.js
    ========================================================= */
 /* 年の切り替え */
-.year-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px; }
-.year-nav a {
+.year-nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 10px; }
+.year-tab {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   letter-spacing: 0.1em;
   line-height: 1;
-  padding: 9px 16px 7px;
+  padding: 8px 14px 6px;
   border: 1px solid #000;
+  background: #fff;
   color: #000;
+  cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 }
-.year-nav a:hover,
-.year-nav a[aria-current="true"] { background: #000; color: #fff; }
+.year-tab:hover,
+.year-tab[aria-pressed="true"] { background: #000; color: #fff; }
 
-/* スケジュールの表：日付の列は折り返さない。主催大会へのリンクは下線つき */
-.schedule-table tbody th { white-space: nowrap; font-weight: 600; width: 22%; }
-.schedule-table td a { border-bottom: 1px solid currentColor; }
-.schedule-table td a:hover { color: #2f6fd0; }
+.section-inner .sched-hint,
+.section-inner .sched-prov,
+.section-inner .sched-foot { font-size: 12px; margin: 0 0 6px; opacity: 0.7; }
+.section-inner .sched-prov { opacity: 1; }
+.section-inner .sched-foot { margin-top: 10px; }
+
+/* 一覧：1件を1行に収める（スマホでも1画面で見渡せるように） */
+.section-inner .sched-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid #000; }
+.section-inner .sched-list > li { margin: 0; line-height: 1.4; }   /* 本文用の広い行間を打ち消す */
+.sched-row {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  column-gap: 16px;
+  align-items: baseline;
+  padding: 9px 4px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.sched-row.has-more { cursor: pointer; }
+.sched-row.has-more:hover { background: rgba(47,111,208,0.05); }
+.sched-row:focus-visible { outline: 2px solid #6fa8ff; outline-offset: -2px; }
+
+.sched-date { font-weight: 700; letter-spacing: 0.02em; white-space: nowrap; color: #2f6fd0; }
+.sched-main { min-width: 0; }
+.sched-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sched-detail { margin-left: 0.8em; font-size: 0.88em; opacity: 0.65; }
+
+/* 押すと開く部分 */
+.sched-more { display: none; padding: 4px 0 2px; font-size: 12px; }
+.sched-more > span { display: block; opacity: 0.75; }
+.sched-note { color: #2f6fd0; opacity: 1 !important; }
+.sched-link { display: inline-block; margin-top: 4px; border-bottom: 1px solid currentColor; color: #2f6fd0; }
+.sched-row.is-open .sched-more { display: block; }
+.sched-row.is-open .sched-name { white-space: normal; }
+
+@media (min-width: 769px) {
+  /* PC：補足と主催／開催地を最初から右側に見せる（押して開く必要がない） */
+  .sched-row { grid-template-columns: 110px 1fr; padding: 8px 8px; }
+  .sched-row.has-more { cursor: default; }
+  .sched-main { display: grid; grid-template-columns: 1fr 300px; column-gap: 24px; align-items: baseline; }
+  .sched-more { display: block; padding: 0; font-size: 13px; }
+  .sched-more > span { display: inline; margin-right: 10px; }
+  .sched-link { margin: 0; }
+  .section-inner .sched-hint { display: none; }
+}
 
 @media (max-width: 768px) {
-  /* スマホ：1件を「日付／イベント名／主催」の縦積みにして、横スクロールなしで読めるようにする */
-  .schedule-table { min-width: 0; }
-  .schedule-table thead { display: none; }
-  .schedule-table tbody tr { display: block; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
-  .schedule-table tbody th,
-  .schedule-table tbody td { display: block; padding: 0; border: none; white-space: normal; width: auto; }
-  .schedule-table tbody th { width: auto; text-align: left; font-size: 13px; letter-spacing: 0.06em; color: #2f6fd0; margin-bottom: 4px; }
-  .schedule-table tbody td:last-child { font-size: 12px; opacity: 0.65; margin-top: 4px; }
+  /* 20件ほどが1画面に収まる高さ（1行およそ30px）にする */
+  .sched-row { grid-template-columns: 74px 1fr; column-gap: 8px; padding: 5px 2px; font-size: 13px; line-height: 1.4; }
+  .sched-date { font-size: 12px; }
+  .year-nav { margin: 12px 0 8px; }
 }
 
 /* =========================================================
