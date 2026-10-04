@@ -481,6 +481,27 @@ img { max-width: 100%; display: block; }
 /* 画像のない1行だけの表示（「まだ記事はありません。」） */
 .news-item > .news-text { padding: 8px 0; font-weight: 400; }
 
+/* PC：記事が5件あるときは、最新の1件を左に大きく、残り4件を右に2×2で並べる
+   （4件以下のときは、上の3列のまま） */
+@media (min-width: 901px) {
+  .news-right:has(> .news-item:nth-child(5)) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .news-right:has(> .news-item:nth-child(5)) > .news-item:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  /* 大きい1件は、写真を枠いっぱいに伸ばす */
+  .news-right:has(> .news-item:nth-child(5)) > .news-item:first-child .news-thumb {
+    flex: 1;
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+  .news-right:has(> .news-item:nth-child(5)) > .news-item:first-child .news-body { padding: 20px 24px 24px; }
+  .news-right:has(> .news-item:nth-child(5)) > .news-item:first-child .news-text { font-size: 19px; }
+}
+
 /* 現在位置のバー（横に流せるときだけ表示） */
 .news-progress { display: none; }
 
