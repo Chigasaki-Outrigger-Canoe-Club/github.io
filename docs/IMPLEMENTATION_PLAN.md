@@ -89,3 +89,11 @@
 - タグの中の URL は `https://chigasaki-outrigger-canoe-club.github.io/github.io/` で始まる絶対 URL。独自ドメインに変えたら、全ページの `og:url` と `og:image` を書き換える。
 - 新しいページを作るときは、既存ページの OGP のタグをコピーして、`og:title` `og:description` `og:url` を直す。
 
+## 記事ページ（`posts/*.html`）
+
+- ひな形は `scripts/post_template.js`。サイト共通のヘッダー・フッターと `style.css` `nav.css` `sub.css` を読み込む。見た目は `sub.css` の「記事ページ」の部分（`.post-…`）。
+- 記事の見た目を変えたいときは `sub.css` を直せば、既存の記事にもすぐ効く。
+- ヘッダーやメニューなど HTML の構造を変えたときは、ひな形を直す。既存の記事は、スプレッドシートの「修正する?」を「はい」にすると作り直される。
+- 「画像url(複数可)」に URL があれば、本文の下に写真として並ぶ。1 枚目は共有時の画像にもなる。
+- notes 列（カテゴリ）は、空または「無し」のときは表示しない。
+
