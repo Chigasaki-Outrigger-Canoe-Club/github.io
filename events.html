@@ -106,36 +106,10 @@
         <p class="section-label">SCHEDULE</p>
         <h2 class="section-title">年間スケジュール</h2>
         <p>1年間の大会とイベントの予定です。海況などにより、日程が変わることがあります。</p>
-        <!-- 年の切り替え。翌年になったら、新しい年を先頭に足し、過去の年は schedule-2026.html のような別ページへのリンクにする（docs/IMPLEMENTATION_PLAN.md 参照） -->
-        <nav class="year-nav" aria-label="年の切り替え">
-          <a href="events.html#event-schedule" aria-current="true">2026</a>
-        </nav>
-        <div class="table-wrap"><table class="info-table schedule-table">
-          <thead><tr><th>開催日</th><th>イベント・レース</th><th>主催（開催地）</th></tr></thead>
-          <tbody>
-            <tr><th>3/22</th><td>新入会員対象 活動セミナー（天候、ルール、装備、安全対策ほか）</td><td>クラブ</td></tr>
-            <tr><th>4/4・5</th><td>シーズンイン</td><td>—</td></tr>
-            <tr><th>4/18・19</th><td>OC1V1 JAPAN CUP　南伊豆OC1レース</td><td>Va'a JAPAN／下田 弓ヶ浜</td></tr>
-            <tr><th>5/4</th><td>GW Paddletrip</td><td>COCC／三浦方面</td></tr>
-            <tr><th>5/6</th><td>MOLOKAI SOLO</td><td>モロカイ島→オアフ島（ワイキキ）</td></tr>
-            <tr><th>5月（GW・日程未定）</th><td>BBQ</td><td>COCC／茅ヶ崎ビーチ</td></tr>
-            <tr><th>5/23・24</th><td>JOCAカップ　逗子OC6レース</td><td>JOCA／逗子海岸</td></tr>
-            <tr><th>6/7（予備日 6/14）</th><td>湘南パドリングチャレンジ　江の島OC6レース</td><td>SOCC／江ノ島東浜</td></tr>
-            <tr><th>6/27（予備日 6/28）</th><td>The Race</td><td>Wailea／鎌倉 材木座</td></tr>
-            <tr><th>7/18・19</th><td>大島クロッシング　茅ヶ崎⇔大島</td><td>COCC／伊豆大島</td></tr>
-            <tr><th>7/20（月・祝）</th><td>浜降祭</td><td>茅ヶ崎</td></tr>
-            <tr><th>8/4〜9</th><td>小笠原KIDSキャンプ</td><td>COCC／小笠原 父島</td></tr>
-            <tr><th>8/29（予備日 8/30）</th><td><a href="hoaikane.html">Women's Paddle Meet Ho'aikane</a></td><td>COCC／茅ヶ崎</td></tr>
-            <tr><th>9/3〜7</th><td>QUEEN LILI'UOKALANI CANOE RACE　KONA</td><td>ハワイ島</td></tr>
-            <tr><th>9/26</th><td>三浦半島Paddle　和田浜－油壷－城ヶ島</td><td>COCC・SPC／油壷周辺</td></tr>
-            <tr><th>10/3・4</th><td>HAWAIKI NUI VA'A</td><td>OCEAN／葉山</td></tr>
-            <tr><th>10月（日程未定）</th><td>逗子パドルミート　逗子OC6スプリントレース</td><td>Ohana Hoe／逗子</td></tr>
-            <tr><th>10月（日程未定）</th><td>湘南パドリングチャレンジU19　江ノ島OC6レース</td><td>SOCC／江ノ島東浜</td></tr>
-            <tr><th>10/31・11/1</th><td><a href="hukilau.html">HUKILAU CHALLENGE</a>　茅ヶ崎OC6チャンピオンシップ</td><td>COCC／茅ヶ崎</td></tr>
-            <tr><th>12/19</th><td>Christmas Race ＆ 忘年会</td><td>COCC／茅ヶ崎</td></tr>
-          </tbody>
-        </table></div>
-        <p>※ COCCファミリーデーは日程未定です。</p>
+        <!-- 年間スケジュールは、data/schedule.js のデータを sub.js が表示している。年を足すときは data/schedule.js だけを直す。 -->
+        <div class="schedule" id="scheduleApp">
+          <noscript><p>スケジュールを表示するには、JavaScript を有効にしてください。</p></noscript>
+        </div>
       </div>
     </section>
 
@@ -168,6 +142,7 @@
     </footer>
 
     <!-- 外部JS -->
+    <script src="data/schedule.js"></script>
     <script src="sub.js"></script>
 
   </body>
