@@ -105,6 +105,7 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
 
         <nav class="global-nav" id="globalNav">
           <ul>
+            <li><a href="../about.html">クラブについて</a></li>
             <li><a href="../beginners.html">初めての方へ</a></li>
             <li><a href="../membership.html">会員案内</a></li>
             <li><a href="../safety.html">安全管理</a></li>
