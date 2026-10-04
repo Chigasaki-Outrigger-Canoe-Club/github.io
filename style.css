@@ -174,41 +174,45 @@ img { max-width: 100%; display: block; }
 .bg2 { opacity: 0; }
 
 .scroll-indicator {
+  /* 写真の右下に、縦書きの「SCROLL」と下へ伸びる線を置く */
   position: absolute;
-  right: 20px;
-  top: 80%;
-  transform: translateY(-50%) rotate(90deg);
-  font-size: 14px;
-  letter-spacing: 0.2em;
-  color: rgba(255, 241, 179, 0.95);
-  font-weight: 300;
+  right: 28px;
+  bottom: 28px;
+  z-index: 5;                 /* 写真の上の暗い膜より手前に出す */
+  writing-mode: vertical-rl;  /* 回転ではなく縦書きにして、位置がずれないようにする */
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.5);  /* 明るい写真の上でも読めるように */
   pointer-events: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 @media (max-width: 900px) {
   .scroll-indicator {
-    right: 10px;
+    right: 12px;
+    bottom: 20px;
+    font-size: 11px;
   }
 }
 
 .scroll-line {
-  width: 60px;
-  height: 2px;
-  background: rgba(255, 241, 179, 0.95);
-  margin: 10px auto 0;
-  animation: scrollLineAnim 4.0s ease-in-out infinite;
-  transform-origin: left;
+  width: 1px;
+  height: 56px;
+  background: #fff;
+  box-shadow: 0 0 4px rgba(0,0,0,0.5);
+  animation: scrollLineAnim 2.8s ease-in-out infinite;
+  transform-origin: top;
 }
 
 @keyframes scrollLineAnim {
-  0%   { transform: scaleX(0); opacity: 1; }
-  14%  { transform: scaleX(1); opacity: 1; }
-  57%  { transform: scaleX(1); opacity: 1; }
-  71%  { transform: scaleX(0); opacity: 1; }
-  100% { transform: scaleX(0); opacity: 1; }
+  0%   { transform: scaleY(0); transform-origin: top; }
+  45%  { transform: scaleY(1); transform-origin: top; }
+  55%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
 }
 
 .hero-overlay {
