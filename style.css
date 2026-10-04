@@ -604,11 +604,11 @@ img { max-width: 100%; display: block; }
 }
 
 /* =========================================================
-   オープニング（トップページを最初に開いたときだけ、1.7秒）
+   オープニング（トップページを最初に開いたときだけ、2.3秒）
    ロゴは「夕日が海に映る」図柄なので、
    夕方の空の色の中にロゴが浮かび、下に光の筋が広がってから、静かに消える。
    2回目以降は html に .splash-skip が付き、表示しない（index.html の <head> 内）。
-   動きは CSS だけで完結するので、JavaScript が動かなくても 1.7 秒で必ず消える。
+   動きは CSS だけで完結するので、JavaScript が動かなくても 2.3 秒で必ず消える。
    ========================================================= */
 .splash {
   position: fixed;
@@ -621,7 +621,7 @@ img { max-width: 100%; display: block; }
   background:
     radial-gradient(ellipse 70% 38% at 50% 58%, rgba(232, 150, 110, 0.30), rgba(232, 150, 110, 0) 70%),
     linear-gradient(to bottom, #fbf8f2 0%, #fbf2e6 55%, #f6e3d2 100%);
-  animation: splashOut 1.7s ease forwards;
+  animation: splashOut 2.3s ease forwards;
   pointer-events: none;
 }
 .splash-skip .splash { display: none; }
@@ -632,7 +632,7 @@ img { max-width: 100%; display: block; }
   height: auto;
   display: block;
   opacity: 0;
-  animation: splashLogo 1.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation: splashLogo 2.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
 /* ロゴの下に広がる、海に映る光の筋 */
@@ -644,7 +644,7 @@ img { max-width: 100%; display: block; }
   background: #d9785a;
   transform: scaleX(0);
   opacity: 0;
-  animation: splashRay 1.7s ease-out forwards;
+  animation: splashRay 2.3s ease-out forwards;
 }
 .splash-reflection span:nth-child(1) { width: 46%; animation-delay: 0.30s; }
 .splash-reflection span:nth-child(2) { width: 30%; animation-delay: 0.42s; }
@@ -652,16 +652,16 @@ img { max-width: 100%; display: block; }
 
 @keyframes splashLogo {
   0%   { opacity: 0; transform: translateY(10px) scale(0.97); }
-  35%  { opacity: 1; transform: translateY(0) scale(1); }
+  27%  { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 1; transform: translateY(0) scale(1.015); }
 }
 @keyframes splashRay {
   0%   { transform: scaleX(0); opacity: 0; }
-  35%  { transform: scaleX(1); opacity: 0.85; }
+  27%  { transform: scaleX(1); opacity: 0.85; }
   100% { transform: scaleX(1); opacity: 0.5; }
 }
 @keyframes splashOut {
-  0%, 76% { opacity: 1; visibility: visible; }
+  0%, 82% { opacity: 1; visibility: visible; }
   100%    { opacity: 0; visibility: hidden; }
 }
 
