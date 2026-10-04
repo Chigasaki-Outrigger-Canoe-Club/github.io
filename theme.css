@@ -76,7 +76,7 @@ html, body { background: var(--paper); color: var(--ink); font-family: var(--got
 .news-item a { background: #fff; border-color: var(--line); }
 .news-more { color: rgba(30, 52, 71, 0.6); }
 .news-more:hover { color: var(--ink); }
-.card, .draft-notice { background: #fff; }
+.card { background: #fff; }
 
 /* ---------- 写真：朝の光のような、あたたかく淡い膜をかける ---------- */
 .hero-overlay {
