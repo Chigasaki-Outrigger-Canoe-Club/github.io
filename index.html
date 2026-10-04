@@ -24,9 +24,28 @@
   <link rel="stylesheet" href="nav.css">
   <link rel="stylesheet" href="theme.css">
 
+  <!-- 最初の表示のときだけ出すロゴ画面。2回目以降（更新など）は、描画の前にこの印を付けて出さないようにする。 -->
+  <script>
+    try {
+      if (sessionStorage.getItem('coccSplashSeen')) {
+        document.documentElement.classList.add('splash-skip');
+      } else {
+        sessionStorage.setItem('coccSplashSeen', '1');
+      }
+    } catch (e) {}
+  </script>
   </head>
 
   <body>
+
+    <!-- 最初の表示のときだけ出すロゴ画面（1.7秒）。見た目と動きは style.css の「オープニング」 -->
+    <div class="splash" aria-hidden="true">
+      <div class="splash-inner">
+        <img class="splash-logo" src="images/0_header/chigasaki_logo_touka_v3.png" alt="">
+        <div class="splash-reflection"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
 
     <header class="site-header">
       <div class="header-inner">
