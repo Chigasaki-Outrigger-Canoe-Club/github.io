@@ -26,9 +26,28 @@
   <link rel="stylesheet" href="nav.css">
   <link rel="stylesheet" href="theme.css">
 
+  <!-- Opening logo: shown only on the first visit in a browser session. On later loads this adds a class that hides it before anything is drawn. -->
+  <script>
+    try {
+      if (sessionStorage.getItem('coccSplashSeen')) {
+        document.documentElement.classList.add('splash-skip');
+      } else {
+        sessionStorage.setItem('coccSplashSeen', '1');
+      }
+    } catch (e) {}
+  </script>
   </head>
 
   <body>
+
+    <!-- Opening logo (1.7 seconds). Styles are in style.css. -->
+    <div class="splash" aria-hidden="true">
+      <div class="splash-inner">
+        <img class="splash-logo" src="images/0_header/chigasaki_logo_touka_v3.png" alt="">
+        <div class="splash-reflection"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
 
     <header class="site-header">
       <div class="header-inner">
