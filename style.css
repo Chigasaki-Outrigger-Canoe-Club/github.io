@@ -288,6 +288,20 @@ img { max-width: 100%; display: block; }
   line-height: 1.8;
 }
 
+/* ABOUT US から代表メッセージへのリンク */
+.about-link {
+  display: inline-block;
+  margin-top: 18px;
+  padding-bottom: 4px;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  border-bottom: 1px solid currentColor;
+  transition: opacity 0.2s ease;
+}
+.about-link::after { content: "→"; margin-left: 10px; display: inline-block; transition: transform 0.2s ease; }
+.about-link:hover { opacity: 0.7; }
+.about-link:hover::after { transform: translateX(4px); }
+
 /* divide(区切り) */
 .divider-section {
   width: 100%;
