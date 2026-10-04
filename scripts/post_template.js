@@ -83,6 +83,7 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../nav.css">
   <link rel="stylesheet" href="../sub.css">
+  <link rel="stylesheet" href="../theme.css">
   </head>
 
   <body class="post-page">

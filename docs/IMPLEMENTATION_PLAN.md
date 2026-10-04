@@ -99,3 +99,12 @@
 - 「画像url(複数可)」に URL があれば、本文の下に写真として並ぶ。1 枚目は共有時の画像にもなる。
 - notes 列（カテゴリ）は、空または「無し」のときは表示しない。
 
+## 茅ヶ崎らしさのテーマ（`theme.css`）
+
+- 色・書体・あしらいは `theme.css` にまとめ、全ページでほかの CSS のあとに読み込んでいる。`style.css` `sub.css` `nav.css` は変えていない。
+- 色は `theme.css` の先頭の `:root` で決めている（砂浜の白、海の紺、朝の海の青緑、朝日の色）。ここを変えれば全体が変わる。
+- 書体は Google Fonts の Cormorant Garamond（英字の見出し）、Shippori Mincho（日本語の見出し）、Zen Kaku Gothic New（本文）。
+- 区切り線とフッターの線画は、水平線の上に烏帽子岩が立つ形（CSS に埋め込んだ SVG）。
+- 新しいページを作るときは、`<link rel="stylesheet" href="theme.css">` を CSS の最後に足す。
+- テーマだけを外したいときは、各ページのこの 1 行を消す（または `theme.css` を空にする）と、以前の白・黒・Bebas Neue の見た目に戻る。
+

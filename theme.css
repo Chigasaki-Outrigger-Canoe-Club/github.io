@@ -1,0 +1,113 @@
+/* =========================================================
+   theme.css  茅ヶ崎らしさのテーマ（色・書体・あしらい）
+   「朝の静かな海、砂浜、品のよさ」を軸にした上書き。
+   すべてのページで、ほかの CSS のあとに読み込む。
+   このファイルを読み込まなければ、以前の見た目（白・黒・Bebas Neue）に戻る。
+   ========================================================= */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap");
+
+:root {
+  --paper: #fbf8f2;   /* 朝の砂浜の白 */
+  --sand:  #f1eadc;   /* 砂の色（区切りや薄い面） */
+  --ink:   #1e3447;   /* 夜明け前の海の紺（黒の代わり） */
+  --sea:   #3d7f8d;   /* 朝の海の青緑（リンクや日付） */
+  --sun:   #d9785a;   /* 朝日の色（差し色。ロゴの赤とつながる） */
+  --line:  rgba(30, 52, 71, 0.16);
+  --display: "Cormorant Garamond", "Times New Roman", serif;
+  --mincho:  "Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --gothic:  "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+
+/* ---------- 地の色と本文の書体 ---------- */
+html, body { background: var(--paper); color: var(--ink); font-family: var(--gothic); }
+.news-section, .divider-section, .last-message, .post { background: var(--paper); }
+
+/* ---------- 英字の見出し：太い競技風の書体から、細身のセリフ体へ ---------- */
+.logo-text-pc, .logo-text-mobile, .about-label, .contact-label, .news-label, .footer-title,
+.page-hero-en, .section-label, .stat-num, .race-card-en, .year-tab, .post-back a,
+.step-list > li::before {
+  font-family: var(--display);
+  font-weight: 500;
+}
+.logo-text-pc   { font-size: 19px; letter-spacing: 0.16em; }
+.about-label,
+.contact-label  { font-size: clamp(30px, 5.4vw, 58px); letter-spacing: 0.12em; }
+.news-label     { font-size: clamp(26px, 3.8vw, 36px); letter-spacing: 0.16em; color: var(--ink); }
+.footer-title   { font-size: clamp(17px, 2.4vw, 23px); letter-spacing: 0.16em; }
+.page-hero-en   { font-size: clamp(28px, 5.2vw, 56px); letter-spacing: 0.12em; line-height: 1.15; }
+.section-label  { font-size: clamp(26px, 4.4vw, 44px); letter-spacing: 0.14em; color: var(--ink); }
+.stat-num       { font-size: clamp(30px, 4.6vw, 48px); letter-spacing: 0.08em; }
+.race-card-en   { font-size: clamp(24px, 3.8vw, 36px); letter-spacing: 0.12em; }
+.year-tab       { font-size: 17px; letter-spacing: 0.12em; padding: 7px 14px 6px; }
+.step-list > li::before { font-size: 32px; color: var(--sun); }
+.contact-label  { color: var(--ink); }
+
+/* ---------- 日本語の見出し：明朝で静かに ---------- */
+.hero-title, .section-title, .page-hero-title, .post-title, .last-quote, .about-text, .contact-text {
+  font-family: var(--mincho);
+  font-weight: 500;
+}
+.last-quote { color: var(--ink); }
+
+/* ---------- 差し色：見出しの下線、リンク、日付 ---------- */
+.section-title::after { background: var(--sun); }
+.theme-hoaikane .section-title::after { background: #da506d; }   /* Ho'aikane はロゴの色のまま */
+.sched-date, .sched-note { color: var(--sea); }
+.sched-link, .post-body a, .faq details p a, .schedule-table td a:hover { color: var(--sea); }
+.sched-row.has-more:hover { background: rgba(61, 127, 141, 0.06); }
+.global-nav a::after { background: var(--sun); }
+.global-nav.nav-open li a:hover { color: #f3c9b6; }
+
+/* ---------- 黒を、海の紺に ---------- */
+.site-header.scrolled,
+.site-header:has(.global-nav.nav-open),
+.global-nav.nav-open,
+.post-page .site-header { background: rgba(24, 43, 60, 0.96); }
+.site-footer { background: var(--ink); }
+
+.btn, .page-toc a { border-color: var(--ink); color: var(--ink); background: transparent; border-radius: 999px; }
+.page-toc a:hover, .btn:hover { background: var(--ink); color: var(--paper); }
+.year-tab { border-color: var(--ink); color: var(--ink); background: transparent; border-radius: 999px; }
+.year-tab:hover, .year-tab[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+.sched-list, .section-inner .sched-list { border-top-color: var(--ink); }
+.news-left { border-bottom-color: var(--line); }
+.news-progress span { background: var(--ink); }
+.news-item a { background: #fff; border-color: var(--line); }
+.news-more { color: rgba(30, 52, 71, 0.6); }
+.news-more:hover { color: var(--ink); }
+.card, .draft-notice { background: #fff; }
+
+/* ---------- 写真：朝の光のような、あたたかく淡い膜をかける ---------- */
+.hero-overlay {
+  background: linear-gradient(to bottom, rgba(255, 221, 186, 0.16), rgba(30, 52, 71, 0.10) 45%, rgba(30, 52, 71, 0.34));
+}
+.page-hero::before {
+  background: linear-gradient(to bottom, rgba(30, 52, 71, 0.34), rgba(255, 221, 186, 0.10) 42%, rgba(30, 52, 71, 0.48));
+}
+.page-hero--logo::before { display: none; }
+
+/* ---------- あしらい：水平線と烏帽子岩 ---------- */
+/* トップページの区切り線を、水平線の上に烏帽子岩が立つ線画にする */
+.wave-line {
+  width: 180px;
+  height: 30px;
+  border-radius: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 30' fill='none' stroke='%23d9785a' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 24H78l5-3 4-13 3 8 5 3 4 5h79'/%3E%3Cpath d='M30 28h22M118 28h30' opacity='.45'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* フッターの上の端にも、同じ線画を小さく置く */
+.site-footer { position: relative; }
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  right: 6%;
+  width: 120px;
+  height: 20px;
+  opacity: 0.55;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 30' fill='none' stroke='%23f1eadc' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 24H78l5-3 4-13 3 8 5 3 4 5h79'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+@media (max-width: 768px) {
+  .site-footer::before { top: 16px; width: 96px; }
+}
