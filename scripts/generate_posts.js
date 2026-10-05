@@ -30,7 +30,7 @@ async function markGenerated(article) {
     return;
   }
 
-  const rowNumber = index + 3; // 1行目:列名, 2行目:説明行 → +3
+  const rowNumber = index + 2; // 1行目が列名、2行目から記事（説明行はない）
 
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
@@ -61,7 +61,7 @@ async function clearModified(article) {
     return;
   }
 
-  const rowNumber = index + 3;
+  const rowNumber = index + 2; // 1行目が列名、2行目から記事
 
   await sheets.spreadsheets.values.update({
     spreadsheetId: process.env.SHEET_ID,
