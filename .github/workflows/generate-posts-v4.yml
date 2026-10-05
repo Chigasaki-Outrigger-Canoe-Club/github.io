@@ -54,12 +54,19 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: node scripts/update_schedule.js
 
+      - name: Update page text from the content sheet
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+        run: node scripts/update_content.js
+
       - name: Commit generated posts and index.html
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add -A posts index.html data/schedule.js
-          git commit -m "Update posts, index.html and schedule" || echo "No changes"
+          git add -A posts data/schedule.js
+          git add *.html en/*.html
+          git commit -m "Update posts, pages and schedule from the spreadsheet" || echo "No changes"
 
       - name: Push changes
         run: |
