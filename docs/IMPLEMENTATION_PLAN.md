@@ -110,3 +110,15 @@
 - 新しいページを作るときは、`<link rel="stylesheet" href="theme.css">` を CSS の最後に足す。
 - テーマだけを外したいときは、各ページのこの 1 行を消す（または `theme.css` を空にする）と、以前の白・黒・Bebas Neue の見た目に戻る。
 
+## 海外レース挑戦記（`overseas/`）
+
+- 旧サイト（chigasakioutriggercanoeclub.jp）にあった海外レースの参戦記を、記録として移したもの。文章は当時のまま。
+- `overseas/index.html` が一覧。`molokai2010.html`（2010 Molokai Hoe）、`wahine.html`（2009 Na Wahine O Ke Kai）、`catalina.html`（2006 Catalina Crossing）が本文。
+- 入口は「大会・イベント」の `#overseas`。メニューには出さない。日本語のみ（英語版の「大会・イベント」からは日本語ページへリンク）。
+- 見た目は記事ページと同じ（`.post-…`）。足した指定は `sub.css` の「海外レース挑戦記」の部分（`.story` `.photos`）だけ。
+- 写真は `overseas/img/` に置く。HTML は旧サイトと同じファイル名で読み込んでいるので、画像を置けば表示される（HTML は直さない）。
+  - `overseas/img/molokai2010/` … `molokai2010_clip_image…` の44枚
+  - `overseas/img/2009wahine/` … `image002.jpg`〜`image156.jpg` の78枚
+  - `overseas/img/catalina/` と `overseas/img/2006catalina2.jpg` … 11枚
+- 画像がまだ無い写真は、`sub.js` の末尾の処理で非表示にしている。
+- 新しい挑戦を足すとき: 既存の本文ページをコピーして書き換え、`overseas/index.html` のカードを1つ足す。

@@ -146,3 +146,8 @@ window.addEventListener('load', updateHeader);
   render(initialYear());
 })();
 
+// 海外レース挑戦記：まだ用意できていない写真は表示しない
+document.querySelectorAll('.story img').forEach(img => {
+  img.addEventListener('error', () => img.remove());
+  if (img.complete && img.naturalWidth === 0) img.remove();
+});
