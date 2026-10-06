@@ -295,6 +295,58 @@ function applyFaq(groups) {
 }
 
 // ---------------------------------------------------------
+// 「oshima」シート：大島クロッシングの毎年の記録。1 行に 1 年
+// 年 / 開催日 / 記録 / ひとこと / 記事のリンク / 英語：開催日 / 英語：記録 / 英語：ひとこと
+// ---------------------------------------------------------
+const OSHIMA_SHEET = "oshima";
+const OSHIMA_HEADER = ["年", "開催日", "記録（時間・人数など）", "ひとこと", "記事のリンク", "英語：開催日", "英語：記録", "英語：ひとこと"];
+const OSHIMA_SEED = [OSHIMA_HEADER, ["2026", "7月18日・19日", "", "記録は準備中です。【仮】", "", "July 18–19", "", "Record in preparation. [TBC]"]];
+const OSHIMA_BLOCK = /([ \t]*<!-- OSHIMA:START[^>]*-->\n)([\s\S]*?)([ \t]*<!-- OSHIMA:END -->)/;
+
+function parseOshima(values) {
+  const rows = [];
+  (values || []).slice(1).forEach(r => {
+    const c = i => String(r[i] == null ? "" : r[i]).trim();
+    if (!/^\d{4}$/.test(c(0))) return;                 // 年が 4 けたの数字でない行は飛ばす
+    rows.push({ year: Number(c(0)), date: c(1), result: c(2), note: c(3), link: c(4), date_en: c(5), result_en: c(6), note_en: c(7) });
+  });
+  return rows.sort((a, b) => b.year - a.year);          // 新しい年が上
+}
+
+function buildOshimaHtml(rows, lang) {
+  const en = lang === "en";
+  const items = rows.map(r => {
+    const date = en ? (r.date_en || r.date) : r.date;
+    const result = en ? (r.result_en || r.result) : r.result;
+    const note = en ? (r.note_en || r.note) : r.note;
+    // 記事のリンクは、英語版では 1 つ上の階層から見た場所になる
+    let href = safeHref(r.link);
+    if (href && en && !/^(https:|mailto:|tel:|#|\.\.\/)/.test(href)) href = "../" + href;
+    const ext = /^https:/.test(href) ? ' target="_blank" rel="noopener"' : "";
+    return '          <li class="record"><span class="record-year">' + r.year + '</span><div class="record-body">' +
+      (date ? `<p class="record-date">${textToHtml(date)}</p>` : "") +
+      (result ? `<p class="record-result">${textToHtml(result)}</p>` : "") +
+      (note ? `<p class="record-note">${textToHtml(note)}</p>` : "") +
+      (href ? `<a class="record-link" href="${esc(href)}"${ext}>${en ? "Read the report (Japanese)" : "この年の記事を読む"}</a>` : "") +
+      "</div></li>";
+  }).join("\n");
+  return `        <ul class="record-list">\n${items}\n        </ul>\n`;
+}
+
+function applyOshima(rows) {
+  if (!rows.length) return 0;
+  let changed = 0;
+  for (const [lang, file] of [["ja", path.join(ROOT, "oshima.html")], ["en", path.join(ROOT, "en", "oshima.html")]]) {
+    if (!fs.existsSync(file)) continue;
+    const before = fs.readFileSync(file, "utf-8");
+    if (!OSHIMA_BLOCK.test(before)) continue;
+    const after = before.replace(OSHIMA_BLOCK, (m, start, body, end) => start + buildOshimaHtml(rows, lang) + end);
+    if (after !== before) { fs.writeFileSync(file, after, "utf-8"); changed++; }
+  }
+  return changed;
+}
+
+// ---------------------------------------------------------
 // シートの準備（無ければ作って、今の内容を書き出す）
 // ---------------------------------------------------------
 async function ensureSheet(sheets, spreadsheetId, meta, title, seedValues, widths, hideLastColumn) {
@@ -373,6 +425,14 @@ async function main() {
     if (groups.length === 0) console.log("FAQ シートに使える行がないので、FAQ のページは今のままにします。");
     else console.log(`FAQ を反映しました（${groups.length} 分類、変わったファイル: ${applyFaq(groups)} 個）。`);
   }
+
+  // 4) 大島クロッシングの毎年の記録（行を足せば年が増える）
+  const madeOshima = await ensureSheet(sheets, spreadsheetId, meta, OSHIMA_SHEET, OSHIMA_SEED, [80, 160, 260, 420, 260, 160, 260, 420], false);
+  if (!madeOshima) {
+    const rows = parseOshima(await readSheet(sheets, spreadsheetId, `'${OSHIMA_SHEET}'!A:H`));
+    if (rows.length === 0) console.log("oshima シートに使える行がないので、記録は今のままにします。");
+    else console.log(`大島クロッシングの記録を反映しました（${rows.length} 年分、変わったファイル: ${applyOshima(rows)} 個）。`);
+  }
 }
 
 if (require.main === module) {
@@ -382,4 +442,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { htmlToText, textToHtml, extractAll, applyAll, parseSheet, infoSeedValues, parseInfo, faqSeedValues, parseFaq, applyFaq, extractFaq };
+module.exports = { htmlToText, textToHtml, extractAll, applyAll, parseSheet, infoSeedValues, parseInfo, faqSeedValues, parseFaq, applyFaq, extractFaq, parseOshima, applyOshima, OSHIMA_SEED };
