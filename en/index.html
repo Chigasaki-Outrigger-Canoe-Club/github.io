@@ -69,11 +69,26 @@
           <ul>
             <li><a href="en/about.html">About</a></li>
             <li><a href="en/beginners.html">For Beginners</a></li>
-            <li><a href="en/membership.html">Membership</a></li>
+            <li class="has-sub"><a href="en/membership.html">Membership</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Show more under Membership"></button>
+              <ul class="sub-menu">
+                <li><a href="en/membership.html#fee">Fees</a></li>
+                <li><a href="en/membership.html#time">Practice times</a></li>
+              </ul>
+            </li>
             <li><a href="en/safety.html">Safety</a></li>
             <li><a href="en/kids.html">COCC KIDS</a></li>
-            <li><a href="en/events.html">Races &amp; Events</a></li>
-            <li><a href="en/contact.html">Contact</a></li>
+            <li class="has-sub"><a href="en/events.html">Races &amp; Events</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Show more under Races &amp; Events"></button>
+              <ul class="sub-menu">
+                <li><a href="en/events.html#event-schedule">Annual schedule</a></li>
+                <li><a href="en/hukilau.html">Hukilau Challenge</a></li>
+                <li><a href="en/hoaikane.html">Women's Ho'aikane</a></li>
+              </ul>
+            </li>
+            <li class="has-sub"><a href="en/contact.html">Contact</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="Show more under Contact"></button>
+              <ul class="sub-menu">
+                <li><a href="en/contact.html#access">Access</a></li>
+              </ul>
+            </li>
             <li><a href="en/faq.html">FAQ</a></li>
           </ul>
         </nav>
@@ -148,6 +163,7 @@
           Come and feel the joy of paddling on the ocean with us.<br>
           You are always welcome to ask about a trial session, a visit or joining.
         </p>
+        <a data-cms="index.join.01" class="about-link" href="en/beginners.html">How a trial session works</a>
       </div>
     </section>
 

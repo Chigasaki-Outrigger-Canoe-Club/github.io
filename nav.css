@@ -71,6 +71,58 @@
 .global-nav.nav-open li a::after { display: none; }
 .global-nav.nav-open li a:hover { padding-left: 8px; color: #9cc4ff; }
 
+/* ---------- メニューの中の小さな項目（押すと開く） ----------
+   項目名を押すとそのページへ、右の「＋」を押すと中の項目が開く。 */
+.global-nav .sub-menu { display: none; }
+.global-nav .sub-toggle { display: none; }
+
+.global-nav.nav-open li.has-sub {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: stretch;
+}
+.global-nav.nav-open .sub-toggle {
+  display: block;
+  position: relative;
+  width: 48px;
+  border: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+/* 「＋」の印。開いているときは「−」になる */
+.global-nav.nav-open .sub-toggle::before,
+.global-nav.nav-open .sub-toggle::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 12px; height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.global-nav.nav-open .sub-toggle::after { transform: translate(-50%, -50%) rotate(90deg); }
+.global-nav.nav-open .sub-toggle[aria-expanded="true"]::after { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
+.global-nav.nav-open .sub-toggle:focus-visible { outline: 1px solid #fff; outline-offset: -4px; }
+
+.global-nav.nav-open li.has-sub.is-open > .sub-menu {
+  display: block;
+  grid-column: 1 / -1;
+  padding: 4px 0 10px;
+  margin: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.global-nav.nav-open .sub-menu li a {
+  padding: 10px 0 10px 18px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  border-bottom: 0;
+  opacity: 0.85;
+}
+.global-nav.nav-open .sub-menu li a::before { content: "–"; margin-right: 10px; opacity: 0.6; }
+
 @media (max-width: 768px) {
   /* スマホのヘッダーは、ロゴ画像だけにする（文字は出さない） */
   .logo-text-mobile { display: none; }

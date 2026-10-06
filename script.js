@@ -135,3 +135,23 @@ setInterval(changeImage, 6500);
   updateNewsProgress();
 })();
 
+// ===============================
+// メニューの中の小さな項目（「＋」を押すと開く）
+// ===============================
+document.querySelectorAll('.global-nav .sub-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const li = btn.closest('li');
+    const open = li.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+});
+
+// メニューの中のリンクを押したら、メニューを閉じる（同じページ内の移動でも開いたままにしない）
+document.querySelectorAll('.global-nav a').forEach(a => {
+  a.addEventListener('click', () => {
+    const nav = document.getElementById('globalNav');
+    const btn = document.getElementById('menuBtn');
+    if (nav) nav.classList.remove('nav-open');
+    if (btn) btn.classList.remove('active');
+  });
+});
