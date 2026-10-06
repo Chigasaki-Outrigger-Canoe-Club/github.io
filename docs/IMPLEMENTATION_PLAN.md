@@ -133,3 +133,9 @@
 - そのため、HTML の文章を直接書き換えたときは、スプレッドシートの同じキーの行も直す。直さないと、次の公開で元に戻る。
 - `FAQ:START〜END`（`faq.html`）と `OSHIMA:START〜END`（`oshima.html`）の間は、それぞれ `FAQ`・`oshima` シートから丸ごと作り直される。
 
+## Ho'aikane のページの雰囲気
+
+- `hoaikane.html` は `<body class="theme-hoaikane">`。色（ロゴのピンク、濃いローズ、薄いピンクの地）と書体（英字の見出しは Fraunces）は、`sub.css` の末尾「Ho'aikane のページだけの雰囲気」で決めている。ほかのページには影響しない。
+- ロゴは `images/3_EVENTS/hoaikane_logo.png`（白い図柄だけを切り抜いた、背景が透明の画像）。
+- 大会・イベントのカードの画像は `images/3_EVENTS/hoaikane_card.jpg`（メダルの写真・ペンダントの写真・ロゴを 1 枚に組み合わせたもの）。写真を替えるときは作り直す。
+
