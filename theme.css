@@ -56,12 +56,12 @@ html, body { background: var(--paper); color: var(--ink); font-family: var(--got
 .sched-link, .post-body a, .faq details p a, .schedule-table td a:hover { color: var(--sea); }
 .sched-row.has-more:hover { background: rgba(61, 127, 141, 0.06); }
 .global-nav a::after { background: var(--sun); }
-.global-nav.nav-open li a:hover { color: #f3c9b6; }
+.global-nav li a:hover { color: #f3c9b6; }
 
 /* ---------- 黒を、海の紺に ---------- */
 .site-header.scrolled,
 .site-header:has(.global-nav.nav-open),
-.global-nav.nav-open,
+.global-nav,
 .post-page .site-header { background: rgba(24, 43, 60, 0.96); }
 .site-footer { background: var(--ink); }
 
