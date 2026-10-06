@@ -26,7 +26,7 @@
 
   </head>
 
-  <body>
+  <body class="theme-hukilau">
 
     <header class="site-header">
       <div class="header-inner">
@@ -77,12 +77,19 @@
       </div>
     </header>
 
-    <section class="page-hero" style="background-image:url('../images/1_HERO/pc_hayama_hoe2.jpg')">
+    <section class="page-hero page-hero--fire" style="background-image:url('../images/1_HERO/pc_hayama_hoe2.jpg')">
       <div class="page-hero-copy">
         <p data-cms="hukilau.page-hero-copy.01" class="page-hero-en">HUKILAU CHALLENGE</p>
         <h1 data-cms="hukilau.page-hero-copy.02" class="page-hero-title">COCC Hukilau Challenge</h1>
+        <p data-cms="hukilau.page-hero-copy.catch" class="page-hero-catch">Light a fire on a quiet sea.</p>
       </div>
     </section>
+
+    <div class="next-race">
+      <p class="next-race-label">NEXT RACE</p>
+      <p data-cms="hukilau.next.date" class="next-race-date">October 31 – November 1, 2026</p>
+      <p data-cms="hukilau.next.place" class="next-race-place">Chigasaki</p>
+    </div>
 
     <div class="draft-notice">
       <p data-cms="hukilau.draft-notice.01">This page is still being prepared. Items marked <span class="kari">[TBC]</span> are provisional and not yet confirmed.</p>
@@ -102,7 +109,7 @@
         <p data-cms="hukilau.hk-about.01" class="section-label">ABOUT</p>
         <h2 data-cms="hukilau.hk-about.02" class="section-title">About the event</h2>
         <p data-cms="hukilau.hk-about.03">The Hukilau Challenge is a six-person outrigger canoe (OC6) race hosted by Chigasaki Outrigger Canoe Club. As an event sanctioned by the Japan Outrigger Canoe Association (JOCA), it brings clubs from all over Japan to the waters off Chigasaki.</p>
-        <p data-cms="hukilau.hk-about.04">The information on this page is based on the previous edition (the 18th, held November 2–3, 2024). We will update it as soon as the dates and race rules for the next edition are decided. <span class="kari">[TBC]</span></p>
+        <p data-cms="hukilau.hk-about.next">The next race is on October 31 and November 1, 2026. The classes, timetable and fees on this page are from the 18th edition (November 2–3, 2024). We will update them as soon as the next race rules are decided. <span class="kari">[TBC]</span></p>
         <ul class="stat-grid">
           <li data-cms="hukilau.hk-about.05"><span class="stat-num">18TH</span><span class="stat-label">Previous edition</span></li>
           <li data-cms="hukilau.hk-about.06"><span class="stat-num">2 DAYS</span><span class="stat-label">Event length</span></li>
@@ -157,7 +164,8 @@
       <div class="section-inner">
         <p data-cms="hukilau.hk-schedule.01" class="section-label">SCHEDULE</p>
         <h2 data-cms="hukilau.hk-schedule.02" class="section-title">Timetable (previous edition)</h2>
-        <h3 data-cms="hukilau.hk-schedule.03">Day 1</h3>
+        <div class="faq">
+          <details><summary data-cms="hukilau.hk-schedule.03">Day 1</summary>
         <div class="table-wrap">
           <table class="info-table">
             <thead><tr><th data-cms="hukilau.hk-schedule.04">Time</th><th data-cms="hukilau.hk-schedule.05">Program</th></tr></thead>
@@ -173,7 +181,8 @@
             </tbody>
           </table>
         </div>
-        <h3 data-cms="hukilau.hk-schedule.22">Day 2</h3>
+          </details>
+          <details><summary data-cms="hukilau.hk-schedule.22">Day 2</summary>
         <div class="table-wrap">
           <table class="info-table">
             <thead><tr><th data-cms="hukilau.hk-schedule.23">Time</th><th data-cms="hukilau.hk-schedule.24">Program</th></tr></thead>
@@ -185,6 +194,8 @@
               <tr><th data-cms="hukilau.hk-schedule.33">15:00</th><td data-cms="hukilau.hk-schedule.34">Awards and closing ceremony</td></tr>
             </tbody>
           </table>
+        </div>
+          </details>
         </div>
       </div>
     </section>
