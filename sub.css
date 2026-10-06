@@ -722,3 +722,16 @@
   .section-inner .record-list > li.record { grid-template-columns: 1fr; row-gap: 8px; padding: 18px 2px; }
   .record-year { font-size: 32px; }
 }
+
+/* =========================================================
+   カードを減らしたあとの、簡単な一覧
+   ========================================================= */
+/* 過去の大会サイトなど、リンクの一覧 */
+.section-inner .link-list li a { border-bottom: 1px solid currentColor; color: #3d7f8d; font-weight: 600; }
+
+/* 大会・イベントの入口のカードは、スマホでは低くして縦の長さを抑える */
+@media (max-width: 768px) {
+  .race-grid { gap: 12px; }
+  .race-card { min-height: 132px; padding: 18px 20px; }
+  .race-card-more { margin-top: 10px; padding-top: 8px; }
+}
