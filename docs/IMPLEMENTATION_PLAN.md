@@ -73,6 +73,9 @@
 
 ## メニュー
 
+- 「会員案内」「大会・イベント」「お問い合わせ」には、押すと開く小さな項目がある。項目名を押すとそのページへ、右の「＋」を押すと中が開く。HTML は `<li class="has-sub">` と `<ul class="sub-menu">`、見た目は `nav.css`、開閉は `script.js`（トップ）と `sub.js`（そのほか）。
+- 小さな項目を足すときは、全ページのメニューと `scripts/post_template.js` に同じ行を足す。
+
 - PC でもスマホでも、メニューボタンを押して開く形（`nav.css`）。`style.css` は変えていない。
 
 ## 年間スケジュール（`events.html` の `#event-schedule`）
