@@ -139,3 +139,9 @@
 - ロゴは `images/3_EVENTS/hoaikane_logo.png`（白い図柄だけを切り抜いた、背景が透明の画像）。
 - 大会・イベントのカードの画像は `images/3_EVENTS/hoaikane_card.jpg`（メダルの写真・ペンダントの写真・ロゴを 1 枚に組み合わせたもの）。写真を替えるときは作り直す。
 
+## Hukilau Challenge のページの雰囲気
+
+- `hukilau.html` は `<body class="theme-hukilau">`。色（墨に近い紺と朱）や見出しの朱の線、墨色の帯は、`sub.css` の末尾「Hukilau Challenge のページだけの雰囲気」で決めている。ほかのページには影響しない。
+- 写真のすぐ下の帯（`.next-race`）に、次回の開催日を出している。日付はスプレッドシートの `content`（キー `hukilau.next.date`）から直せる。
+- タイムスケジュールは、1 日目・2 日目を押すと開く形。
+

@@ -26,7 +26,7 @@
 
   </head>
 
-  <body>
+  <body class="theme-hukilau">
 
     <header class="site-header">
       <div class="header-inner">
@@ -77,12 +77,19 @@
       </div>
     </header>
 
-    <section class="page-hero" style="background-image:url('images/1_HERO/pc_hayama_hoe2.jpg')">
+    <section class="page-hero page-hero--fire" style="background-image:url('images/1_HERO/pc_hayama_hoe2.jpg')">
       <div class="page-hero-copy">
         <p data-cms="hukilau.page-hero-copy.01" class="page-hero-en">HUKILAU CHALLENGE</p>
         <h1 data-cms="hukilau.page-hero-copy.02" class="page-hero-title">COCC Hukilau Challenge</h1>
+        <p data-cms="hukilau.page-hero-copy.catch" class="page-hero-catch">静かな海に、火を灯せ。</p>
       </div>
     </section>
+
+    <div class="next-race">
+      <p class="next-race-label">NEXT RACE</p>
+      <p data-cms="hukilau.next.date" class="next-race-date">2026年10月31日（土）・11月1日（日）</p>
+      <p data-cms="hukilau.next.place" class="next-race-place">茅ヶ崎</p>
+    </div>
 
     <div class="draft-notice">
       <p data-cms="hukilau.draft-notice.01">このページは準備中です。<span class="kari">【仮】</span>と書かれた内容は仮のもので、確定した情報ではありません。</p>
@@ -102,7 +109,7 @@
         <p data-cms="hukilau.hk-about.01" class="section-label">ABOUT</p>
         <h2 data-cms="hukilau.hk-about.02" class="section-title">大会について</h2>
         <p data-cms="hukilau.hk-about.03">Hukilau Challenge（フキラウ チャレンジ）は、茅ヶ崎アウトリガーカヌークラブが主催するOC6（6人乗りアウトリガーカヌー）のレースです。日本アウトリガーカヌー協会（JOCA）の公認大会として、全国のクラブが茅ヶ崎の海に集まります。</p>
-        <p data-cms="hukilau.hk-about.04">このページの内容は、前回（第18回・2024年11月2日〜3日）の開催内容をもとにしています。次回の日程や要項は、決まりしだい更新します。<span class="kari">【仮】</span></p>
+        <p data-cms="hukilau.hk-about.next">次回は2026年10月31日・11月1日に開催します。このページのクラス、タイムスケジュール、参加費は、第18回（2024年11月2日〜3日）の内容です。次回の要項は、決まりしだい更新します。<span class="kari">【仮】</span></p>
         <ul class="stat-grid">
           <li data-cms="hukilau.hk-about.05"><span class="stat-num">18TH</span><span class="stat-label">前回の開催回数</span></li>
           <li data-cms="hukilau.hk-about.06"><span class="stat-num">2 DAYS</span><span class="stat-label">開催日数</span></li>
@@ -157,7 +164,8 @@
       <div class="section-inner">
         <p data-cms="hukilau.hk-schedule.01" class="section-label">SCHEDULE</p>
         <h2 data-cms="hukilau.hk-schedule.02" class="section-title">タイムスケジュール（前回）</h2>
-        <h3 data-cms="hukilau.hk-schedule.03">1日目</h3>
+        <div class="faq">
+          <details><summary data-cms="hukilau.hk-schedule.03">1日目</summary>
         <div class="table-wrap">
           <table class="info-table">
             <thead><tr><th data-cms="hukilau.hk-schedule.04">時間</th><th data-cms="hukilau.hk-schedule.05">内容</th></tr></thead>
@@ -173,7 +181,8 @@
             </tbody>
           </table>
         </div>
-        <h3 data-cms="hukilau.hk-schedule.22">2日目</h3>
+          </details>
+          <details><summary data-cms="hukilau.hk-schedule.22">2日目</summary>
         <div class="table-wrap">
           <table class="info-table">
             <thead><tr><th data-cms="hukilau.hk-schedule.23">時間</th><th data-cms="hukilau.hk-schedule.24">内容</th></tr></thead>
@@ -185,6 +194,8 @@
               <tr><th data-cms="hukilau.hk-schedule.33">15:00</th><td data-cms="hukilau.hk-schedule.34">表彰式・閉会式</td></tr>
             </tbody>
           </table>
+        </div>
+          </details>
         </div>
       </div>
     </section>
