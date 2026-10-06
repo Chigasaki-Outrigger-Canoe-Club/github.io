@@ -669,3 +669,56 @@
 .story > img { display: block; margin: 0 0 1.6em; }
 .photos { display: flex; gap: 8px; margin: 0 0 1.6em; }
 .photos img { flex: 1; min-width: 0; object-fit: cover; }
+
+/* =========================================================
+   大島クロッシング（oshima.html）
+   ========================================================= */
+/* 写真を大きく見せるページ上部。舟と島が入るよう、下寄りで切り抜く */
+.page-hero--tall {
+  height: 78vh;
+  min-height: 460px;
+  background-position: center 100%;   /* 写真の下側（島と舟）を見せる */
+  align-items: flex-start;            /* 文字は空の部分（上）に置き、舟に重ねない */
+  padding-top: 130px;
+}
+.race-card--oshima { background-position: center 78%; }
+
+/* 物語の文章：明朝でゆったり読ませる */
+.story { max-width: 760px; margin: 8px 0 40px; }
+.section-inner .story p {
+  font-family: "Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 17px;
+  line-height: 2.3;
+  letter-spacing: 0.06em;
+  margin: 0 0 1.6em;
+}
+
+/* 毎年の記録：年を大きく、内容を右に */
+.section-inner .record-list { list-style: none; padding: 0; margin: 24px 0 0; border-top: 1px solid rgba(0,0,0,0.6); }
+.section-inner .record-list > li.record {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  column-gap: 24px;
+  align-items: baseline;
+  margin: 0;
+  padding: 22px 4px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+.record-year {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 40px;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+.section-inner .record-body p { margin: 0 0 6px; }
+.section-inner .record-date { font-size: 13px; letter-spacing: 0.08em; opacity: 0.7; }
+.section-inner .record-result { font-weight: 600; }
+.section-inner .record-note { line-height: 1.9; }
+.record-link { display: inline-block; margin-top: 4px; border-bottom: 1px solid currentColor; color: #3d7f8d; font-size: 13px; }
+
+@media (max-width: 768px) {
+  .page-hero--tall { height: 72vh; background-position: 12% 100%; padding-top: 104px; }
+  .section-inner .story p { font-size: 15px; line-height: 2.15; }
+  .section-inner .record-list > li.record { grid-template-columns: 1fr; row-gap: 8px; padding: 18px 2px; }
+  .record-year { font-size: 32px; }
+}
