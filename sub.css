@@ -334,9 +334,11 @@
   padding-top: 12px;
   border-top: 1px solid rgba(255,255,255,0.5);
 }
-.race-card--hoaikane { background-color: #da506d; }
-.race-card--hoaikane::before { background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.25)); }
-.race-card--hoaikane:hover::before { background: rgba(0,0,0,0.25); }
+.race-card--hoaikane { background-color: #de4f6d; background-position: 85% center; }   /* 右側のロゴの丸が切れないよう、右寄りで見せる */
+.race-card--hoaikane .race-card-en { font-size: clamp(22px, 2.6vw, 28px); }
+/* 写真を組み合わせたカード。下に、ロゴの色のにじみを重ねて文字を読みやすくする */
+.race-card--hoaikane::before { background: linear-gradient(90deg, rgba(150,36,70,0.78) 0%, rgba(168,46,80,0.35) 55%, rgba(168,46,80,0) 75%), linear-gradient(to bottom, rgba(222,79,109,0) 45%, rgba(168,46,80,0.6)); }
+.race-card--hoaikane:hover::before { background: linear-gradient(90deg, rgba(150,36,70,0.88) 0%, rgba(168,46,80,0.5) 60%, rgba(168,46,80,0.15) 100%); }
 
 /* ---------- ロゴを見せるページ上部（Ho'aikane） ---------- */
 .page-hero--logo {
@@ -734,4 +736,63 @@
   .race-grid { gap: 12px; }
   .race-card { min-height: 132px; padding: 18px 20px; }
   .race-card-more { margin-top: 10px; padding-top: 8px; }
+}
+
+/* =========================================================
+   Ho'aikane のページだけの雰囲気（body class="theme-hoaikane"）
+   女性のための大会。要項のチラシに合わせて、ロゴのピンクと白、丸みのある太い書体でまとめる。
+   theme.css より後に効かせるため、body から書いている。
+   ========================================================= */
+body.theme-hoaikane {
+  --rose: #de4f6d;        /* ロゴのピンク */
+  --rose-deep: #a82e50;   /* 濃いローズ（文字やヘッダー） */
+  --blush: #fff5f7;       /* ごく薄いピンク（地の色） */
+  --sun: var(--rose);
+  --sea: #c93f62;
+  --line: rgba(168, 46, 80, 0.18);
+  background: var(--blush);
+}
+body.theme-hoaikane .site-header.scrolled,
+body.theme-hoaikane .site-header:has(.global-nav.nav-open),
+body.theme-hoaikane .global-nav { background: rgba(168, 46, 80, 0.96); }
+body.theme-hoaikane .site-footer { background: var(--rose-deep); }
+
+/* 英字の見出し：チラシの題字に近い、丸みのある太いセリフ体 */
+body.theme-hoaikane .section-label,
+body.theme-hoaikane .page-hero-en {
+  font-family: "Fraunces", "Cooper Black", Georgia, serif;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+body.theme-hoaikane .section-label { color: var(--rose); font-size: clamp(26px, 4.2vw, 42px); }
+body.theme-hoaikane .section-title { color: var(--rose-deep); }
+body.theme-hoaikane .page-hero-en { font-size: clamp(40px, 7.5vw, 84px); }
+
+/* ページ上部：ロゴのピンクに、中央から明るくにじむ光 */
+body.theme-hoaikane .page-hero--logo {
+  background: radial-gradient(ellipse 60% 70% at 72% 50%, #ee7f95 0%, #de4f6d 62%, #d2456a 100%);
+}
+
+/* ボタンや目次：ピンクの丸い枠。押すとピンクで塗る */
+body.theme-hoaikane .btn,
+body.theme-hoaikane .page-toc a { border-color: var(--rose); color: var(--rose-deep); background: #fff; }
+body.theme-hoaikane .btn:hover,
+body.theme-hoaikane .page-toc a:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
+
+/* 表：線と見出しをローズに */
+body.theme-hoaikane .info-table thead th { border-bottom-color: var(--rose); color: var(--rose-deep); }
+body.theme-hoaikane .info-table tbody th { color: var(--rose-deep); }
+body.theme-hoaikane .info-table th,
+body.theme-hoaikane .info-table td { border-bottom-color: var(--line); }
+body.theme-hoaikane .section-inner .link-list li a { color: var(--rose-deep); }
+body.theme-hoaikane .draft-notice > p,
+body.theme-hoaikane .draft-notice { border-left-color: var(--rose); }
+
+/* 写真 2 枚の並び（PC は横、スマホは縦）。角を大きく丸めてやわらかく */
+.section-inner .photo-pair { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.section-inner .photo-pair li { margin: 0; }
+.photo-pair img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; }
+@media (max-width: 768px) {
+  .section-inner .photo-pair { grid-template-columns: 1fr; gap: 12px; }
 }

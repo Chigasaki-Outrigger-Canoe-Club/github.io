@@ -4,7 +4,7 @@
    すべてのページで、ほかの CSS のあとに読み込む。
    このファイルを読み込まなければ、以前の見た目（白・黒・Bebas Neue）に戻る。
    ========================================================= */
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap");
 
 :root {
   --paper: #fbf8f2;   /* 朝の砂浜の白 */
