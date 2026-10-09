@@ -255,7 +255,6 @@ function parseFaq(values) {
 function buildFaqHtml(groups, lang) {
   const en = lang === "en";
   const title = g => (en ? (g.category_en || g.category) : g.category);
-  const label = g => (g.category_en ? g.category_en.toUpperCase() : "FAQ");
   const toc =
     `    <nav class="page-toc" aria-label="${en ? "On this page" : "このページの内容"}">\n` +
     groups.map((g, i) => `      <a href="#faq-${i + 1}">${esc(title(g))}</a>\n`).join("") +
@@ -268,7 +267,6 @@ function buildFaqHtml(groups, lang) {
     }).join("\n");
     return `    <section id="faq-${i + 1}" class="page-section">
       <div class="section-inner">
-        <p class="section-label">${esc(label(g))}</p>
         <h2 class="section-title">${esc(title(g))}</h2>
         <div class="faq">
 ${items}
@@ -355,6 +353,25 @@ async function main() {
       await sheets.spreadsheets.values.append({ spreadsheetId, range: `${SHEET}!A1`, valueInputOption: "RAW", insertDataOption: "INSERT_ROWS",
         requestBody: { values: missing.map(r => [r.key, r.page, r.place, r.ja, r.en]) } });
       console.log(`シートに無かった文章 ${missing.length} 件を、content シートの末尾に足しました。`);
+    }
+    // ページから無くなった文章の行は消す（シートを見やすく保つ）
+    // 念のため、HTML から十分な数の文章が読めたときだけ行う
+    const keyCol = (values[0] || []).map(h => String(h || "").trim()).indexOf("キー");
+    if (current.size >= 100 && keyCol >= 0) {
+      const gone = [];
+      values.forEach((r, i) => {
+        if (i === 0) return;
+        const key = String(r[keyCol] || "").trim();
+        if (key && !current.has(key)) gone.push(i);           // i は 0 始まり＝シートの行番号 - 1
+      });
+      if (gone.length) {
+        const sheetId = meta.data.sheets.find(sh => sh.properties.title === SHEET).properties.sheetId;
+        const requests = gone.sort((a, b) => b - a).map(i => ({
+          deleteDimension: { range: { sheetId, dimension: "ROWS", startIndex: i, endIndex: i + 1 } }
+        }));
+        await sheets.spreadsheets.batchUpdate({ spreadsheetId, requestBody: { requests } });
+        console.log(`ページから無くなった文章 ${gone.length} 件の行を、content シートから消しました。`);
+      }
     }
   }
 
