@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Chigasaki-Outrigger-Canoe-Club/github.io#readme",
   "dependencies": {
-    "googleapis": "^174.0.1"
+    "googleapis": "^174.0.1",
+    "sharp": "^0.33.5"
   }
 }

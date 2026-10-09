@@ -35,7 +35,10 @@ function metaHash(a) {
 
 // 状態に付け足す注意
 function note(a) {
-  return a.eventIgnored ? " ⚠️ 大会・イベント名は、カテゴリが「大会・イベント」のときだけ使います" : "";
+  const list = [];
+  if (a.eventIgnored) list.push("大会・イベント名は、カテゴリが「大会・イベント」のときだけ使います");
+  for (const w of a.docWarnings || []) list.push(w);
+  return list.length ? " ⚠️ " + list.join("／") : "";
 }
 
 // 版（自動）の中身：「Doc の版|目印|更新日時」
@@ -108,7 +111,8 @@ async function main() {
     }
 
     // 記事ページの日付の横には、大会名（なければカテゴリ名）を出す
-    writePost({ ...a, category: displayLabel(a) }, doc);
+    const result = await writePost({ ...a, category: displayLabel(a) }, doc);
+    a.docWarnings = result.warnings;
     // 日付を変えたときなど、古い名前のファイルを消す
     existing.filter(f => f !== fileName).forEach(removePost);
 

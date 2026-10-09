@@ -62,9 +62,15 @@ function metaHtml(a) {
   return `<span class="news-date">${escapeHtml(a.date)}${cat}</span>`;
 }
 
+// Doc に貼った最初の写真（images/posts/年/記事の名前/01.webp）。なければ空
+function docCover(a) {
+  const rel = `images/posts/${postRelPath(a).replace(/\.html$/, "")}/01.webp`;
+  return fs.existsSync(path.join(ROOT, rel)) ? encodeURI(rel) : "";
+}
+
 function thumb(a, i) {
   const fallback = DEFAULT_IMAGES[i % DEFAULT_IMAGES.length];
-  const image = firstImageUrl(a.image_urls) || fallback;
+  const image = firstImageUrl(a.image_urls) || docCover(a) || fallback;
   return `<img src="${escapeHtml(image)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">`;
 }
 
@@ -72,7 +78,7 @@ function thumb(a, i) {
 function renderNewsItem(a, i) {
   return `
       <li class="news-item">
-        <a href="posts/${postFile(a)}">
+        <a href="${encodeURI("posts/" + postFile(a))}">
           <span class="news-thumb">${thumb(a, i)}</span>
           <span class="news-body">
             ${metaHtml(a)}
@@ -86,7 +92,7 @@ function renderNewsItem(a, i) {
 // 一覧ページ（news / events / kids）の1件分
 function renderCard(a, i) {
   return `          <li class="post-card" data-cat="${categorySlug(a.category) || "none"}" data-event="${eventSlug(a.event) || "none"}">
-            <a href="posts/${postFile(a)}">
+            <a href="${encodeURI("posts/" + postFile(a))}">
               <span class="post-card-thumb">${thumb(a, i)}</span>
               <span class="post-card-body">
                 ${metaHtml(a)}

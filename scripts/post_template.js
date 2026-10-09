@@ -41,11 +41,10 @@ const { postRelPath } = require("./post_paths");
 
 function buildPostHtml(article, bodyHtml) {
   // Google ドキュメント由来の制御文字などを取り除く
+  // 改行以外の制御文字だけ取り除く
   const cleanedHtml = String(bodyHtml || "")
     .replace(/\u000B/g, "<br>")
-    .replace(/[\u0000-\u001F]/g, "<br>")
-    .replace(/rgb\((\d+),\s*NaN,\s*NaN\)/g, "rgb($1,0,0)")
-    .replace(/NaN/g, "0");
+    .replace(/[\u0000-\u0009\u000C-\u001F]/g, "");
 
   const title = escapeHtml(article.title);
   const date = escapeHtml(article.date);
@@ -75,8 +74,8 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="${SITE_NAME}">
   <meta property="og:title" content="${title}｜${SITE_NAME}">
-  <meta property="og:url" content="${SITE_URL}posts/${escapeHtml(fileName)}">
-  <meta property="og:image" content="${escapeHtml(images[0] || SITE_URL + "images/site/ogp.png")}">
+  <meta property="og:url" content="${SITE_URL}posts/${escapeHtml(encodeURI(fileName))}">
+  <meta property="og:image" content="${escapeHtml(images[0] || (article.cover ? SITE_URL + encodeURI(article.cover) : SITE_URL + "images/site/ogp.png"))}">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
 
