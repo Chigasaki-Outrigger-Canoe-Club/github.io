@@ -899,3 +899,98 @@ body.theme-hukilau .faq summary { font-weight: 700; letter-spacing: 0.08em; }
   .next-race { flex-direction: column; align-items: center; gap: 6px; padding: 22px 6%; }
   body.theme-hukilau .stat-grid { padding: 0 16px; }
 }
+
+/* =========================================================
+   左の目次（横幅 1280px 以上のときだけ）
+   sub.js が .page-toc のリンクから .side-toc を作る。
+   ========================================================= */
+.side-toc { display: none; }
+
+@media (min-width: 1280px) {
+  body.has-side-toc { --side-pad: max(6%, 240px); }
+
+  /* 今のボタンの並びは隠し、本文の左右に同じ幅の余白をとる */
+  body.has-side-toc .page-toc { display: none; }
+  body.has-side-toc .page-section {
+    padding-left: var(--side-pad);
+    padding-right: var(--side-pad);
+  }
+  body.has-side-toc .draft-notice {
+    max-width: none;
+    padding: 0 var(--side-pad);
+  }
+  body.has-side-toc .draft-notice p { max-width: 1080px; margin: 0 auto; }
+
+  .side-toc {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: max(32px, calc((100vw - 1080px) / 2 - 216px));
+    width: 176px;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    will-change: transform;
+  }
+  .side-toc.is-ready { opacity: 1; }
+
+  .side-toc-label {
+    margin: 0 0 14px;
+    font-family: var(--display, serif);
+    font-size: 13px;
+    letter-spacing: 0.32em;
+    color: var(--sun, #d9785a);
+  }
+
+  .side-toc-track {
+    position: relative;
+    border-left: 1px solid var(--line, rgba(30, 52, 71, 0.16));
+  }
+  .side-toc ol { list-style: none; margin: 0; padding: 0; }
+
+  /* 今見ている項目の印（項目のあいだを滑って動く） */
+  .side-toc-bar {
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 3px;
+    height: 0;
+    border-radius: 2px;
+    background: var(--sun, #d9785a);
+    transition: transform 0.35s cubic-bezier(.4, 0, .2, 1), height 0.35s cubic-bezier(.4, 0, .2, 1), opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .side-toc a {
+    display: block;
+    padding: 9px 0 9px 18px;
+    font-family: var(--gothic, sans-serif);
+    font-size: 13px;
+    line-height: 1.6;
+    letter-spacing: 0.08em;
+    color: var(--ink, #1e3447);
+    opacity: 0.6;
+    transition: opacity 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  }
+  .side-toc a:hover { opacity: 0.85; }
+  .side-toc a.is-active {
+    opacity: 1;
+    color: var(--sun, #d9785a);
+    font-weight: 500;
+    transform: translateX(3px);
+  }
+
+  /* ほかのページへのリンク */
+  .side-toc-more {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 16px 0 0 1px;
+    border-top: 1px solid var(--line, rgba(30, 52, 71, 0.16));
+  }
+  .side-toc-more a {
+    padding: 6px 0;
+    font-size: 12px;
+    opacity: 0.6;
+  }
+  .side-toc-more a::after { content: " \2192"; color: var(--sun, #d9785a); }
+}
