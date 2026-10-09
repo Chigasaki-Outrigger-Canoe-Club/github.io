@@ -75,8 +75,9 @@ function freezeHtml(html, page, year, lang) {
   // 「準備中」のお知らせの代わりに、保存版の帯を出す
   const latest = path.posix.relative(path.posix.dirname(to), from);
   const notice = lang === "en"
-    ? `<div class="archive-notice"><p>This page is a record of the ${year} ${esc(name)}. <a href="${latest}">See the latest page</a></p></div>`
-    : `<div class="archive-notice"><p>このページは、${year}年の${esc(name)}の記録です。<a href="${latest}">最新のページへ</a></p></div>`;
+    ? `<div class="archive-notice"><p>This page is a record of the ${year} ${esc(name)}.</p></div>`
+    : `<div class="archive-notice"><p>このページは、${year}年の${esc(name)}の記録です。</p></div>`;
+  // 最新のページへは、帯の上の「← ${name}」（戻るリンク）から行ける
   if (/<div class="draft-notice">[\s\S]*?<\/div>/.test(html)) {
     html = html.replace(/<div class="draft-notice">[\s\S]*?<\/div>/, notice);
   } else {
