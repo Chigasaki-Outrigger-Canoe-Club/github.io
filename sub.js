@@ -172,3 +172,116 @@ document.querySelectorAll('.global-nav a').forEach(a => {
     if (btn) btn.classList.remove('active');
   });
 });
+
+// =========================================================
+// 左の目次（横幅 1280px 以上のときだけ CSS で表示）
+// .page-toc のリンクを写して、画面の左に置く。
+// - HERO 画像の下から始まり、スクロールするとヘッダーの下で止まる
+// - フッターに重ならないよう、フッターが来たら一緒に上がる
+// - 今見ている見出しの項目に色をつける
+// =========================================================
+(function () {
+  const pageToc = document.querySelector('.page-toc');
+  if (!pageToc) return;
+
+  const links = Array.from(pageToc.querySelectorAll('a[href^="#"]'));
+  // ほかのページへのリンク（初めての方へ・会員案内にある）は、下に「関連ページ」として出す
+  const others = Array.from(pageToc.querySelectorAll('a:not([href^="#"])'));
+  const items = links
+    .map(a => ({ href: a.getAttribute('href'), text: a.textContent.trim(), target: document.querySelector(a.getAttribute('href')) }))
+    .filter(i => i.target);
+  if (items.length === 0) return;
+
+  const aside = document.createElement('aside');
+  aside.className = 'side-toc';
+  aside.setAttribute('aria-label', pageToc.getAttribute('aria-label') || 'Contents');
+  aside.innerHTML = '<p class="side-toc-label">CONTENTS</p><div class="side-toc-track"><span class="side-toc-bar" aria-hidden="true"></span><ol></ol></div>';
+  const list = aside.querySelector('ol');
+  const bar = aside.querySelector('.side-toc-bar');
+
+  items.forEach(i => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = i.href;
+    a.textContent = i.text;
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      window.scrollTo({ top: i.target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+      history.replaceState(null, '', i.href);
+    });
+    li.appendChild(a);
+    list.appendChild(li);
+    i.link = a;
+  });
+
+  if (others.length) {
+    const more = document.createElement('ul');
+    more.className = 'side-toc-more';
+    others.forEach(o => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = o.getAttribute('href');
+      a.textContent = o.textContent.trim();
+      li.appendChild(a);
+      more.appendChild(li);
+    });
+    aside.appendChild(more);
+  }
+
+  document.body.appendChild(aside);
+  document.body.classList.add('has-side-toc');
+
+  const wide = window.matchMedia('(min-width: 1280px)');
+  const startEl = document.querySelector('.next-race') || document.querySelector('.page-hero');
+  const headerEl = document.querySelector('.site-header');
+  const footerEl = document.querySelector('.site-footer');
+  let current = null;
+  let ticking = false;
+
+  function place() {
+    const headerH = headerEl ? headerEl.offsetHeight : 0;
+    const start = startEl ? startEl.getBoundingClientRect().bottom + 56 : headerH + 40;
+    let top = Math.max(headerH + 40, start);
+    if (footerEl) {
+      const limit = footerEl.getBoundingClientRect().top - aside.offsetHeight - 40;
+      top = Math.min(top, limit);
+    }
+    aside.style.transform = 'translateY(' + Math.round(top) + 'px)';
+  }
+
+  function highlight() {
+    const line = window.innerHeight * 0.35;
+    let active = items[0];
+    items.forEach(i => { if (i.target.getBoundingClientRect().top <= line) active = i; });
+    // いちばん下までスクロールしたら、最後の項目
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+      active = items[items.length - 1];
+    }
+    if (active === current) return;
+    current = active;
+    items.forEach(i => i.link.classList.toggle('is-active', i === active));
+    bar.style.transform = 'translateY(' + active.link.parentNode.offsetTop + 'px)';
+    bar.style.height = active.link.parentNode.offsetHeight + 'px';
+    bar.style.opacity = '1';
+  }
+
+  function update() {
+    ticking = false;
+    if (!wide.matches) return;
+    place();
+    highlight();
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', () => { current = null; requestUpdate(); });
+  if (wide.addEventListener) wide.addEventListener('change', () => { current = null; requestUpdate(); });
+  window.addEventListener('load', () => { current = null; update(); aside.classList.add('is-ready'); });
+  update();
+  requestAnimationFrame(() => aside.classList.add('is-ready'));
+})();
