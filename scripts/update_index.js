@@ -2,15 +2,16 @@
 //
 // - index.html   … NEWS（全カテゴリの新しい順、5 件）
 // - news.html    … すべての記事（カテゴリで絞り込める）       <!-- CARDS_ALL -->
-// - events.html  … 大会・イベント情報（3 件）                 <!-- CARDS_EVENT -->
-//                  イベントレポート（6 件）                    <!-- CARDS_REPORT -->
+// - events.html  … 大会・イベント（6 件）                     <!-- CARDS_EVENT -->
 // - kids.html    … KIDS（6 件）                               <!-- CARDS_KIDS -->
+// - oshima.html / hukilau.html / hoaikane.html
+//                … その大会の記事（3 件）                     <!-- CARDS_OSHIMA など -->
 //
 // <!-- 名前:START --> と <!-- 名前:END --> のあいだを、毎回作り直す。
 
 const fs = require("fs");
 const path = require("path");
-const { fetchArticles, categorySlug } = require("./sheets_fetch");
+const { fetchArticles, categorySlug, eventSlug, displayLabel, EVENT_CATEGORY } = require("./sheets_fetch");
 
 const ROOT = process.cwd();
 
@@ -53,8 +54,9 @@ function firstImageUrl(imageUrls) {
 // 日付とカテゴリのラベル
 function metaHtml(a) {
   const slug = categorySlug(a.category);
-  const cat = a.category
-    ? `<span class="news-cat news-cat--${slug}">${escapeHtml(a.category)}</span>`
+  const label = displayLabel(a);
+  const cat = label
+    ? `<span class="news-cat news-cat--${slug}">${escapeHtml(label)}</span>`
     : "";
   return `<span class="news-date">${escapeHtml(a.date)}${cat}</span>`;
 }
@@ -82,7 +84,7 @@ function renderNewsItem(a, i) {
 
 // 一覧ページ（news / events / kids）の1件分
 function renderCard(a, i) {
-  return `          <li class="post-card" data-cat="${categorySlug(a.category) || "none"}">
+  return `          <li class="post-card" data-cat="${categorySlug(a.category) || "none"}" data-event="${eventSlug(a.event) || "none"}">
             <a href="posts/${postFile(a)}">
               <span class="post-card-thumb">${thumb(a, i)}</span>
               <span class="post-card-body">
@@ -147,16 +149,24 @@ async function main() {
   updateFile("news.html", html =>
     replaceBlock(html, "CARDS_ALL", renderCards(articles, "まだ記事はありません。")));
 
-  // events.html（大会・イベント情報／イベントレポート）
-  updateFile("events.html", html => {
-    html = replaceBlock(html, "CARDS_EVENT", renderCards(byCat("大会・イベント情報").slice(0, 3), "いまお知らせしている大会情報はありません。"));
-    html = replaceBlock(html, "CARDS_REPORT", renderCards(byCat("イベントレポート").slice(0, 6), "レポートは、まだありません。"));
-    return html;
-  });
+  // events.html（大会・イベント）
+  updateFile("events.html", html =>
+    replaceBlock(html, "CARDS_EVENT", renderCards(byCat(EVENT_CATEGORY).slice(0, 6), "大会・イベントの記事は、まだありません。")));
 
   // kids.html（KIDS）
   updateFile("kids.html", html =>
     replaceBlock(html, "CARDS_KIDS", renderCards(byCat("KIDS").slice(0, 6), "KIDS の記事は、まだありません。")));
+
+  // 各大会のページ（その大会の記事 3 件）
+  const races = [
+    ["oshima.html", "CARDS_OSHIMA", "大島クロッシング"],
+    ["hukilau.html", "CARDS_HUKILAU", "Hukilau Challenge"],
+    ["hoaikane.html", "CARDS_HOAIKANE", "Ho'aikane"]
+  ];
+  for (const [file, mark, name] of races) {
+    updateFile(file, html =>
+      replaceBlock(html, mark, renderCards(articles.filter(a => a.event === name).slice(0, 3), "新しいお知らせは、まだありません。")));
+  }
 }
 
 main().catch(err => {

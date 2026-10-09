@@ -10,7 +10,7 @@
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
-const { readArticleSheet, sheetsClient, columnLetter } = require("./sheets_fetch");
+const { readArticleSheet, sheetsClient, columnLetter, displayLabel } = require("./sheets_fetch");
 const { fetchDoc, writePost, postFileName, POSTS_DIR } = require("./generate_posts_core");
 
 const REBUILD_ALL = String(process.env.REBUILD_ALL || "").toLowerCase() === "true";
@@ -28,8 +28,13 @@ function nowLabel() {
 // タイトル・日付・画像・カテゴリが変わったときも作り直すための目印
 function metaHash(a) {
   return crypto.createHash("md5")
-    .update([a.title, a.date, a.image_urls, a.category].join("\u0001"))
+    .update([a.title, a.date, a.image_urls, a.category, a.event].join("\u0001"))
     .digest("hex").slice(0, 8);
+}
+
+// 状態に付け足す注意
+function note(a) {
+  return a.eventIgnored ? " ⚠️ 大会・イベント名は、カテゴリが「大会・イベント」のときだけ使います" : "";
 }
 
 // 版（自動）の中身：「Doc の版|目印|更新日時」
@@ -104,17 +109,18 @@ async function main() {
 
     if (unchanged && !REBUILD_ALL) {
       console.log(`Skip (変更なし): ${a.id}`);
-      setCell("state", a.rowNumber, `✅ 公開中（${prev.time || "-"} 更新）`);
+      setCell("state", a.rowNumber, `✅ 公開中（${prev.time || "-"} 更新）${note(a)}`);
       continue;
     }
 
-    writePost(a, doc);
+    // 記事ページの日付の横には、大会名（なければカテゴリ名）を出す
+    writePost({ ...a, category: displayLabel(a) }, doc);
     // 日付を変えたときなど、古い名前のファイルを消す
     existing.filter(f => f !== fileName).forEach(removeFile);
 
     const time = unchanged ? (prev.time || nowLabel()) : nowLabel();
     setCell("version", a.rowNumber, `${rev}|${meta}|${time}`);
-    setCell("state", a.rowNumber, `✅ 公開中（${time} 更新）`);
+    setCell("state", a.rowNumber, `✅ 公開中（${time} 更新）${note(a)}`);
   }
 
   // ③ シートから行ごと消された記事のファイルを消す

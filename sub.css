@@ -1076,6 +1076,8 @@ body.theme-hukilau .faq summary { font-weight: 700; letter-spacing: 0.08em; }
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 .news-filter-btn:hover { border-color: var(--ink, #1e3447); }
+.news-filter-sep { width: 1px; align-self: stretch; margin: 4px 6px; background: var(--line, rgba(0, 0, 0, 0.2)); }
+.news-filter-btn--sub { font-size: 12px; }
 .news-filter-btn.is-active {
   background: var(--ink, #1e3447);
   border-color: var(--ink, #1e3447);
