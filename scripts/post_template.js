@@ -81,6 +81,12 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
   <meta charset="UTF-8">
   <title>${title}｜${SITE_NAME}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- アイコン（ブラウザのタブ・ホーム画面に追加したとき） -->
+  <link rel="icon" href="../../images/site/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../images/site/icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="../../images/site/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <meta name="theme-color" content="#fbf8f2">
   <!-- SNS や LINE で共有したときに出る情報（OGP） -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="${SITE_NAME}">
