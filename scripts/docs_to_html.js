@@ -194,6 +194,7 @@ function convertDocsToHtml(doc, srcOf = () => "") {
   // 本文を上から順に
   const content = (doc.body && doc.body.content) || [];
   let listOpen = null;           // "ul" | "ol" | null
+  let sectionNo = 0;             // 見出し1 の番号（目次の飛び先 #sec-1 …）
   const closeList = () => { if (listOpen) { out.push(`</${listOpen}>`); listOpen = null; } };
 
   for (let i = 0; i < content.length; i++) {
@@ -236,9 +237,16 @@ function convertDocsToHtml(doc, srcOf = () => "") {
     closeList();
 
     if (!html) { continue; }   // 空の行は詰める（段落のあいだは CSS で空ける）
+    if (/^【写真をここに】$/.test(plain)) continue;   // 写真を入れる場所の目印（サイトには出さない）
 
-    if (style === "TITLE" || style === "HEADING_1") out.push(`<h2>${html}</h2>`);
-    else if (style === "SUBTITLE" || style === "HEADING_2") out.push(`<h3>${html}</h3>`);
+    if (style === "TITLE" || style === "HEADING_1") out.push(`<h2 id="sec-${++sectionNo}">${html}</h2>`);
+    else if (style === "SUBTITLE") {
+      // サブタイトルが続くときは、1 つのリード文にまとめる（行は改行でつなぐ）
+      const last = out[out.length - 1] || "";
+      if (last.startsWith('<p class="lead">')) out[out.length - 1] = last.replace(/<\/p>$/, `<br>${html}</p>`);
+      else out.push(`<p class="lead">${html}</p>`);
+    }
+    else if (style === "HEADING_2") out.push(`<h3>${html}</h3>`);
     else if (/^HEADING_[3-6]$/.test(style)) out.push(`<h4>${html}</h4>`);
     else out.push(`<p>${html}</p>`);
   }

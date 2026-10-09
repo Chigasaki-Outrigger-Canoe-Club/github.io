@@ -46,6 +46,17 @@ function buildPostHtml(article, bodyHtml) {
     .replace(/\u000B/g, "<br>")
     .replace(/[\u0000-\u0009\u000C-\u001F]/g, "");
 
+  // 見出し1（<h2 id="sec-…">）が 3 つ以上ある長い記事は、目次を付ける
+  const sections = [...cleanedHtml.matchAll(/<h2 id="(sec-\d+)">([\s\S]*?)<\/h2>/g)]
+    .map(m => ({ id: m[1], text: m[2].replace(/<[^>]+>/g, "").trim() }));
+  const tocHtml = sections.length >= 3
+    ? `
+        <nav class="page-toc post-toc" aria-label="この記事の目次">
+${sections.map(s => `          <a href="#${s.id}">${escapeHtml(s.text)}</a>`).join("\n")}
+        </nav>
+`
+    : "";
+
   const title = escapeHtml(article.title);
   const date = escapeHtml(article.date);
   const category = escapeHtml(categoryLabel(article.category));
@@ -147,6 +158,7 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
           <h1 class="post-title">${title}</h1>
         </header>
 
+${tocHtml}
         <div class="post-body">
           ${cleanedHtml}
         </div>

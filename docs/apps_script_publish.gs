@@ -83,7 +83,7 @@ var ARTICLES_SHEET = 'articles';
 var CATEGORY_HEADER = 'カテゴリ';
 var EVENT_HEADER = '大会・イベント名';
 var EVENT_CATEGORY = '大会・イベント';
-var EVENT_NAMES = ['大島クロッシング', 'Hukilau Challenge', "Ho'aikane", 'その他'];
+var EVENT_NAMES = ['大島クロッシング', 'Hukilau Challenge', "Ho'aikane", '海外レース', 'その他'];
 
 /** セルを書き換えたときに自動で動く */
 function onEdit(e) {
