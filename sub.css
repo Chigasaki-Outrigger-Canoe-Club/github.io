@@ -1206,3 +1206,83 @@ html[lang="en"] .section-inner .section-title {
 @media (min-width: 1280px) {
   body.has-side-toc .post { padding-left: var(--side-pad); padding-right: var(--side-pad); }
 }
+
+/* =========================================================
+   道しるべ（sub.js が足す）
+   ========================================================= */
+/* HERO の下の「← 大会・イベント」など */
+.hero-back {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 22px 6% 0;
+}
+.hero-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--ink, #1e3447);
+  text-decoration: none;
+}
+.hero-back-link::before {
+  content: "←";
+  font-family: sans-serif;
+  color: var(--sun, #d9785a);
+  transition: transform 0.2s ease;
+}
+.hero-back-link:hover::before { transform: translateX(-4px); }
+.hero-back-link:hover { color: var(--sun, #d9785a); }
+.hero-back--post { max-width: none; padding: 0; margin: 0 0 28px; }
+@media (min-width: 1280px) {
+  body.has-side-toc .hero-back:not(.hero-back--post) { max-width: none; padding-left: var(--side-pad); padding-right: var(--side-pad); }
+  body.has-side-toc .hero-back:not(.hero-back--post) .hero-back-link { margin: 0; }
+}
+
+/* フッターの上の「← 前のページ ／ 次のページ →」 */
+.page-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1080px;
+  margin: 40px auto 0;
+  border-top: 1px solid var(--line, rgba(0, 0, 0, 0.12));
+}
+.page-pager-link, .page-pager-empty { display: block; padding: 28px 6%; }
+.page-pager-link { color: var(--ink, #1e3447); text-decoration: none; transition: background 0.25s ease; }
+.page-pager-link:hover { background: rgba(30, 52, 71, 0.04); }
+.page-pager-link--next { text-align: right; border-left: 1px solid var(--line, rgba(0, 0, 0, 0.12)); }
+.page-pager-dir {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--display, serif);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--sun, #d9785a);
+}
+.page-pager-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mincho, serif);
+  font-size: clamp(16px, 2.2vw, 22px);
+  letter-spacing: 0.08em;
+}
+.page-pager-link--prev .page-pager-name::before,
+.page-pager-link--next .page-pager-name::after {
+  font-family: sans-serif;
+  color: var(--sun, #d9785a);
+  transition: transform 0.25s ease;
+}
+.page-pager-link--prev .page-pager-name::before { content: "←"; }
+.page-pager-link--next .page-pager-name::after { content: "→"; }
+.page-pager-link--prev:hover .page-pager-name::before { transform: translateX(-5px); }
+.page-pager-link--next:hover .page-pager-name::after { transform: translateX(5px); }
+html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
+@media (min-width: 1280px) {
+  body.has-side-toc .page-pager { max-width: none; margin-left: var(--side-pad); margin-right: var(--side-pad); }
+}
+@media (max-width: 600px) {
+  .page-pager { margin-top: 56px; }
+  .page-pager-link, .page-pager-empty { padding: 22px 16px; }
+  .page-pager-name { font-size: 15px; gap: 8px; }
+}

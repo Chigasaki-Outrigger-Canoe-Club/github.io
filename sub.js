@@ -345,34 +345,73 @@ document.querySelectorAll('.global-nav a').forEach(a => {
 })();
 
 // =========================================================
-// 戻るボタン（ヘッダーの中。大会・イベントのページ、記事、挑戦記）
-// - サイトの中から来たとき：「← 戻る」で、来たページに戻る（スクロール位置もそのまま）
-// - 直接開いたとき：「← 大会・イベント」のように、一つ上のページへ
-// <body data-back="行き先" data-back-label="名前"> があるページだけに出る
+// ページのあいだを移る道しるべ
+// 1) 戻るリンク：<body data-back="行き先" data-back-label="名前"> があるページ
+//    - 写真（HERO）があるページ：HERO の下に「← 名前」
+//    - 記事のページ：記事のタイトルの上に「← 名前」
+// 2) 前後のページ（フッターの上）：
+//    - メニューにあるページ：メニューの順に「← 前のページ」「次のページ →」（両端はトップページ）
+//    - 大会・イベントの個別ページ：「← 大会・イベント」だけ
 // =========================================================
 (function () {
-  const target = document.body.getAttribute('data-back');
-  const headerInner = document.querySelector('.site-header .header-inner');
-  if (!target || !headerInner) return;
-
+  const body = document.body;
   const en = document.documentElement.lang === 'en';
-  let fromSite = false;
-  try {
-    fromSite = document.referrer && new URL(document.referrer).origin === location.origin &&
-      new URL(document.referrer).pathname !== location.pathname && history.length > 1;
-  } catch (e) { fromSite = false; }
+  const backHref = body.getAttribute('data-back');
+  const backLabel = body.getAttribute('data-back-label') || (en ? 'Back' : '戻る');
+  const isPost = body.classList.contains('post-page');
 
-  const a = document.createElement('a');
-  a.className = 'header-back';
-  a.href = target;
-  a.innerHTML = '<span class="header-back-arrow" aria-hidden="true">←</span><span class="header-back-text"></span>';
-  a.querySelector('.header-back-text').textContent = fromSite ? (en ? 'Back' : '戻る') : (document.body.getAttribute('data-back-label') || (en ? 'Back' : '戻る'));
-  a.addEventListener('click', e => {
-    if (!fromSite) return;
-    e.preventDefault();
-    history.back();
-  });
+  const link = (href, text, cls) => {
+    const a = document.createElement('a');
+    a.href = href;
+    a.className = cls;
+    a.textContent = text;
+    return a;
+  };
 
-  const before = headerInner.querySelector('.lang-switch') || headerInner.querySelector('.menu-btn');
-  headerInner.insertBefore(a, before);
+  // 1) 戻るリンク
+  if (backHref) {
+    const wrap = document.createElement('div');
+    wrap.className = 'hero-back';
+    wrap.appendChild(link(backHref, backLabel, 'hero-back-link'));
+    const after = document.querySelector('.next-race') || document.querySelector('.page-hero');
+    const postInner = document.querySelector('.post-inner');
+    if (after) after.insertAdjacentElement('afterend', wrap);
+    else if (postInner) { wrap.classList.add('hero-back--post'); postInner.insertBefore(wrap, postInner.firstChild); }
+  }
+
+  // 2) 前後のページ
+  const footer = document.querySelector('.site-footer');
+  if (!footer || isPost || body.getAttribute('data-pager') === 'off') return;
+  const logo = document.querySelector('.site-header .logo-area a');
+  const top = { href: logo ? logo.getAttribute('href') : 'index.html', text: en ? 'Top page' : 'トップページ' };
+  const items = Array.from(document.querySelectorAll('#globalNav > ul > li > a'))
+    .map(a => ({ href: a.getAttribute('href'), text: a.textContent.trim(), path: new URL(a.getAttribute('href'), location.href).pathname }));
+  const here = location.pathname;
+  const i = items.findIndex(it => it.path === here);
+
+  let prev = null, next = null;
+  if (i >= 0) {
+    prev = i > 0 ? items[i - 1] : top;
+    next = i < items.length - 1 ? items[i + 1] : top;
+  } else if (backHref && !document.querySelector('.archive-notice')) {
+    prev = { href: backHref, text: backLabel };       // 大会・イベントの個別ページ
+  } else {
+    return;
+  }
+
+  const nav = document.createElement('nav');
+  nav.className = 'page-pager';
+  nav.setAttribute('aria-label', en ? 'Other pages' : 'ほかのページへ');
+  const cell = (it, dir) => {
+    if (!it) { const s = document.createElement('span'); s.className = 'page-pager-empty'; return s; }
+    const a = document.createElement('a');
+    a.href = it.href;
+    a.className = `page-pager-link page-pager-link--${dir}`;
+    a.innerHTML = `<span class="page-pager-dir">${dir === 'prev' ? 'PREV' : 'NEXT'}</span><span class="page-pager-name"></span>`;
+    a.querySelector('.page-pager-name').textContent = it.text;
+    return a;
+  };
+  nav.appendChild(cell(prev, 'prev'));
+  nav.appendChild(cell(next, 'next'));
+  footer.parentNode.insertBefore(nav, footer);
 })();
