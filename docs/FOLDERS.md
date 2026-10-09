@@ -73,6 +73,7 @@ archive/2027/en/hukilau.html
 | `events/` | 大会・イベントのページ（Ho'aikane のロゴ、大島クロッシングなど） |
 | `gallery/oshima/` `gallery/hukilau/` `gallery/hoaikane/` | 各ページの「ギャラリー」。写真を入れるとファイル名の順に自動で並ぶ（並び順は 01_ 02_ … の番号で決める） |
 | `ogp.png` | SNS で共有したときに出る画像 |
+| `icons/` | アイコン。`favicon*`＝ブラウザのタブ（透過のロゴだけ）、`apple-touch-icon.png`・`icon-192/512.png`＝スマホのホーム画面（朝の砂浜色の背景にロゴ）。設定は `site.webmanifest` |
 
 - 写真を足すときは、使うページに合うフォルダに入れる。迷ったら、ページの名前のフォルダを新しく作る（例：`kids/`）。
 - ファイル名は英数字と `_` だけにする（例：`oshima_crossing.jpg`）。
