@@ -83,6 +83,9 @@ function freezeHtml(html, page, year, lang) {
     html = html.replace(/(\n[ \t]*)(<nav class="page-toc")/, `$1${notice}\n$1$2`);
   }
 
+  // 戻るボタンの行き先は、今の（最新の）ページ
+  html = html.replace(/data-back="[^"]*" data-back-label="[^"]*"/, `data-back="${latest}" data-back-label="${esc(name)}"`);
+
   // 固定した印
   html = html.replace(/(<body[^>]*>)/, `$1\n    <!-- ARCHIVED ${year}：このファイルは保存版です。スプレッドシートからは書き換わりません -->`);
   return html;

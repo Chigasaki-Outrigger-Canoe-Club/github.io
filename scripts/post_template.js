@@ -98,7 +98,7 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
   <link rel="stylesheet" href="../../theme.css">
   </head>
 
-  <body class="post-page">
+  <body class="post-page" data-back="${article.event === "海外レース" ? "../../overseas/index.html" : "../../news.html"}" data-back-label="${article.event === "海外レース" ? "海外レース挑戦記" : "NEWS"}">
 
     <header class="site-header">
       <div class="header-inner">
@@ -148,7 +148,6 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
 
     <main class="post">
       <article class="post-inner">
-        <p class="post-back"><a href="../../news.html">NEWS</a></p>
 
         <header class="post-head">
           <p class="post-meta">
