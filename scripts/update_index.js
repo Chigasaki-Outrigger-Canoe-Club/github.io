@@ -2,22 +2,16 @@ const fs = require("fs");
 const path = require("path");
 const { fetchArticles } = require("./sheets_fetch");
 
-// 「はい / いいえ」→ boolean に変換
-function normalizeBool(value) {
-  if (typeof value === "boolean") return value;
-  if (!value) return false;
-  return value.trim() === "はい";
+// サイトに載せる記事：「載せる」にチェックがあり、記事ページができているもの
+function isListed(a) {
+  if (!a.publish || !a.date || !a.title || !a.id) return false;
+  const file = path.join(process.cwd(), "posts", `${a.date}_COCC_WEB_${a.id}.html`);
+  return fs.existsSync(file);
 }
 
 async function buildNewsList() {
   const articles = await fetchArticles();
-
-  // 公開する？ = はい AND 生成済？ = はい の記事だけ表示
-  const filtered = articles.filter(a => {
-    const status = normalizeBool(a.status);
-    const generated = normalizeBool(a.generated);
-    return status;
-  });
+  const filtered = articles.filter(isListed);
 
   // 日付降順
   filtered.sort((a, b) => b.date.localeCompare(a.date));
@@ -87,27 +81,6 @@ function renderNewsItem(a, i) {
 async function updateIndex() {
   const newsListHtml = await buildNewsList();
 
-// ★ ここで記事数を取得して index.html に埋め込む
-  const articles = await fetchArticles();
-
-  // ① status=true の件数
-  const countStatus = articles.filter(a => normalizeBool(a.status)).length;
-
-  // ② status=true AND generated=true の件数
-  const countStatusGenerated = articles.filter(a =>
-    normalizeBool(a.status) && normalizeBool(a.generated)
-  ).length;
-
-  console.log("FETCHED:", articles);
-
-  // デバッグ用の件数表示（公開ページに出さないためコメントアウト）
-  // const debugCountHtml = `
-  //   <div class="debug-count">
-  //     status=true：${countStatus} 件<br>
-  //     status=true AND generated=true：${countStatusGenerated} 件
-  //   </div>
-  // `;
-
   const indexPath = path.join(process.cwd(), "index.html");
   let indexHtml = fs.readFileSync(indexPath, "utf-8");
 
@@ -115,11 +88,13 @@ async function updateIndex() {
   indexHtml = indexHtml.replace(
     /<ul class="news-right">[\s\S]*?<\/ul>/m,
     `<ul class="news-right">\n${newsListHtml}\n</ul>`
-    // デバッグ表示を戻す場合: `<ul class="news-right">\n${newsListHtml}\n</ul>\n${debugCountHtml}`
   );
 
   fs.writeFileSync(indexPath, indexHtml, "utf-8");
   console.log("index.html updated with latest NEWS_LIST");
 }
 
-updateIndex();
+updateIndex().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

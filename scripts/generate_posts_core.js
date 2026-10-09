@@ -5,13 +5,6 @@ const { convertDocsToHtml } = require("./docs_to_html");
 const { extractDocumentId } = require("./utils");
 const { buildPostHtml } = require("./post_template");
 
-// 「はい / いいえ」→ boolean に正規化
-function normalizeBool(value) {
-  if (typeof value === "boolean") return value;
-  if (!value) return false;
-  return value.trim() === "はい";
-}
-
 const auth = new google.auth.GoogleAuth({
   credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT),
   scopes: [
@@ -20,53 +13,39 @@ const auth = new google.auth.GoogleAuth({
   ]
 });
 
-async function generatePostCore(article) {
-  const authClient = await auth.getClient();
+const POSTS_DIR = path.join(process.cwd(), "posts");
 
-  // 生成済み・修正フラグを正規化
-  const isGenerated = normalizeBool(article.generated);
-  const isModified = normalizeBool(article.modified);
+function postFileName(article) {
+  return `${article.date}_COCC_WEB_${article.id}.html`;
+}
 
-  // ① 生成済み & 修正なし → スキップ
-  if (isGenerated && !isModified) {
-    console.log(`記事 ${article.id} は生成済みのためスキップ`);
-    return null;
+// Google Doc を読む。開けなければ例外を投げる。
+async function fetchDoc(docUrl) {
+  const docId = extractDocumentId(docUrl || "");
+  if (!docId) {
+    const err = new Error("記事のリンクが Google Doc ではありません");
+    err.userMessage = err.message;
+    throw err;
   }
-
-  // ② Docs URL → documentId
-  const docId = extractDocumentId(article.body_doc_url);
-
-  // ③ Docs API → HTML
-  const docs = google.docs({ version: "v1", auth: authClient });
-  const doc = await docs.documents.get({ documentId: docId });
-  const bodyHtml = convertDocsToHtml(doc.data);
-
-  // ④ posts フォルダがなければ作る
-  const postsDir = path.join(process.cwd(), "posts");
-  if (!fs.existsSync(postsDir)) {
-    fs.mkdirSync(postsDir);
+  const docs = google.docs({ version: "v1", auth: await auth.getClient() });
+  try {
+    const res = await docs.documents.get({ documentId: docId });
+    return res.data;
+  } catch (e) {
+    const err = new Error(`Doc を開けません（${e.code || e.message}）`);
+    err.userMessage = "Doc を開けません。共有の設定を確かめてください";
+    throw err;
   }
+}
 
-  // ⑤ HTMLテンプレートに埋め込む
-  const html = buildHtml(article, bodyHtml);
-
-  // ⑥ posts/ に保存
-  const outputPath = path.join(postsDir, `${article.date}_COCC_WEB_${article.id}.html`);
+// 記事ページを書き出す
+function writePost(article, doc) {
+  if (!fs.existsSync(POSTS_DIR)) fs.mkdirSync(POSTS_DIR);
+  const html = buildPostHtml(article, convertDocsToHtml(doc));
+  const outputPath = path.join(POSTS_DIR, postFileName(article));
   fs.writeFileSync(outputPath, html, "utf-8");
-
   console.log(`Generated: ${outputPath}`);
-
-  // ⑦ 生成後の状態を返す（sheets_sync.js で書き戻す）
-  return {
-    ...article,
-    generated: true,
-    modified: false
-  };
+  return outputPath;
 }
 
-// 記事ページのひな形は post_template.js にまとめている
-function buildHtml(article, bodyHtml) {
-  return buildPostHtml(article, bodyHtml);
-}
-
-module.exports = { generatePostCore };
+module.exports = { fetchDoc, writePost, postFileName, POSTS_DIR };

@@ -1,124 +1,143 @@
-const { fetchArticles } = require("./sheets_fetch");
-const { generatePostCore } = require("./generate_posts_core");
-const { google } = require("googleapis");
+// articles シート → posts/ の記事ページ
+//
+// 使い方（シート側）
+// - 「載せる」にチェック → サイトに出す。外す → サイトから消す。
+// - Google Doc を直したら、反映するだけで作り直される（Doc の版の番号で判断）。
+// - 「状態（自動）」「記事id（自動）」「版（自動）」はこのスクリプトが書く。
+//
+// REBUILD_ALL=true のときは、変わっていない記事も全部作り直す（テンプレートを変えたとき用）。
+
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
+const { readArticleSheet, sheetsClient, columnLetter } = require("./sheets_fetch");
+const { fetchDoc, writePost, postFileName, POSTS_DIR } = require("./generate_posts_core");
 
-// 「はい / いいえ」→ boolean に変換
-function normalizeBool(value) {
-  if (typeof value === "boolean") return value;
-  if (!value) return false;
-  return value.trim() === "はい";
+const REBUILD_ALL = String(process.env.REBUILD_ALL || "").toLowerCase() === "true";
+
+// 日本時間の「10/09 13:08」
+function nowLabel() {
+  const parts = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hour12: false
+  }).formatToParts(new Date());
+  const get = t => (parts.find(p => p.type === t) || {}).value || "";
+  return `${get("month")}/${get("day")} ${get("hour")}:${get("minute")}`;
 }
 
-// generated を「はい」に更新する
-async function markGenerated(article) {
-  const creds = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
-
-  const auth = new google.auth.GoogleAuth({
-    credentials: creds,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-  });
-
-  const sheets = google.sheets({ version: "v4", auth });
-
-  const articles = await fetchArticles();
-  const index = articles.findIndex(a => a.id === article.id);
-
-  if (index === -1) {
-    console.error("記事が見つからない:", article.id);
-    return;
-  }
-
-  const rowNumber = index + 2; // 1行目が列名、2行目から記事（説明行はない）
-
-  await sheets.spreadsheets.values.update({
-    spreadsheetId: process.env.SHEET_ID,
-    range: `articles!H${rowNumber}`,   // 生成済？ の列（日本語化後）
-    valueInputOption: "RAW",
-    requestBody: { values: [["はい"]] }
-  });
-
-  console.log(`generated を「はい」に更新: ${article.id}`);
+// タイトル・日付・画像・カテゴリが変わったときも作り直すための目印
+function metaHash(a) {
+  return crypto.createHash("md5")
+    .update([a.title, a.date, a.image_urls, a.category].join("\u0001"))
+    .digest("hex").slice(0, 8);
 }
 
-// modified を「いいえ」に戻す
-async function clearModified(article) {
-  const creds = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
-
-  const auth = new google.auth.GoogleAuth({
-    credentials: creds,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-  });
-
-  const sheets = google.sheets({ version: "v4", auth });
-
-  const articles = await fetchArticles();
-  const index = articles.findIndex(a => a.id === article.id);
-
-  if (index === -1) {
-    console.error("記事が見つからない:", article.id);
-    return;
-  }
-
-  const rowNumber = index + 2; // 1行目が列名、2行目から記事
-
-  await sheets.spreadsheets.values.update({
-    spreadsheetId: process.env.SHEET_ID,
-    range: `articles!I${rowNumber}`,   // 修正する？ の列（日本語化後）
-    valueInputOption: "RAW",
-    requestBody: { values: [["いいえ"]] }
-  });
-
-  console.log(`modified を「いいえ」に更新: ${article.id}`);
+// 版（自動）の中身：「Doc の版|目印|更新日時」
+function parseVersion(v) {
+  const [rev = "", meta = "", time = ""] = String(v || "").split("|");
+  return { rev, meta, time };
 }
 
-// メイン処理
+// posts/ の中で、この記事 id のファイルを全部探す
+function filesForId(id) {
+  if (!fs.existsSync(POSTS_DIR)) return [];
+  const suffix = `_COCC_WEB_${id}.html`;
+  return fs.readdirSync(POSTS_DIR).filter(f => f.endsWith(suffix));
+}
+
+function removeFile(name) {
+  fs.unlinkSync(path.join(POSTS_DIR, name));
+  console.log(`Deleted: posts/${name}`);
+}
+
 async function main() {
-  const articles = await fetchArticles();
+  const { columns, articles } = await readArticleSheet();
+  const updates = [];   // シートに書き戻す [range, value]
+  const setCell = (key, rowNumber, value) => {
+    if (columns[key] === undefined) return;   // その列がないシートでは書かない
+    updates.push({ range: `articles!${columnLetter(columns[key])}${rowNumber}`, values: [[value]] });
+  };
 
-  for (const article of articles) {
+  // ① 記事id がない行に番号を振る
+  let maxId = articles.reduce((m, a) => Math.max(m, parseInt(a.id, 10) || 0), 0);
+  for (const a of articles) {
+    if (!/^\d+$/.test(a.id)) {
+      a.id = String(++maxId);
+      setCell("id", a.rowNumber, a.id);
+      console.log(`記事id を振りました: ${a.rowNumber} 行目 → ${a.id}`);
+    }
+  }
 
-    const status = normalizeBool(article.status);
-    const generated = normalizeBool(article.generated);
-    const modified = normalizeBool(article.modified);
+  // ② 1 件ずつ処理
+  for (const a of articles) {
+    const existing = filesForId(a.id);
 
-    // 公開する？ が「はい」の記事だけ生成
-    if (!status) {
-      console.log(`Skip (公開しない): ${article.id}`);
+    // チェックなし → サイトから消す
+    if (!a.publish) {
+      existing.forEach(removeFile);
+      setCell("state", a.rowNumber, "下書き（サイトに出ていません）");
       continue;
     }
 
-    const fileName = `${article.date}_COCC_WEB_${article.id}.html`;
-    const filePath = path.join(process.cwd(), "posts", fileName);
-
-    // 修正あり → 再生成
-    if (modified) {
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-        console.log(`Deleted old HTML: ${fileName}`);
-      }
-
-      const result = await generatePostCore(article);
-      if (result) {
-        await markGenerated(result);
-        await clearModified(result);
-      }
+    if (!a.date || !a.title) {
+      setCell("state", a.rowNumber, "⚠️ 日付とタイトルを入れてください");
       continue;
     }
 
-    // 生成済み → スキップ
-    if (generated) {
-      console.log(`Skip (already generated): ${article.id}`);
+    const fileName = postFileName(a);
+    const fileExists = existing.includes(fileName);
+
+    let doc;
+    try {
+      doc = await fetchDoc(a.body_doc_url);
+    } catch (e) {
+      console.error(`記事 ${a.id}: ${e.message}`);
+      const tail = fileExists ? "（前の内容のまま公開中）" : "（まだサイトに出ていません）";
+      setCell("state", a.rowNumber, `⚠️ ${e.userMessage || e.message}${tail}`);
       continue;
     }
 
-    // 新規生成
-    const result = await generatePostCore(article);
-    if (result) {
-      await markGenerated(result);
+    const prev = parseVersion(a.version);
+    const rev = doc.revisionId || "";
+    const meta = metaHash(a);
+    const unchanged = fileExists && prev.rev === rev && prev.meta === meta && rev !== "";
+
+    if (unchanged && !REBUILD_ALL) {
+      console.log(`Skip (変更なし): ${a.id}`);
+      setCell("state", a.rowNumber, `✅ 公開中（${prev.time || "-"} 更新）`);
+      continue;
     }
+
+    writePost(a, doc);
+    // 日付を変えたときなど、古い名前のファイルを消す
+    existing.filter(f => f !== fileName).forEach(removeFile);
+
+    const time = unchanged ? (prev.time || nowLabel()) : nowLabel();
+    setCell("version", a.rowNumber, `${rev}|${meta}|${time}`);
+    setCell("state", a.rowNumber, `✅ 公開中（${time} 更新）`);
+  }
+
+  // ③ シートから行ごと消された記事のファイルを消す
+  //    （シートが読めて、記事が 1 件以上あるときだけ）
+  if (articles.length > 0 && fs.existsSync(POSTS_DIR)) {
+    const ids = new Set(articles.map(a => a.id));
+    fs.readdirSync(POSTS_DIR).forEach(f => {
+      const m = f.match(/_COCC_WEB_(\d+)\.html$/);
+      if (m && !ids.has(m[1])) removeFile(f);
+    });
+  }
+
+  // ④ シートに書き戻す
+  if (updates.length) {
+    await sheetsClient(true).spreadsheets.values.batchUpdate({
+      spreadsheetId: process.env.SHEET_ID,
+      requestBody: { valueInputOption: "RAW", data: updates }
+    });
+    console.log(`シートに ${updates.length} か所書き戻しました`);
   }
 }
 
-main();
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
