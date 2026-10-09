@@ -64,7 +64,7 @@ function freezeHtml(html, page, year, lang) {
 
   // スプレッドシートからの書き換え・自動のカード更新を止める
   html = html.replace(/ data-cms="[^"]*"/g, "");
-  html = html.replace(/^[ \t]*<!-- (?:CARDS_[A-Z]+|ARCHIVE):(?:START|END)[^>]*-->\n/gm, "");
+  html = html.replace(/^[ \t]*<!-- (?:CARDS_[A-Z]+|ARCHIVE|GALLERY):(?:START|END)[^>]*-->\n/gm, "");
 
   // タイトルと共有用の URL
   const suffix = lang === "en" ? ` (${year})` : `（${year}年）`;

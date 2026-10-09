@@ -70,7 +70,8 @@ archive/2027/en/hukilau.html
 | `hero/` | トップと各ページの大きな写真（PC 用は `pc_`、スマホ用は `mobile_` で始める） |
 | `about/` | クラブについて・トップの ABOUT |
 | `contact/` | お問い合わせ・トップの JOIN US |
-| `events/` | 大会・イベントのページ（Ho'aikane のロゴ・賞、大島クロッシングなど） |
+| `events/` | 大会・イベントのページ（Ho'aikane のロゴ、大島クロッシングなど） |
+| `gallery/oshima/` `gallery/hukilau/` `gallery/hoaikane/` | 各ページの「ギャラリー」。写真を入れるとファイル名の順に自動で並ぶ（並び順は 01_ 02_ … の番号で決める） |
 | `ogp.png` | SNS で共有したときに出る画像 |
 
 - 写真を足すときは、使うページに合うフォルダに入れる。迷ったら、ページの名前のフォルダを新しく作る（例：`kids/`）。
