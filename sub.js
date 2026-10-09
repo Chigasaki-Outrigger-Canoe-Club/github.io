@@ -343,3 +343,36 @@ document.querySelectorAll('.global-nav a').forEach(a => {
 
   apply(new URLSearchParams(location.search).get('cat') || 'all');
 })();
+
+// =========================================================
+// 戻るボタン（ヘッダーの中。大会・イベントのページ、記事、挑戦記）
+// - サイトの中から来たとき：「← 戻る」で、来たページに戻る（スクロール位置もそのまま）
+// - 直接開いたとき：「← 大会・イベント」のように、一つ上のページへ
+// <body data-back="行き先" data-back-label="名前"> があるページだけに出る
+// =========================================================
+(function () {
+  const target = document.body.getAttribute('data-back');
+  const headerInner = document.querySelector('.site-header .header-inner');
+  if (!target || !headerInner) return;
+
+  const en = document.documentElement.lang === 'en';
+  let fromSite = false;
+  try {
+    fromSite = document.referrer && new URL(document.referrer).origin === location.origin &&
+      new URL(document.referrer).pathname !== location.pathname && history.length > 1;
+  } catch (e) { fromSite = false; }
+
+  const a = document.createElement('a');
+  a.className = 'header-back';
+  a.href = target;
+  a.innerHTML = '<span class="header-back-arrow" aria-hidden="true">←</span><span class="header-back-text"></span>';
+  a.querySelector('.header-back-text').textContent = fromSite ? (en ? 'Back' : '戻る') : (document.body.getAttribute('data-back-label') || (en ? 'Back' : '戻る'));
+  a.addEventListener('click', e => {
+    if (!fromSite) return;
+    e.preventDefault();
+    history.back();
+  });
+
+  const before = headerInner.querySelector('.lang-switch') || headerInner.querySelector('.menu-btn');
+  headerInner.insertBefore(a, before);
+})();
