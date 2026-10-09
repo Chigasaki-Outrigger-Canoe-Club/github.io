@@ -247,6 +247,14 @@ img { max-width: 100%; display: block; }
   margin-bottom: 32px;
 }
 
+/* 横幅 1280px 以上：HERO を画面いっぱいに */
+@media (min-width: 1280px) {
+  .hero { height: 100vh; }
+}
+
+/* キャッチだけを置くので、下の余白はとらない */
+.hero-title { margin-bottom: 0; }
+
 @media (max-width: 900px) {
   .hero-title {
     font-size: 32px;
