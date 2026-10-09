@@ -285,3 +285,40 @@ document.querySelectorAll('.global-nav a').forEach(a => {
   update();
   requestAnimationFrame(() => aside.classList.add('is-ready'));
 })();
+
+// =========================================================
+// news.html：カテゴリで絞り込む（?cat=report のように URL でも指定できる）
+// =========================================================
+(function () {
+  const list = document.getElementById('newsCards');
+  const buttons = document.querySelectorAll('.news-filter-btn');
+  if (!list || buttons.length === 0) return;
+  const none = document.getElementById('newsNone');
+  const valid = Array.from(buttons).map(b => b.dataset.filter);
+
+  function apply(filter) {
+    if (!valid.includes(filter)) filter = 'all';
+    buttons.forEach(b => {
+      const on = b.dataset.filter === filter;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    let shown = 0;
+    list.querySelectorAll('.post-card').forEach(card => {
+      const hit = filter === 'all' || card.dataset.cat === filter;
+      card.hidden = !hit;
+      if (hit) shown++;
+    });
+    const hasCards = list.querySelector('.post-card') !== null;
+    if (none) none.hidden = !hasCards || shown > 0;
+  }
+
+  buttons.forEach(b => b.addEventListener('click', () => {
+    apply(b.dataset.filter);
+    const url = new URL(location.href);
+    if (b.dataset.filter === 'all') url.searchParams.delete('cat'); else url.searchParams.set('cat', b.dataset.filter);
+    history.replaceState(null, '', url);
+  }));
+
+  apply(new URLSearchParams(location.search).get('cat') || 'all');
+})();
