@@ -1096,3 +1096,29 @@ body.theme-hukilau .faq summary { font-weight: 700; letter-spacing: 0.08em; }
   .post-cards { grid-template-columns: 1fr; }
   .news-filter-btn { padding: 7px 14px; font-size: 12px; }
 }
+
+/* ---------- 保存版のページ（hukilau-2027.html など）の帯 ---------- */
+.archive-notice {
+  max-width: 1080px;
+  margin: 32px auto 0;
+  padding: 0 6%;
+}
+.archive-notice p {
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid var(--line, rgba(0, 0, 0, 0.12));
+  border-left: 3px solid var(--sun, #d9785a);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.archive-notice a { margin-left: 12px; color: var(--sun, #d9785a); text-decoration: underline; text-underline-offset: 3px; }
+@media (min-width: 1280px) {
+  body.has-side-toc .archive-notice { max-width: none; padding: 0 var(--side-pad); }
+  body.has-side-toc .archive-notice p { max-width: 1080px; margin: 0 auto; }
+}
+
+/* 「これまでの大会」：保存版がまだ無く、ほかのリンクがあるときは案内文を出さない */
+.archive-list .archive-empty { color: rgba(30, 52, 71, 0.6); }
+.archive-list .archive-empty:not(:only-child) { display: none; }

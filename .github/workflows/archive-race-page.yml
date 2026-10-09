@@ -1,0 +1,58 @@
+name: 大会・イベントのページを保存
+
+# 大会・イベントが終わったら、今のページを「保存版」として残す。
+# 例：Hukilau Challenge・2027 を選ぶと、hukilau.html を hukilau-2027.html にコピーし、
+#     hukilau.html の「これまでの大会」にリンクが増える（英語版も同じ）。
+# 使い方は docs/RACE_ARCHIVE.md
+
+on:
+  workflow_dispatch:
+    inputs:
+      page:
+        description: "保存するページ"
+        type: choice
+        options:
+          - hukilau
+          - hoaikane
+          - oshima
+        default: hukilau
+      year:
+        description: "何年の記録として残すか（4けた。例：2027）"
+        type: string
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-posts-main
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Make the archive page
+        env:
+          PAGE: ${{ inputs.page }}
+          YEAR: ${{ inputs.year }}
+        run: node scripts/update_archives.js "$PAGE" "$YEAR"
+
+      - name: Commit
+        env:
+          PAGE: ${{ inputs.page }}
+          YEAR: ${{ inputs.year }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add *.html en/*.html
+          git commit -m "保存版を作成：${PAGE}-${YEAR}.html" || echo "No changes"
+          git push origin HEAD:main

@@ -60,6 +60,9 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: node scripts/update_schedule.js
 
+      - name: Fix archive pages and list them (hukilau-2027.html など)
+        run: node scripts/update_archives.js
+
       - name: Update page text from the content sheet
         env:
           GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}

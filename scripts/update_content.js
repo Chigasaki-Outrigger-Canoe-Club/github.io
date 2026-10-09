@@ -70,8 +70,9 @@ function textToHtml(text) {
 // data-cms の付いた要素を探す
 const ELEMENT = /<([a-z0-9]+)((?:\s[^>]*)?\sdata-cms="([^"]+)"[^>]*)>([\s\S]*?)<\/\1>/g;
 
+// 保存版（hukilau-2027.html など）は書き換えない
 function pageFiles() {
-  return fs.readdirSync(ROOT).filter(f => f.endsWith(".html")).sort();
+  return fs.readdirSync(ROOT).filter(f => f.endsWith(".html") && !/-\d{4}\.html$/.test(f)).sort();
 }
 
 // いまの HTML から、キーごとの文章を取り出す
