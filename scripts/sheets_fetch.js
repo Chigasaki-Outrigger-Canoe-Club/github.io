@@ -10,6 +10,7 @@ const COLUMN_MAP = {
   "トップ画像（任意）": "image_urls",
   "カテゴリ": "category",
   "カテゴリ（任意）": "category",
+  "大会・イベント名": "event",
   "状態（自動）": "state",
   "メモ（サイトに出ない）": "memo",
   "記事id（自動）": "id",
@@ -36,26 +37,59 @@ function normalizeBool(value) {
 // カテゴリ（シートのプルダウンと同じ並び）。slug はページの絞り込みに使う。
 const CATEGORIES = [
   { name: "お知らせ", slug: "info" },
-  { name: "大会・イベント情報", slug: "event" },
-  { name: "イベントレポート", slug: "report" },
+  { name: "大会・イベント", slug: "event" },
   { name: "KIDS", slug: "kids" }
 ];
+const EVENT_CATEGORY = "大会・イベント";
+
+// 大会・イベント名（カテゴリが「大会・イベント」のときだけ使う）
+const EVENTS = [
+  { name: "大島クロッシング", slug: "oshima" },
+  { name: "Hukilau Challenge", slug: "hukilau" },
+  { name: "Ho'aikane", slug: "hoaikane" },
+  { name: "その他", slug: "other" }
+];
+
+const squash = v => String(v || "").trim().replace(/[\s　]+/g, "");
 
 // 書き方の揺れを吸収して、決まったカテゴリ名にする（当てはまらなければ空）
 function normalizeCategory(value) {
-  const v = String(value || "").trim().replace(/\s+/g, "");
+  const v = squash(value);
   if (!v || ["無し", "なし", "-", "—"].includes(v)) return "";
-  const hit = CATEGORIES.find(c => c.name.replace(/\s+/g, "") === v || c.slug === v.toLowerCase());
+  const hit = CATEGORIES.find(c => squash(c.name) === v || c.slug === v.toLowerCase());
   if (hit) return hit.name;
   if (/kids|キッズ/i.test(v)) return "KIDS";
-  if (/レポート|報告/.test(v)) return "イベントレポート";
-  if (/大会|イベント/.test(v)) return "大会・イベント情報";
+  if (/大会|イベント|レポート|報告/.test(v)) return EVENT_CATEGORY;   // 以前の「大会・イベント情報」「イベントレポート」も
+  if (/お知らせ|案内/.test(v)) return "お知らせ";
   return "";
+}
+
+// 大会・イベント名をそろえる。空や知らない名前は「その他」
+function normalizeEvent(value) {
+  const v = squash(value).toLowerCase();
+  if (!v) return "その他";
+  const hit = EVENTS.find(e => squash(e.name).toLowerCase() === v || e.slug === v);
+  if (hit) return hit.name;
+  if (/大島|oshima/.test(v)) return "大島クロッシング";
+  if (/hukilau|フキラウ/.test(v)) return "Hukilau Challenge";
+  if (/ho.?aikane|ホアイカネ/.test(v)) return "Ho'aikane";
+  return "その他";
 }
 
 function categorySlug(name) {
   const hit = CATEGORIES.find(c => c.name === name);
   return hit ? hit.slug : "";
+}
+
+function eventSlug(name) {
+  const hit = EVENTS.find(e => e.name === name);
+  return hit ? hit.slug : "";
+}
+
+// カードや記事ページに出すラベル。大会名が決まっていれば大会名、なければカテゴリ名
+function displayLabel(a) {
+  if (a.category === EVENT_CATEGORY && a.event && a.event !== "その他") return a.event;
+  return a.category;
 }
 
 // 2026/8/7・2026-08-07・2026年8月7日 → 2026-08-07（読めなければ空）
@@ -117,6 +151,9 @@ async function readArticleSheet() {
     obj.publish = normalizeBool(obj.publish);
     obj.date = normalizeDate(obj.date);
     obj.category = normalizeCategory(obj.category);
+    const rawEvent = String(obj.event || "").trim();
+    obj.event = obj.category === EVENT_CATEGORY ? normalizeEvent(rawEvent) : "";
+    obj.eventIgnored = rawEvent !== "" && obj.category !== EVENT_CATEGORY;
     articles.push(obj);
   });
 
@@ -136,6 +173,11 @@ module.exports = {
   normalizeBool,
   normalizeDate,
   normalizeCategory,
+  normalizeEvent,
   categorySlug,
-  CATEGORIES
+  eventSlug,
+  displayLabel,
+  CATEGORIES,
+  EVENTS,
+  EVENT_CATEGORY
 };

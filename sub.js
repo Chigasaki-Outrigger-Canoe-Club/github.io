@@ -305,7 +305,7 @@ document.querySelectorAll('.global-nav a').forEach(a => {
     });
     let shown = 0;
     list.querySelectorAll('.post-card').forEach(card => {
-      const hit = filter === 'all' || card.dataset.cat === filter;
+      const hit = filter === 'all' || card.dataset.cat === filter || card.dataset.event === filter;
       card.hidden = !hit;
       if (hit) shown++;
     });

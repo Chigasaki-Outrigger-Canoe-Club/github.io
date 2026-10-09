@@ -17,6 +17,7 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('サイト')
     .addItem('サイトに反映する', 'publishFromMenu')
+    .addItem('カテゴリの選択肢を整える', 'fixEventChoices')
     .addToUi();
 }
 
@@ -72,4 +73,67 @@ function setupMobileTrigger() {
     if (t.getHandlerFunction() === 'onPublishCheckbox') ScriptApp.deleteTrigger(t);
   });
   ScriptApp.newTrigger('onPublishCheckbox').forSpreadsheet(ss).onEdit().create();
+}
+
+// =========================================================
+// articles シート：「カテゴリ」が「大会・イベント」の行だけ、
+// 「大会・イベント名」を選べるようにする（PC でもスマホでも動く）
+// =========================================================
+var ARTICLES_SHEET = 'articles';
+var CATEGORY_HEADER = 'カテゴリ';
+var EVENT_HEADER = '大会・イベント名';
+var EVENT_CATEGORY = '大会・イベント';
+var EVENT_NAMES = ['大島クロッシング', 'Hukilau Challenge', "Ho'aikane", 'その他'];
+
+/** セルを書き換えたときに自動で動く */
+function onEdit(e) {
+  if (!e || !e.range) return;
+  var sheet = e.range.getSheet();
+  if (sheet.getName() !== ARTICLES_SHEET) return;
+  var cols = articleColumns_(sheet);
+  if (!cols) return;
+  var r = e.range;
+  // カテゴリの列にかかっていなければ何もしない
+  if (r.getColumn() > cols.category || r.getLastColumn() < cols.category) return;
+  for (var row = Math.max(2, r.getRow()); row <= r.getLastRow(); row++) {
+    applyEventRule_(sheet, cols, row);
+  }
+}
+
+/** 全部の行を整え直す（メニュー「サイト」→「カテゴリの選択肢を整える」） */
+function fixEventChoices() {
+  var sheet = SpreadsheetApp.getActive().getSheetByName(ARTICLES_SHEET);
+  if (!sheet) return;
+  var cols = articleColumns_(sheet);
+  if (!cols) return;
+  // 何も書かれていない下の行は、最初の設定（「大会・イベント」のときだけ入力できる）のまま
+  for (var row = 2; row <= sheet.getLastRow(); row++) applyEventRule_(sheet, cols, row);
+}
+
+function articleColumns_(sheet) {
+  var header = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var category = header.indexOf(CATEGORY_HEADER) + 1;
+  var event = header.indexOf(EVENT_HEADER) + 1;
+  if (!category || !event) return null;
+  return { category: category, event: event };
+}
+
+function applyEventRule_(sheet, cols, row) {
+  var category = String(sheet.getRange(row, cols.category).getValue()).trim();
+  var cell = sheet.getRange(row, cols.event);
+  if (category === EVENT_CATEGORY) {
+    cell.setDataValidation(SpreadsheetApp.newDataValidation()
+      .requireValueInList(EVENT_NAMES, true)
+      .setAllowInvalid(false)
+      .setHelpText('大会・イベント名を選んでください')
+      .build());
+  } else {
+    if (cell.getValue() !== '') cell.clearContent();
+    var catCell = sheet.getRange(row, cols.category).getA1Notation().replace(/\d+$/, '');
+    cell.setDataValidation(SpreadsheetApp.newDataValidation()
+      .requireFormulaSatisfied('=$' + catCell + row + '="' + EVENT_CATEGORY + '"')
+      .setAllowInvalid(false)
+      .setHelpText('カテゴリが「大会・イベント」のときだけ選べます')
+      .build());
+  }
 }
