@@ -181,21 +181,40 @@ document.querySelectorAll('.global-nav a').forEach(a => {
 // - 今見ている見出しの項目に色をつける
 // =========================================================
 (function () {
+  // 記事ページ（posts/・overseas/）では出さない
+  if (document.body.classList.contains('post-page')) return;
   const pageToc = document.querySelector('.page-toc');
-  if (!pageToc) return;
 
-  const links = Array.from(pageToc.querySelectorAll('a[href^="#"]'));
-  // ほかのページへのリンク（初めての方へ・会員案内にある）は、下に「関連ページ」として出す
-  const others = Array.from(pageToc.querySelectorAll('a:not([href^="#"])'));
+  const links = pageToc ? Array.from(pageToc.querySelectorAll('a[href^="#"]')) : [];
   const items = links
     .map(a => ({ href: a.getAttribute('href'), text: a.textContent.trim(), target: document.querySelector(a.getAttribute('href')) }))
     .filter(i => i.target);
-  if (items.length === 0) return;
+
+  // 下に並べるほかのページ：
+  // そのページだけの関連リンク（.page-toc の中のほかのページへのリンク）＋ メニューのページ（今のページは除く）
+  const here = location.pathname.replace(/\/$/, '/index.html');
+  const seen = new Set([here]);
+  const pages = [];
+  function addPage(a) {
+    const url = new URL(a.getAttribute('href'), location.href);
+    const key = url.pathname + url.hash;
+    if (url.origin !== location.origin || seen.has(key) || (!url.hash && url.pathname === here)) return;
+    seen.add(key);
+    pages.push({ href: a.getAttribute('href'), text: a.textContent.trim() });
+  }
+  if (pageToc) pageToc.querySelectorAll('a:not([href^="#"])').forEach(addPage);
+  document.querySelectorAll('#globalNav > ul > li > a').forEach(addPage);
+
+  if (items.length === 0 && pages.length === 0) return;
 
   const aside = document.createElement('aside');
   aside.className = 'side-toc';
-  aside.setAttribute('aria-label', pageToc.getAttribute('aria-label') || 'Contents');
-  aside.innerHTML = '<p class="side-toc-label">CONTENTS</p><div class="side-toc-track"><span class="side-toc-bar" aria-hidden="true"></span><ol></ol></div>';
+  aside.setAttribute('aria-label', (pageToc && pageToc.getAttribute('aria-label')) || 'Contents');
+  if (items.length) {
+    aside.innerHTML = '<p class="side-toc-label">CONTENTS</p><div class="side-toc-track"><span class="side-toc-bar" aria-hidden="true"></span><ol></ol></div>';
+  } else {
+    aside.classList.add('side-toc--pages-only');
+  }
   const list = aside.querySelector('ol');
   const bar = aside.querySelector('.side-toc-bar');
 
@@ -214,14 +233,14 @@ document.querySelectorAll('.global-nav a').forEach(a => {
     i.link = a;
   });
 
-  if (others.length) {
+  if (pages.length) {
     const more = document.createElement('ul');
     more.className = 'side-toc-more';
-    others.forEach(o => {
+    pages.forEach(o => {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = o.getAttribute('href');
-      a.textContent = o.textContent.trim();
+      a.href = o.href;
+      a.textContent = o.text;
       li.appendChild(a);
       more.appendChild(li);
     });
@@ -250,6 +269,7 @@ document.querySelectorAll('.global-nav a').forEach(a => {
   }
 
   function highlight() {
+    if (items.length === 0) return;
     const line = window.innerHeight * 0.35;
     let active = items[0];
     items.forEach(i => { if (i.target.getBoundingClientRect().top <= line) active = i; });
