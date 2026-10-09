@@ -11,7 +11,8 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const { readArticleSheet, sheetsClient, columnLetter, displayLabel } = require("./sheets_fetch");
-const { fetchDoc, writePost, postFileName, POSTS_DIR } = require("./generate_posts_core");
+const { fetchDoc, writePost } = require("./generate_posts_core");
+const { postRelPath, listPostFiles, removePost } = require("./post_paths");
 
 const REBUILD_ALL = String(process.env.REBUILD_ALL || "").toLowerCase() === "true";
 
@@ -43,16 +44,9 @@ function parseVersion(v) {
   return { rev, meta, time };
 }
 
-// posts/ の中で、この記事 id のファイルを全部探す
+// posts/ の中で、この記事 id のファイルを全部探す（posts/ から見た場所）
 function filesForId(id) {
-  if (!fs.existsSync(POSTS_DIR)) return [];
-  const suffix = `_COCC_WEB_${id}.html`;
-  return fs.readdirSync(POSTS_DIR).filter(f => f.endsWith(suffix));
-}
-
-function removeFile(name) {
-  fs.unlinkSync(path.join(POSTS_DIR, name));
-  console.log(`Deleted: posts/${name}`);
+  return listPostFiles().filter(f => f.id === String(id)).map(f => f.rel);
 }
 
 async function main() {
@@ -79,7 +73,7 @@ async function main() {
 
     // チェックなし → サイトから消す
     if (!a.publish) {
-      existing.forEach(removeFile);
+      existing.forEach(removePost);
       setCell("state", a.rowNumber, "下書き（サイトに出ていません）");
       continue;
     }
@@ -89,7 +83,7 @@ async function main() {
       continue;
     }
 
-    const fileName = postFileName(a);
+    const fileName = postRelPath(a);
     const fileExists = existing.includes(fileName);
 
     let doc;
@@ -116,7 +110,7 @@ async function main() {
     // 記事ページの日付の横には、大会名（なければカテゴリ名）を出す
     writePost({ ...a, category: displayLabel(a) }, doc);
     // 日付を変えたときなど、古い名前のファイルを消す
-    existing.filter(f => f !== fileName).forEach(removeFile);
+    existing.filter(f => f !== fileName).forEach(removePost);
 
     const time = unchanged ? (prev.time || nowLabel()) : nowLabel();
     setCell("version", a.rowNumber, `${rev}|${meta}|${time}`);
@@ -125,12 +119,9 @@ async function main() {
 
   // ③ シートから行ごと消された記事のファイルを消す
   //    （シートが読めて、記事が 1 件以上あるときだけ）
-  if (articles.length > 0 && fs.existsSync(POSTS_DIR)) {
+  if (articles.length > 0) {
     const ids = new Set(articles.map(a => a.id));
-    fs.readdirSync(POSTS_DIR).forEach(f => {
-      const m = f.match(/_COCC_WEB_(\d+)\.html$/);
-      if (m && !ids.has(m[1])) removeFile(f);
-    });
+    listPostFiles().forEach(f => { if (!ids.has(f.id)) removePost(f.rel); });
   }
 
   // ④ シートに書き戻す

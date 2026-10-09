@@ -60,7 +60,7 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: node scripts/update_schedule.js
 
-      - name: Fix archive pages and list them (hukilau-2027.html など)
+      - name: Fix archive pages and list them (archive/2027/hukilau.html など)
         run: node scripts/update_archives.js
 
       - name: Update page text from the content sheet
@@ -74,6 +74,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add -A posts data/schedule.js
+          for d in images/posts archive; do if [ -e "$d" ]; then git add -A "$d"; fi; done
           git add *.html en/*.html
           git commit -m "Update posts, pages and schedule from the spreadsheet" || echo "No changes"
 

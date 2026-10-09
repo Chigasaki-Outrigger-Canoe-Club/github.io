@@ -70,7 +70,7 @@ function textToHtml(text) {
 // data-cms の付いた要素を探す
 const ELEMENT = /<([a-z0-9]+)((?:\s[^>]*)?\sdata-cms="([^"]+)"[^>]*)>([\s\S]*?)<\/\1>/g;
 
-// 保存版（hukilau-2027.html など）は書き換えない
+// トップの階層のページだけ（保存版は archive/ にあるので対象外。古い名前の hukilau-2027.html も念のため除く）
 function pageFiles() {
   return fs.readdirSync(ROOT).filter(f => f.endsWith(".html") && !/-\d{4}\.html$/.test(f)).sort();
 }
