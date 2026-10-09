@@ -47,6 +47,7 @@ const EVENTS = [
   { name: "大島クロッシング", slug: "oshima" },
   { name: "Hukilau Challenge", slug: "hukilau" },
   { name: "Ho'aikane", slug: "hoaikane" },
+  { name: "海外レース", slug: "overseas" },
   { name: "その他", slug: "other" }
 ];
 
@@ -73,6 +74,7 @@ function normalizeEvent(value) {
   if (/大島|oshima/.test(v)) return "大島クロッシング";
   if (/hukilau|フキラウ/.test(v)) return "Hukilau Challenge";
   if (/ho.?aikane|ホアイカネ/.test(v)) return "Ho'aikane";
+  if (/海外|molokai|モロカイ|catalina|カタリナ|wahine|ワヒネ/.test(v)) return "海外レース";
   return "その他";
 }
 

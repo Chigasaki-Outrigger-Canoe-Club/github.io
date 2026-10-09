@@ -181,9 +181,10 @@ document.querySelectorAll('.global-nav a').forEach(a => {
 // - 今見ている見出しの項目に色をつける
 // =========================================================
 (function () {
-  // 記事ページ（posts/・overseas/）では出さない
-  if (document.body.classList.contains('post-page')) return;
+  // 記事ページ（posts/・overseas/）は、記事に目次があるときだけ出す（ページ一覧は出さない）
+  const isPost = document.body.classList.contains('post-page');
   const pageToc = document.querySelector('.page-toc');
+  if (isPost && !pageToc) return;
 
   const links = pageToc ? Array.from(pageToc.querySelectorAll('a[href^="#"]')) : [];
   const items = links
@@ -203,7 +204,7 @@ document.querySelectorAll('.global-nav a').forEach(a => {
     pages.push({ href: a.getAttribute('href'), text: a.textContent.trim() });
   }
   if (pageToc) pageToc.querySelectorAll('a:not([href^="#"])').forEach(addPage);
-  document.querySelectorAll('#globalNav > ul > li > a').forEach(addPage);
+  if (!isPost) document.querySelectorAll('#globalNav > ul > li > a').forEach(addPage);
 
   if (items.length === 0 && pages.length === 0) return;
 
@@ -251,7 +252,7 @@ document.querySelectorAll('.global-nav a').forEach(a => {
   document.body.classList.add('has-side-toc');
 
   const wide = window.matchMedia('(min-width: 1280px)');
-  const startEl = document.querySelector('.next-race') || document.querySelector('.page-hero');
+  const startEl = document.querySelector('.next-race') || document.querySelector('.page-hero') || document.querySelector('.post-head');
   const headerEl = document.querySelector('.site-header');
   const footerEl = document.querySelector('.site-footer');
   let current = null;
