@@ -2,6 +2,11 @@ name: Generate Posts
 
 on:
   workflow_dispatch:
+    inputs:
+      rebuild_all:
+        description: "変わっていない記事も全部作り直す（記事のデザインを変えたとき）"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -40,6 +45,7 @@ jobs:
         env:
           GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           SHEET_ID: ${{ secrets.SHEET_ID }}
+          REBUILD_ALL: ${{ inputs.rebuild_all }}
         run: node scripts/generate_posts.js
 
       - name: Update index.html

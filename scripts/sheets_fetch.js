@@ -1,70 +1,111 @@
 const { google } = require("googleapis");
 
-// 日本語 → 内部キー のマッピング
+// articles シートの列名 → 内部キー
+// 列の順番は自由。列名で探すので、並べ替えても動く。
 const COLUMN_MAP = {
-  "記事id": "id",
+  "載せる": "publish",
+  "日付": "date",
   "記事タイトル": "title",
+  "記事（Google Doc）": "body_doc_url",
+  "トップ画像（任意）": "image_urls",
+  "カテゴリ（任意）": "category",
+  "状態（自動）": "state",
+  "メモ（サイトに出ない）": "memo",
+  "記事id（自動）": "id",
+  "版（自動）": "version",
+
+  // 古い列名（切り替え前のシートでも読めるように残す）
+  "記事id": "id",
   "作成日": "date",
   "画像url(複数可)": "image_urls",
   "本文URL(Google Doc)": "body_doc_url",
   "notes": "category",
-  "公開する?": "status",
-  "生成済?": "generated",
-  "修正する?": "modified"
+  "公開する?": "publish",
+  "公開する？": "publish"
 };
 
-// 「はい / いいえ」→ true / false
+// チェックボックス（TRUE）や「はい」を true にする
 function normalizeBool(value) {
   if (typeof value === "boolean") return value;
   if (!value) return false;
-
-  const v = String(value).trim();
-  return ["はい", "true", "TRUE", "yes", "YES"].includes(v);
+  const v = String(value).trim().toLowerCase();
+  return ["true", "はい", "yes", "1", "✓", "☑"].includes(v);
 }
 
-async function fetchArticles() {
-  const creds = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
+// 2026/8/7・2026-08-07・2026年8月7日 → 2026-08-07（読めなければ空）
+function normalizeDate(value) {
+  const m = String(value || "").trim().match(/^(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
+  if (!m) return "";
+  return `${m[1]}-${m[2].padStart(2, "0")}-${m[3].padStart(2, "0")}`;
+}
 
+// 0 → A, 1 → B …
+function columnLetter(index) {
+  let s = "";
+  let n = index + 1;
+  while (n > 0) {
+    const r = (n - 1) % 26;
+    s = String.fromCharCode(65 + r) + s;
+    n = Math.floor((n - 1) / 26);
+  }
+  return s;
+}
+
+function sheetsClient(write) {
   const auth = new google.auth.GoogleAuth({
-    credentials: creds,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+    credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT),
+    scopes: [write
+      ? "https://www.googleapis.com/auth/spreadsheets"
+      : "https://www.googleapis.com/auth/spreadsheets.readonly"]
   });
+  return google.sheets({ version: "v4", auth });
+}
 
-  const sheets = google.sheets({ version: "v4", auth });
-
+// シートを読み、記事の一覧と「どの列が何か」を返す。
+// 空の行は飛ばすが、rowNumber はシート上の本当の行番号を持つ。
+async function readArticleSheet() {
+  const sheets = sheetsClient(false);
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.SHEET_ID,
-    range: "articles!A:I",
+    range: "articles!A:Z"
   });
 
-  const rows = res.data.values;
+  const rows = res.data.values || [];
+  if (rows.length === 0) throw new Error("articles シートが空です");
 
-  // 1行目：列名
-  const header = rows[0];
-  const dataRows = rows.slice(1);
-
-  const articles = dataRows.map(row => {
-    const obj = {};
-
-    header.forEach((colName, i) => {
-      const internalKey = COLUMN_MAP[colName];
-
-      if (!internalKey) return; // マッピングされていない列は無視
-
-      let value = row[i] || "";
-
-      // はい/いいえ → true/false に変換する列
-      if (["status", "generated", "modified"].includes(internalKey)) {
-        value = normalizeBool(value);
-      }
-
-      obj[internalKey] = value;
-    });
-
-    return obj;
+  const header = rows[0].map(h => String(h || "").trim());
+  const columns = {};
+  header.forEach((name, i) => {
+    const key = COLUMN_MAP[name];
+    if (key && columns[key] === undefined) columns[key] = i;
   });
 
-  return articles;
+  const articles = [];
+  rows.slice(1).forEach((row, i) => {
+    const obj = { rowNumber: i + 2 };
+    for (const [key, col] of Object.entries(columns)) {
+      obj[key] = String(row[col] == null ? "" : row[col]).trim();
+    }
+    // 何も書かれていない行は飛ばす
+    if (!obj.title && !obj.body_doc_url) return;
+    obj.publish = normalizeBool(obj.publish);
+    obj.date = normalizeDate(obj.date);
+    articles.push(obj);
+  });
+
+  return { header, columns, articles };
 }
 
-module.exports = { fetchArticles };
+// 今までの呼び出し方（記事の配列だけ）も残す
+async function fetchArticles() {
+  return (await readArticleSheet()).articles;
+}
+
+module.exports = {
+  fetchArticles,
+  readArticleSheet,
+  sheetsClient,
+  columnLetter,
+  normalizeBool,
+  normalizeDate
+};
