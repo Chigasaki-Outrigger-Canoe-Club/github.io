@@ -897,8 +897,8 @@ body.theme-hukilau .section-label::before {
   margin-bottom: 14px;
   background: var(--fire);
 }
-body.theme-hukilau .section-title::after { display: none; }
-body.theme-hukilau .section-title { padding-bottom: 0; margin-bottom: 26px; font-weight: 600; }
+body.theme-hukilau .section-title { font-weight: 600; }
+body.theme-hukilau .section-title::after { background: var(--fire); }
 
 /* 大きな数字：墨色の帯に白い数字、上に朱の線 */
 body.theme-hukilau .stat-grid {
@@ -1151,3 +1151,17 @@ body.theme-hukilau .faq summary { font-weight: 700; letter-spacing: 0.08em; }
 /* 「これまでの大会」：保存版がまだ無く、ほかのリンクがあるときは案内文を出さない */
 .archive-list .archive-empty { color: rgba(30, 52, 71, 0.6); }
 .archive-list .archive-empty:not(:only-child) { display: none; }
+
+/* ---------- 見出し：日本語版は日本語だけ、英語版は英語だけ（下に差し色の線） ---------- */
+.section-inner .section-title {
+  font-size: clamp(22px, 3.2vw, 30px);
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+  margin: 0 0 32px;
+  padding-bottom: 18px;
+}
+html[lang="en"] .section-inner .section-title {
+  font-family: var(--display, serif);
+  font-size: clamp(26px, 3.6vw, 36px);
+  letter-spacing: 0.06em;
+}
