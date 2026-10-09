@@ -994,3 +994,98 @@ body.theme-hukilau .faq summary { font-weight: 700; letter-spacing: 0.08em; }
   }
   .side-toc-more a::after { content: " \2192"; color: var(--sun, #d9785a); }
 }
+
+/* =========================================================
+   記事カードの一覧（news.html・大会イベント・KIDS）
+   中身は scripts/update_index.js が articles シートから作る。
+   ========================================================= */
+.post-cards {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.section-inner .post-cards li { line-height: inherit; margin: 0; }
+.post-card[hidden] { display: none; }
+
+.post-card a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--line, rgba(0, 0, 0, 0.1));
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.post-card a:hover {
+  border-color: rgba(30, 52, 71, 0.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+.post-card-thumb {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #e9eef2;
+}
+.post-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.post-card a:hover .post-card-thumb img { transform: scale(1.05); }
+.post-card-body { display: block; padding: 16px 18px 20px; }
+.post-card-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+}
+
+.post-cards-empty {
+  grid-column: 1 / -1;
+  padding: 18px 0;
+  font-size: 14px;
+  color: rgba(30, 52, 71, 0.6);
+  border-top: 1px solid var(--line, rgba(0, 0, 0, 0.1));
+  border-bottom: 1px solid var(--line, rgba(0, 0, 0, 0.1));
+}
+.post-cards-none { margin: 24px 0 0; font-size: 14px; color: rgba(30, 52, 71, 0.6); }
+.section-inner .post-cards-more { margin: 32px 0 0; }
+
+/* 絞り込みのボタン（news.html） */
+.news-filter { display: flex; flex-wrap: wrap; gap: 10px; }
+.news-filter-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--line, rgba(0, 0, 0, 0.2));
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink, #1e3447);
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.news-filter-btn:hover { border-color: var(--ink, #1e3447); }
+.news-filter-btn.is-active {
+  background: var(--ink, #1e3447);
+  border-color: var(--ink, #1e3447);
+  color: var(--paper, #fff);
+}
+
+@media (max-width: 1024px) {
+  .post-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+}
+@media (max-width: 600px) {
+  .post-cards { grid-template-columns: 1fr; }
+  .news-filter-btn { padding: 7px 14px; font-size: 12px; }
+}
