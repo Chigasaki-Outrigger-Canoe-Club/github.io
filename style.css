@@ -475,9 +475,26 @@ img { max-width: 100%; display: block; }
   display: block;
   font-size: 12px;
   letter-spacing: 0.12em;
-  opacity: 0.6;
+  color: rgba(30, 52, 71, 0.62);
   margin-bottom: 6px;
 }
+/* カテゴリの小さなラベル（日付の右） */
+.news-cat {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 1px 8px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  vertical-align: 1px;
+}
+.news-cat--info   { color: var(--ink, #1e3447); }
+.news-cat--event  { color: var(--sun, #d9785a); }
+.news-cat--report { color: var(--sea, #3d7f8d); }
+.news-cat--kids   { color: #c58b1a; }
+
 .news-text {
   display: block;
   font-size: 15px;
