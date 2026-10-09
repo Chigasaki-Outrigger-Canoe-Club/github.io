@@ -8,6 +8,7 @@ const COLUMN_MAP = {
   "記事タイトル": "title",
   "記事（Google Doc）": "body_doc_url",
   "トップ画像（任意）": "image_urls",
+  "カテゴリ": "category",
   "カテゴリ（任意）": "category",
   "状態（自動）": "state",
   "メモ（サイトに出ない）": "memo",
@@ -30,6 +31,31 @@ function normalizeBool(value) {
   if (!value) return false;
   const v = String(value).trim().toLowerCase();
   return ["true", "はい", "yes", "1", "✓", "☑"].includes(v);
+}
+
+// カテゴリ（シートのプルダウンと同じ並び）。slug はページの絞り込みに使う。
+const CATEGORIES = [
+  { name: "お知らせ", slug: "info" },
+  { name: "大会・イベント情報", slug: "event" },
+  { name: "イベントレポート", slug: "report" },
+  { name: "KIDS", slug: "kids" }
+];
+
+// 書き方の揺れを吸収して、決まったカテゴリ名にする（当てはまらなければ空）
+function normalizeCategory(value) {
+  const v = String(value || "").trim().replace(/\s+/g, "");
+  if (!v || ["無し", "なし", "-", "—"].includes(v)) return "";
+  const hit = CATEGORIES.find(c => c.name.replace(/\s+/g, "") === v || c.slug === v.toLowerCase());
+  if (hit) return hit.name;
+  if (/kids|キッズ/i.test(v)) return "KIDS";
+  if (/レポート|報告/.test(v)) return "イベントレポート";
+  if (/大会|イベント/.test(v)) return "大会・イベント情報";
+  return "";
+}
+
+function categorySlug(name) {
+  const hit = CATEGORIES.find(c => c.name === name);
+  return hit ? hit.slug : "";
 }
 
 // 2026/8/7・2026-08-07・2026年8月7日 → 2026-08-07（読めなければ空）
@@ -90,6 +116,7 @@ async function readArticleSheet() {
     if (!obj.title && !obj.body_doc_url) return;
     obj.publish = normalizeBool(obj.publish);
     obj.date = normalizeDate(obj.date);
+    obj.category = normalizeCategory(obj.category);
     articles.push(obj);
   });
 
@@ -107,5 +134,8 @@ module.exports = {
   sheetsClient,
   columnLetter,
   normalizeBool,
-  normalizeDate
+  normalizeDate,
+  normalizeCategory,
+  categorySlug,
+  CATEGORIES
 };

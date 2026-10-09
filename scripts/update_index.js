@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { fetchArticles } = require("./sheets_fetch");
+const { fetchArticles, categorySlug } = require("./sheets_fetch");
 
 // サイトに載せる記事：「載せる」にチェックがあり、記事ページができているもの
 function isListed(a) {
@@ -70,7 +70,7 @@ function renderNewsItem(a, i) {
         <a href="${url}">
           <span class="news-thumb"><img src="${escapeHtml(image)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'"></span>
           <span class="news-body">
-            <span class="news-date">${escapeHtml(a.date)}</span>
+            <span class="news-date">${escapeHtml(a.date)}${a.category ? `<span class="news-cat news-cat--${categorySlug(a.category)}">${escapeHtml(a.category)}</span>` : ""}</span>
             <span class="news-text">${escapeHtml(a.title)}</span>
           </span>
         </a>
