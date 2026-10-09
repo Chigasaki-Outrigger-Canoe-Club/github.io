@@ -13,11 +13,7 @@ const auth = new google.auth.GoogleAuth({
   ]
 });
 
-const POSTS_DIR = path.join(process.cwd(), "posts");
-
-function postFileName(article) {
-  return `${article.date}_COCC_WEB_${article.id}.html`;
-}
+const { POSTS_DIR, postRelPath } = require("./post_paths");
 
 // Google Doc を読む。開けなければ例外を投げる。
 async function fetchDoc(docUrl) {
@@ -38,14 +34,15 @@ async function fetchDoc(docUrl) {
   }
 }
 
-// 記事ページを書き出す
+// 記事ページを書き出す（posts/2026/… に置く）
 function writePost(article, doc) {
-  if (!fs.existsSync(POSTS_DIR)) fs.mkdirSync(POSTS_DIR);
+  const rel = postRelPath(article);
+  const outputPath = path.join(POSTS_DIR, rel);
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const html = buildPostHtml(article, convertDocsToHtml(doc));
-  const outputPath = path.join(POSTS_DIR, postFileName(article));
   fs.writeFileSync(outputPath, html, "utf-8");
-  console.log(`Generated: ${outputPath}`);
-  return outputPath;
+  console.log(`Generated: posts/${rel}`);
+  return rel;
 }
 
-module.exports = { fetchDoc, writePost, postFileName, POSTS_DIR };
+module.exports = { fetchDoc, writePost };

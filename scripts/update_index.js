@@ -11,6 +11,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { postRelPath } = require("./post_paths");
 const { fetchArticles, categorySlug, eventSlug, displayLabel, EVENT_CATEGORY } = require("./sheets_fetch");
 
 const ROOT = process.cwd();
@@ -18,20 +19,20 @@ const ROOT = process.cwd();
 // サイトに載せる記事：「載せる」にチェックがあり、記事ページができているもの
 function isListed(a) {
   if (!a.publish || !a.date || !a.title || !a.id) return false;
-  return fs.existsSync(path.join(ROOT, "posts", postFile(a)));
+  return fs.existsSync(path.join(ROOT, "posts", postRelPath(a)));
 }
 
 function postFile(a) {
-  return `${a.date}_COCC_WEB_${a.id}.html`;
+  return postRelPath(a);
 }
 
 // 記事に画像がないとき（または読み込めないとき）に使う写真。順番に割り当てる。
 const DEFAULT_IMAGES = [
-  "images/2_ABOUT/mc10_296.jpg",
-  "images/1_HERO/pc_hayama_hoe1.jpg",
-  "images/2_ABOUT/mc10_316.jpg",
-  "images/1_HERO/pc_hayama_hoe2.jpg",
-  "images/1_HERO/pc_mc10_272.jpg"
+  "images/site/about/mc10_296.jpg",
+  "images/site/hero/pc_hayama_hoe1.jpg",
+  "images/site/about/mc10_316.jpg",
+  "images/site/hero/pc_hayama_hoe2.jpg",
+  "images/site/hero/pc_mc10_272.jpg"
 ];
 
 // HTML に入れても安全な文字にする

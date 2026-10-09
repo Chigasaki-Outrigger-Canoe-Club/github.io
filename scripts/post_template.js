@@ -1,5 +1,5 @@
 // =========================================================
-// post_template.js  記事ページ（posts/*.html）のひな形
+// post_template.js  記事ページ（posts/年/*.html）のひな形
 // サイト共通のヘッダー・フッターと CSS（style.css / nav.css / sub.css）を
 // 読み込む形で、記事の HTML を組み立てる。
 // Google の認証を使わないので、このファイルだけで動作を確認できる。
@@ -37,6 +37,8 @@ function displayDate(date) {
   return String(date || "").replace(/-/g, ".");
 }
 
+const { postRelPath } = require("./post_paths");
+
 function buildPostHtml(article, bodyHtml) {
   // Google ドキュメント由来の制御文字などを取り除く
   const cleanedHtml = String(bodyHtml || "")
@@ -48,7 +50,7 @@ function buildPostHtml(article, bodyHtml) {
   const title = escapeHtml(article.title);
   const date = escapeHtml(article.date);
   const category = escapeHtml(categoryLabel(article.category));
-  const fileName = `${article.date}_COCC_WEB_${article.id}.html`;
+  const fileName = postRelPath(article);
   const images = imageUrls(article.image_urls);
 
   const imagesHtml = images.length
@@ -74,16 +76,16 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
   <meta property="og:site_name" content="${SITE_NAME}">
   <meta property="og:title" content="${title}｜${SITE_NAME}">
   <meta property="og:url" content="${SITE_URL}posts/${escapeHtml(fileName)}">
-  <meta property="og:image" content="${escapeHtml(images[0] || SITE_URL + "images/ogp.png")}">
+  <meta property="og:image" content="${escapeHtml(images[0] || SITE_URL + "images/site/ogp.png")}">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
 
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <!-- サイト共通の CSS（記事は posts/ の中にあるので ../ で読み込む） -->
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="../nav.css">
-  <link rel="stylesheet" href="../sub.css">
-  <link rel="stylesheet" href="../theme.css">
+  <!-- サイト共通の CSS（記事は posts/年/ の中にあるので ../../ で読み込む） -->
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../nav.css">
+  <link rel="stylesheet" href="../../sub.css">
+  <link rel="stylesheet" href="../../theme.css">
   </head>
 
   <body class="post-page">
@@ -91,44 +93,44 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
     <header class="site-header">
       <div class="header-inner">
         <div class="logo-area">
-          <a href="../index.html">
-            <img src="../images/0_header/chigasaki_logo_touka_v3.png" class="header-logo" alt="${SITE_NAME}">
+          <a href="../../index.html">
+            <img src="../../images/site/header/chigasaki_logo_touka_v3.png" class="header-logo" alt="${SITE_NAME}">
           </a>
           <span class="logo-text-pc">CHIGASAKI OUTRIGGER CANOE CLUB</span>
           <span class="logo-text-mobile">COCC</span>
         </div>
 
-        <div class="lang-switch"><a href="../index.html" lang="ja" aria-current="true">JP</a><span aria-hidden="true">/</span><a href="../en/index.html" lang="en">EN</a></div>
+        <div class="lang-switch"><a href="../../index.html" lang="ja" aria-current="true">JP</a><span aria-hidden="true">/</span><a href="../../en/index.html" lang="en">EN</a></div>
         <div class="menu-btn" id="menuBtn">
           <span></span><span></span><span></span>
         </div>
 
         <nav class="global-nav" id="globalNav">
           <ul>
-            <li><a href="../about.html">クラブについて</a></li>
-            <li><a href="../beginners.html">初めての方へ</a></li>
-            <li class="has-sub"><a href="../membership.html">会員案内</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="会員案内の中を開く"></button>
+            <li><a href="../../about.html">クラブについて</a></li>
+            <li><a href="../../beginners.html">初めての方へ</a></li>
+            <li class="has-sub"><a href="../../membership.html">会員案内</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="会員案内の中を開く"></button>
               <ul class="sub-menu">
-                <li><a href="../membership.html#fee">会費</a></li>
-                <li><a href="../membership.html#time">活動時間</a></li>
+                <li><a href="../../membership.html#fee">会費</a></li>
+                <li><a href="../../membership.html#time">活動時間</a></li>
               </ul>
             </li>
-            <li><a href="../safety.html">安全管理</a></li>
-            <li><a href="../kids.html">COCC KIDS</a></li>
-            <li class="has-sub"><a href="../events.html">大会・イベント</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="大会・イベントの中を開く"></button>
+            <li><a href="../../safety.html">安全管理</a></li>
+            <li><a href="../../kids.html">COCC KIDS</a></li>
+            <li class="has-sub"><a href="../../events.html">大会・イベント</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="大会・イベントの中を開く"></button>
               <ul class="sub-menu">
-                <li><a href="../events.html#event-schedule">年間スケジュール</a></li>
-                <li><a href="../oshima.html">大島クロッシング</a></li>
-                <li><a href="../hukilau.html">Hukilau Challenge</a></li>
-                <li><a href="../hoaikane.html">Women's Ho'aikane</a></li>
+                <li><a href="../../events.html#event-schedule">年間スケジュール</a></li>
+                <li><a href="../../oshima.html">大島クロッシング</a></li>
+                <li><a href="../../hukilau.html">Hukilau Challenge</a></li>
+                <li><a href="../../hoaikane.html">Women's Ho'aikane</a></li>
               </ul>
             </li>
-            <li class="has-sub"><a href="../contact.html">お問い合わせ</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="お問い合わせの中を開く"></button>
+            <li class="has-sub"><a href="../../contact.html">お問い合わせ</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="お問い合わせの中を開く"></button>
               <ul class="sub-menu">
-                <li><a href="../contact.html#access">アクセス</a></li>
+                <li><a href="../../contact.html#access">アクセス</a></li>
               </ul>
             </li>
-            <li><a href="../faq.html">FAQ</a></li>
+            <li><a href="../../faq.html">FAQ</a></li>
           </ul>
         </nav>
       </div>
@@ -136,7 +138,7 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
 
     <main class="post">
       <article class="post-inner">
-        <p class="post-back"><a href="../index.html#news">NEWS</a></p>
+        <p class="post-back"><a href="../../news.html">NEWS</a></p>
 
         <header class="post-head">
           <p class="post-meta">
@@ -151,7 +153,7 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
         </div>
 ${imagesHtml}${entryHtml}
 
-        <p class="post-foot"><a class="btn" href="../index.html#news">NEWS一覧へ戻る</a></p>
+        <p class="post-foot"><a class="btn" href="../../news.html">NEWS一覧へ戻る</a></p>
       </article>
     </main>
 
@@ -171,7 +173,7 @@ ${imagesHtml}${entryHtml}
       </div>
     </footer>
 
-    <script src="../sub.js"></script>
+    <script src="../../sub.js"></script>
 
   </body>
 </html>

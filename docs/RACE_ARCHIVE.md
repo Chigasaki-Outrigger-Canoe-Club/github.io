@@ -5,7 +5,7 @@
 ## 考え方
 
 - `hukilau.html` などは、いつも「次の開催」のページとして使い続ける。
-- 開催が終わったら、そのときのページを `hukilau-2027.html` のように **年つきの名前でコピーして保存** する。
+- 開催が終わったら、そのときのページを **`archive/年/` のフォルダにコピーして保存** する（例：`archive/2027/hukilau.html`）。
 - 保存したページは、元のページの「これまでの大会（これまでの開催）」に自動で並ぶ。
 - 保存したページは固定される（スプレッドシートを直しても書き換わらない）。上に「○年の記録です」の帯が付く。
 
@@ -29,7 +29,7 @@
 6. 「何年の記録として残すか」に年を 4 けたで入れる（例：2027）。
 7. 緑の「Run workflow」を押す。1 分ほどで終わり、数分でサイトに出る。
 
-- 日本語版と英語版の両方が保存される（`hukilau-2027.html` と `en/hukilau-2027.html`）。
+- 日本語版と英語版の両方が保存される（`archive/2027/hukilau.html` と `archive/2027/en/hukilau.html`）。
 - 同じ年をもう一度保存しようとすると、止まる（上書きはしない）。作り直したいときは、先にその年のファイルを消す（下の「保存したページを消す」）。
 
 ## ボタンが使えないとき（手でコピーする）
@@ -38,16 +38,17 @@ GitHub の画面だけでできる。
 
 1. GitHub で `hukilau.html` を開き、右上の「Raw」の横のコピーのボタン（Copy raw file）を押す。
 2. リポジトリのトップに戻り、「Add file」→「Create new file」。
-3. 名前に `hukilau-2027.html` と入れ、中身に貼り付けて「Commit changes」。
-4. 英語版も残すときは、`en/hukilau.html` を同じように `en/hukilau-2027.html` として作る。
+3. 名前に `archive/2027/hukilau.html` と入れ（`/` を打つとフォルダになる）、中身に貼り付けて「Commit changes」。
+4. 英語版も残すときは、`en/hukilau.html` を同じように `archive/2027/en/hukilau.html` として作る。
 5. スプレッドシートから「サイトに反映する」を行う。→ 固定と、一覧への追加が自動で行われる。
 
-ファイル名は必ず **`ページ名-年4けた.html`**（例：`oshima-2027.html`、`hoaikane-2028.html`）。この形なら、保存版として扱われる。
+置き場所は必ず **`archive/年4けた/ページ名.html`**（例：`archive/2027/oshima.html`、`archive/2028/hoaikane.html`）。英語版は `archive/年/en/ページ名.html`。この形なら、保存版として扱われる。
+コピーした直後は CSS や画像の場所が合っていないが、反映すると自動で直る。
 
 ## 保存したページを消す
 
-1. GitHub でそのファイル（例：`hukilau-2027.html`）を開く。
-2. 右上の「…」→「Delete file」→「Commit changes」。英語版（`en/` の中）も同じ。
+1. GitHub でそのファイル（例：`archive/2027/hukilau.html`）を開く。
+2. 右上の「…」→「Delete file」→「Commit changes」。英語版（`archive/2027/en/` の中）も同じ。
 3. スプレッドシートから「サイトに反映する」を行う。→ 一覧から消える。
 
 ## 以前の外部サイト（2024〜2026 年など）のリンク
@@ -64,7 +65,7 @@ GitHub の画面だけでできる。
 ## しくみ（直す人向け）
 
 - `scripts/update_archives.js`
-  - `node scripts/update_archives.js hukilau 2027`：コピーして保存版を作り、固定し、一覧を作り直す
+  - `node scripts/update_archives.js hukilau 2027`：コピーして保存版を作り、場所を直して固定し、一覧を作り直す
   - `node scripts/update_archives.js`：固定と一覧の作り直しだけ（「Generate Posts」の中で毎回動く）
 - `.github/workflows/archive-race-page.yml`：上のボタン
 - 保存版は `scripts/update_content.js`（スプレッドシートの文章）と `scripts/update_index.js`（記事カード）の対象外。

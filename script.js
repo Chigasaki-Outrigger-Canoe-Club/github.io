@@ -58,18 +58,18 @@ let images;
 if (window.innerWidth > 900) {
   // ★ PC用画像セット
   images = [
-    "images/1_HERO/pc_hayama_hoe1.jpg",
-    "images/1_HERO/pc_mc10_272.jpg",
-    "images/1_HERO/pc_hayama_hoe2.jpg",
-    "images/1_HERO/pc_mc10_368.jpg"
+    "images/site/hero/pc_hayama_hoe1.jpg",
+    "images/site/hero/pc_mc10_272.jpg",
+    "images/site/hero/pc_hayama_hoe2.jpg",
+    "images/site/hero/pc_mc10_368.jpg"
   ];
 } else {
   // ★ スマホ用画像セット
   images = [
-    "images/1_HERO/mobile_hayama_hoe1.jpg",
-    "images/1_HERO/mobile_mc10_033.jpg",
-    "images/1_HERO/mobile_hayama_hoe2.jpg",
-    "images/1_HERO/mobile_mc10_015.jpg"
+    "images/site/hero/mobile_hayama_hoe1.jpg",
+    "images/site/hero/mobile_mc10_033.jpg",
+    "images/site/hero/mobile_hayama_hoe2.jpg",
+    "images/site/hero/mobile_mc10_015.jpg"
   ];
 }
 // ===============================

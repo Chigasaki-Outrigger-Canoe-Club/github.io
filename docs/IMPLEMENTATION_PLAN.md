@@ -93,11 +93,11 @@
 
 ## 共有時の画像（OGP）
 
-- 全ページの `<head>` に OGP のタグを入れている。画像は `images/ogp.png`（1200×630、白地にヘッダーのロゴ）。
+- 全ページの `<head>` に OGP のタグを入れている。画像は `images/site/ogp.png`（1200×630、白地にヘッダーのロゴ）。
 - タグの中の URL は `https://chigasaki-outrigger-canoe-club.github.io/github.io/` で始まる絶対 URL。独自ドメインに変えたら、全ページの `og:url` と `og:image` を書き換える。
 - 新しいページを作るときは、既存ページの OGP のタグをコピーして、`og:title` `og:description` `og:url` を直す。
 
-## 記事ページ（`posts/*.html`）
+## 記事ページ（`posts/年/*.html`）
 
 - ひな形は `scripts/post_template.js`。サイト共通のヘッダー・フッターと `style.css` `nav.css` `sub.css` を読み込む。見た目は `sub.css` の「記事ページ」の部分（`.post-…`）。
 - 記事の見た目を変えたいときは `sub.css` を直せば、既存の記事にもすぐ効く。
@@ -136,8 +136,8 @@
 ## Ho'aikane のページの雰囲気
 
 - `hoaikane.html` は `<body class="theme-hoaikane">`。色（ロゴのピンク、濃いローズ、薄いピンクの地）と書体（英字の見出しは Fraunces）は、`sub.css` の末尾「Ho'aikane のページだけの雰囲気」で決めている。ほかのページには影響しない。
-- ロゴは `images/3_EVENTS/hoaikane_logo.png`（白い図柄だけを切り抜いた、背景が透明の画像）。
-- 大会・イベントのカードの画像は `images/3_EVENTS/hoaikane_card.jpg`（メダルの写真・ペンダントの写真・ロゴを 1 枚に組み合わせたもの）。写真を替えるときは作り直す。
+- ロゴは `images/site/events/hoaikane_logo.png`（白い図柄だけを切り抜いた、背景が透明の画像）。
+- 大会・イベントのカードの画像は `images/site/events/hoaikane_card.jpg`（メダルの写真・ペンダントの写真・ロゴを 1 枚に組み合わせたもの）。写真を替えるときは作り直す。
 
 ## Hukilau Challenge のページの雰囲気
 
