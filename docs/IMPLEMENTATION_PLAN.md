@@ -116,7 +116,7 @@
 
 ## 海外レース挑戦記（`overseas/`）
 
-- 旧サイト（chigasakioutriggercanoeclub.jp）にあった海外レースの参戦記を、記録として移したもの。文章は当時のまま。
+- 旧サイト（chigasakioutriggercanoeclub.jp）にあった海外レースの挑戦記を、記録として移したもの。文章は当時のまま。
 - `overseas/index.html` が一覧。`molokai2010.html`（2010 Molokai Hoe）、`wahine.html`（2009 Na Wahine O Ke Kai）、`catalina.html`（2006 Catalina Crossing）が本文。
 - 入口は「大会・イベント」の `#overseas`。メニューには出さない。日本語のみ（英語版の「大会・イベント」からは日本語ページへリンク）。
 - 見た目は記事ページと同じ（`.post-…`）。足した指定は `sub.css` の「海外レース挑戦記」の部分（`.story` `.photos`）だけ。
