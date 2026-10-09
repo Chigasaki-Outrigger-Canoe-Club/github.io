@@ -60,6 +60,9 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
         run: node scripts/update_schedule.js
 
+      - name: Update galleries (images/site/gallery/)
+        run: node scripts/update_gallery.js
+
       - name: Fix archive pages and list them (archive/2027/hukilau.html など)
         run: node scripts/update_archives.js
 

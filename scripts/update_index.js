@@ -4,8 +4,7 @@
 // - news.html    … すべての記事（カテゴリで絞り込める）       <!-- CARDS_ALL -->
 // - events.html  … 大会・イベント（6 件）                     <!-- CARDS_EVENT -->
 // - kids.html    … KIDS（6 件）                               <!-- CARDS_KIDS -->
-// - oshima.html / hukilau.html / hoaikane.html
-//                … その大会の記事（3 件）                     <!-- CARDS_OSHIMA など -->
+// - overseas/index.html … 海外レースの挑戦記                <!-- CARDS_OVERSEAS -->
 //
 // <!-- 名前:START --> と <!-- 名前:END --> のあいだを、毎回作り直す。
 
@@ -164,23 +163,12 @@ async function main() {
   updateFile("kids.html", html =>
     replaceBlock(html, "CARDS_KIDS", renderCards(byCat("KIDS").slice(0, 6), "KIDS の記事は、まだありません。")));
 
-  // 各大会のページ（その大会の記事 3 件）
-  const races = [
-    ["oshima.html", "CARDS_OSHIMA", "大島クロッシング"],
-    ["hukilau.html", "CARDS_HUKILAU", "Hukilau Challenge"],
-    ["hoaikane.html", "CARDS_HOAIKANE", "Ho'aikane"]
-  ];
   // 海外レース挑戦記（overseas/index.html。1 つ下の階層なので、場所の頭に ../ を付ける）
   updateFile("overseas/index.html", html =>
     replaceBlock(html, "CARDS_OVERSEAS", renderCards(articles.filter(a => a.event === "海外レース"), "挑戦記は、まだありません。")
       .replace(/href="posts\//g, 'href="../posts/')
       .replace(/src="images\//g, 'src="../images/')
       .replace(/this\.src='images\//g, "this.src='../images/")));
-
-  for (const [file, mark, name] of races) {
-    updateFile(file, html =>
-      replaceBlock(html, mark, renderCards(articles.filter(a => a.event === name).slice(0, 3), "新しいお知らせは、まだありません。")));
-  }
 }
 
 main().catch(err => {
