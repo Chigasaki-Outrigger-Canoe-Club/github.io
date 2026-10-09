@@ -927,6 +927,9 @@ body.theme-hukilau .faq summary { font-weight: 700; letter-spacing: 0.08em; }
     top: 0;
     left: max(32px, calc((100vw - 1080px) / 2 - 216px));
     width: 176px;
+    max-height: calc(100vh - 120px);   /* 縦が短い画面では、目次の中だけスクロール */
+    overflow-y: auto;
+    scrollbar-width: none;
     z-index: 50;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -993,6 +996,8 @@ body.theme-hukilau .faq summary { font-weight: 700; letter-spacing: 0.08em; }
     opacity: 0.6;
   }
   .side-toc-more a::after { content: " \2192"; color: var(--sun, #d9785a); }
+  /* 目次がないページ（news.html）は、ページの一覧だけ */
+  .side-toc--pages-only .side-toc-more { margin-top: 0; padding-top: 0; border-top: 0; }
 }
 
 /* =========================================================
