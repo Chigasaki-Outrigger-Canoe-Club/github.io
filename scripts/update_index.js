@@ -157,7 +157,7 @@ async function main() {
 
   // events.html（大会・イベント）
   updateFile("events.html", html =>
-    replaceBlock(html, "CARDS_EVENT", renderCards(byCat(EVENT_CATEGORY).slice(0, 6), "大会・イベントの記事は、まだありません。")));
+    replaceBlock(html, "CARDS_EVENT", renderCards(byCat(EVENT_CATEGORY).slice(0, 12), "大会・イベントの記事は、まだありません。")));
 
   // kids.html（KIDS）
   updateFile("kids.html", html =>
