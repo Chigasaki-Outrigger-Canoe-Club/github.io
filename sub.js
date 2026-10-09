@@ -415,3 +415,39 @@ document.querySelectorAll('.global-nav a').forEach(a => {
   nav.appendChild(cell(next, 'next'));
   footer.parentNode.insertBefore(nav, footer);
 })();
+
+// =========================================================
+// 横にスクロールするカードの列（大会・イベントの記事）
+// 下のバーで「今どのあたりか」を見せ、← → のボタンでも動かせる
+// =========================================================
+document.querySelectorAll('.scroll-ctrl').forEach(ctrl => {
+  const list = document.getElementById(ctrl.dataset.for);
+  if (!list) return;
+  const thumb = ctrl.querySelector('.scroll-progress span');
+  const prev = ctrl.querySelector('.scroll-btn--prev');
+  const next = ctrl.querySelector('.scroll-btn--next');
+
+  function update() {
+    const max = list.scrollWidth - list.clientWidth;
+    ctrl.classList.toggle('is-active', max > 4);           // 流す余地がなければ隠す
+    if (max <= 4) return;
+    const ratio = list.clientWidth / list.scrollWidth;
+    const pos = list.scrollLeft / max;
+    thumb.style.width = (ratio * 100) + '%';
+    thumb.style.left = (pos * (1 - ratio) * 100) + '%';
+    prev.disabled = list.scrollLeft <= 2;
+    next.disabled = list.scrollLeft >= max - 2;
+  }
+
+  const step = dir => {
+    const card = list.querySelector('.post-card');
+    const w = card ? card.getBoundingClientRect().width + 18 : list.clientWidth * 0.8;
+    list.scrollBy({ left: dir * w, behavior: 'smooth' });
+  };
+  prev.addEventListener('click', () => step(-1));
+  next.addEventListener('click', () => step(1));
+  list.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+  update();
+});

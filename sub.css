@@ -1307,3 +1307,59 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
 }
 .gallery-grid a:hover img { transform: scale(1.04); }
 .gallery-empty { color: rgba(30, 52, 71, 0.6); }
+
+/* =========================================================
+   横にスクロールするカードの列（大会・イベントの記事）
+   ========================================================= */
+.section-inner .post-cards--scroll {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: 6px;
+  scrollbar-width: none;                       /* ブラウザのスクロールバーは隠し、下のバーを使う */
+}
+.post-cards--scroll::-webkit-scrollbar { display: none; }
+.post-cards--scroll .post-card {
+  flex: 0 0 clamp(240px, 31%, 320px);
+  scroll-snap-align: start;
+}
+.post-cards--scroll .post-cards-empty { flex: 1 1 100%; }
+
+.scroll-ctrl { display: none; align-items: center; gap: 10px; margin-top: 22px; }
+.scroll-ctrl.is-active { display: flex; }
+.scroll-progress {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  background: var(--line, rgba(0, 0, 0, 0.12));
+  border-radius: 3px;
+  overflow: hidden;
+}
+.scroll-progress span {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 30%;
+  background: var(--ink, #1e3447);
+  border-radius: 3px;
+  transition: left 0.15s ease-out, width 0.15s ease-out;
+}
+.scroll-btn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line, rgba(0, 0, 0, 0.2));
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink, #1e3447);
+  font: 15px/1 sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+.scroll-btn:hover:not(:disabled) { background: var(--ink, #1e3447); border-color: var(--ink, #1e3447); color: var(--paper, #fff); }
+.scroll-btn:disabled { opacity: 0.3; cursor: default; }
+@media (max-width: 600px) {
+  .post-cards--scroll .post-card { flex-basis: 78%; }
+  .scroll-btn { display: none; }                /* スマホは指で流す */
+}

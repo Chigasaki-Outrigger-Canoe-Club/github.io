@@ -130,7 +130,7 @@
         <h2 data-cms="events.event-news.02" class="section-title">大会・イベントの記事</h2>
         <p data-cms="events.event-news.03">大会やイベントのお知らせ、当日の連絡、結果のレポートを、新しい順に載せています。</p>
         <!-- 記事のカードは、スプレッドシートの articles シート（カテゴリ「大会・イベント」）から作り直される -->
-        <ul class="post-cards">
+        <ul class="post-cards post-cards--scroll" id="eventCards">
 <!-- CARDS_EVENT:START -->
           <li class="post-card" data-cat="event" data-event="other">
             <a href="posts/2026/2026-08-07_1_8%E6%9C%88%E3%81%AE%E7%B7%B4%E7%BF%92%E4%BC%9A%E3%83%AC%E3%83%9D%E3%83%BC%E3%83%88.html">
@@ -170,6 +170,11 @@
           </li>
 <!-- CARDS_EVENT:END -->
         </ul>
+        <div class="scroll-ctrl" data-for="eventCards">
+          <div class="scroll-progress"><span></span></div>
+          <button type="button" class="scroll-btn scroll-btn--prev" aria-label="前の記事へ">←</button>
+          <button type="button" class="scroll-btn scroll-btn--next" aria-label="次の記事へ">→</button>
+        </div>
         <p class="post-cards-more"><a data-cms="events.event-news.04" class="btn" href="news.html?cat=event">記事をすべて見る</a></p>
       </div>
     </section>
