@@ -451,3 +451,17 @@ document.querySelectorAll('.scroll-ctrl').forEach(ctrl => {
   window.addEventListener('load', update);
   update();
 });
+
+// KIDS の「活動日と時間」の表：クラス名の（ ）を、スマホでは次の行に出す
+(function () {
+  document.querySelectorAll("#kids-activity .info-table tbody th").forEach(function (th) {
+    if (th.children.length) return;
+    var m = th.textContent.match(/^(.+?)\s*([（(].+[）)])$/);
+    if (!m) return;
+    th.textContent = m[1];
+    var span = document.createElement("span");
+    span.className = "th-sub";
+    span.textContent = m[2];
+    th.appendChild(span);
+  });
+})();

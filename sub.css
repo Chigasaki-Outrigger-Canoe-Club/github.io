@@ -1363,3 +1363,8 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
   .post-cards--scroll .post-card { flex-basis: 78%; }
   .scroll-btn { display: none; }                /* スマホは指で流す */
 }
+
+/* KIDS の表：クラス名の（ ）は、スマホでは次の行に */
+@media (max-width: 768px) {
+  .info-table .th-sub { display: block; }
+}
