@@ -2,7 +2,7 @@
 //
 // - index.html   … NEWS（全カテゴリの新しい順、5 件）
 // - news.html    … すべての記事（カテゴリで絞り込める）       <!-- CARDS_ALL -->
-// - events.html  … 大会・イベント（6 件）                     <!-- CARDS_EVENT -->
+// - events.html  … 大会とイベント（12 件）                     <!-- CARDS_EVENT -->
 // - kids.html    … KIDS（6 件）                               <!-- CARDS_KIDS -->
 // - overseas/index.html … 海外レースの挑戦記                <!-- CARDS_OVERSEAS -->
 //
@@ -11,7 +11,7 @@
 const fs = require("fs");
 const path = require("path");
 const { postRelPath } = require("./post_paths");
-const { fetchArticles, categorySlug, eventSlug, displayLabel, EVENT_CATEGORY } = require("./sheets_fetch");
+const { fetchArticles, categorySlug, eventSlug, displayLabel, EVENTS_PAGE_CATEGORIES } = require("./sheets_fetch");
 
 const ROOT = process.cwd();
 
@@ -157,7 +157,7 @@ async function main() {
 
   // events.html（大会・イベント）
   updateFile("events.html", html =>
-    replaceBlock(html, "CARDS_EVENT", renderCards(byCat(EVENT_CATEGORY).slice(0, 12), "大会・イベントの記事は、まだありません。")));
+    replaceBlock(html, "CARDS_EVENT", renderCards(articles.filter(a => EVENTS_PAGE_CATEGORIES.includes(a.category)).slice(0, 12), "大会・イベントの記事は、まだありません。")));
 
   // kids.html（KIDS）
   updateFile("kids.html", html =>

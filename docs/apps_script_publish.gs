@@ -76,13 +76,14 @@ function setupMobileTrigger() {
 }
 
 // =========================================================
-// articles シート：「カテゴリ」が「大会・イベント」の行だけ、
+// articles シート：「カテゴリ」が「大会」の行だけ、
 // 「大会・イベント名」を選べるようにする（PC でもスマホでも動く）
 // =========================================================
 var ARTICLES_SHEET = 'articles';
 var CATEGORY_HEADER = 'カテゴリ';
 var EVENT_HEADER = '大会・イベント名';
-var EVENT_CATEGORY = '大会・イベント';
+var EVENT_CATEGORY = '大会';
+var CATEGORY_NAMES = ['お知らせ', '大会', 'イベント', 'KIDS'];
 var EVENT_NAMES = ['大島クロッシング', 'Hukilau Challenge', "Ho'aikane", '海外レース', 'その他'];
 
 /** セルを書き換えたときに自動で動く */
@@ -106,7 +107,19 @@ function fixEventChoices() {
   if (!sheet) return;
   var cols = articleColumns_(sheet);
   if (!cols) return;
-  // 何も書かれていない下の行は、最初の設定（「大会・イベント」のときだけ入力できる）のまま
+  // カテゴリの選択肢（列全体）
+  var last = Math.max(sheet.getMaxRows() - 1, 1);
+  sheet.getRange(2, cols.category, last, 1).setDataValidation(SpreadsheetApp.newDataValidation()
+    .requireValueInList(CATEGORY_NAMES, true)
+    .setAllowInvalid(false)
+    .build());
+  // 大会名の列：まず全部の行を「カテゴリが大会のときだけ入力できる」にして、書いてある行を整える
+  var catCol = sheet.getRange(1, cols.category).getA1Notation().replace(/\d+$/, '');
+  sheet.getRange(2, cols.event, last, 1).setDataValidation(SpreadsheetApp.newDataValidation()
+    .requireFormulaSatisfied('=$' + catCol + '2="' + EVENT_CATEGORY + '"')
+    .setAllowInvalid(false)
+    .setHelpText('カテゴリが「大会」のときだけ選べます')
+    .build());
   for (var row = 2; row <= sheet.getLastRow(); row++) applyEventRule_(sheet, cols, row);
 }
 
@@ -125,7 +138,7 @@ function applyEventRule_(sheet, cols, row) {
     cell.setDataValidation(SpreadsheetApp.newDataValidation()
       .requireValueInList(EVENT_NAMES, true)
       .setAllowInvalid(false)
-      .setHelpText('大会・イベント名を選んでください')
+      .setHelpText('大会名を選んでください')
       .build());
   } else {
     if (cell.getValue() !== '') cell.clearContent();
@@ -133,7 +146,7 @@ function applyEventRule_(sheet, cols, row) {
     cell.setDataValidation(SpreadsheetApp.newDataValidation()
       .requireFormulaSatisfied('=$' + catCell + row + '="' + EVENT_CATEGORY + '"')
       .setAllowInvalid(false)
-      .setHelpText('カテゴリが「大会・イベント」のときだけ選べます')
+      .setHelpText('カテゴリが「大会」のときだけ選べます')
       .build());
   }
 }

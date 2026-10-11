@@ -36,7 +36,7 @@ function metaHash(a) {
 // 状態に付け足す注意
 function note(a) {
   const list = [];
-  if (a.eventIgnored) list.push("大会・イベント名は、カテゴリが「大会・イベント」のときだけ使います");
+  if (a.eventIgnored) list.push("大会・イベント名は、カテゴリが「大会」のときだけ使います");
   for (const w of a.docWarnings || []) list.push(w);
   return list.length ? " ⚠️ " + list.join("／") : "";
 }
