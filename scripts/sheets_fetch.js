@@ -37,12 +37,18 @@ function normalizeBool(value) {
 // カテゴリ（シートのプルダウンと同じ並び）。slug はページの絞り込みに使う。
 const CATEGORIES = [
   { name: "お知らせ", slug: "info" },
-  { name: "大会・イベント", slug: "event" },
+  { name: "大会", slug: "race" },
+  { name: "イベント", slug: "event" },
   { name: "KIDS", slug: "kids" }
 ];
-const EVENT_CATEGORY = "大会・イベント";
+const RACE_CATEGORY = "大会";
+const EVENT_CATEGORY = "イベント";
+// 「大会・イベント」ページに並ぶカテゴリ（ページは分けない）
+const EVENTS_PAGE_CATEGORIES = [RACE_CATEGORY, EVENT_CATEGORY];
+// 以前のカテゴリ名（大会とイベントが 1 つだったころ）
+const OLD_RACE_EVENT = "大会・イベント";
 
-// 大会・イベント名（カテゴリが「大会・イベント」のときだけ使う）
+// 大会・イベント名（カテゴリが「大会」のときだけ使う）
 const EVENTS = [
   { name: "大島クロッシング", slug: "oshima" },
   { name: "Hukilau Challenge", slug: "hukilau" },
@@ -60,7 +66,9 @@ function normalizeCategory(value) {
   const hit = CATEGORIES.find(c => squash(c.name) === v || c.slug === v.toLowerCase());
   if (hit) return hit.name;
   if (/kids|キッズ/i.test(v)) return "KIDS";
-  if (/大会|イベント|レポート|報告/.test(v)) return EVENT_CATEGORY;   // 以前の「大会・イベント情報」「イベントレポート」も
+  if (v === squash(OLD_RACE_EVENT)) return OLD_RACE_EVENT;          // 下で大会名を見て、大会かイベントに分ける
+  if (/大会|レース/.test(v)) return RACE_CATEGORY;
+  if (/イベント|レポート|報告/.test(v)) return EVENT_CATEGORY;      // 以前の「イベントレポート」も
   if (/お知らせ|案内/.test(v)) return "お知らせ";
   return "";
 }
@@ -90,7 +98,7 @@ function eventSlug(name) {
 
 // カードや記事ページに出すラベル。大会名が決まっていれば大会名、なければカテゴリ名
 function displayLabel(a) {
-  if (a.category === EVENT_CATEGORY && a.event && a.event !== "その他") return a.event;
+  if (a.category === RACE_CATEGORY && a.event && a.event !== "その他") return a.event;
   return a.category;
 }
 
@@ -154,8 +162,13 @@ async function readArticleSheet() {
     obj.date = normalizeDate(obj.date);
     obj.category = normalizeCategory(obj.category);
     const rawEvent = String(obj.event || "").trim();
-    obj.event = obj.category === EVENT_CATEGORY ? normalizeEvent(rawEvent) : "";
-    obj.eventIgnored = rawEvent !== "" && obj.category !== EVENT_CATEGORY;
+    // 以前の「大会・イベント」：大会名があれば大会、なければ（その他も）イベント
+    if (obj.category === OLD_RACE_EVENT) {
+      const name = rawEvent ? normalizeEvent(rawEvent) : "";
+      obj.category = name && name !== "その他" ? RACE_CATEGORY : EVENT_CATEGORY;
+    }
+    obj.event = obj.category === RACE_CATEGORY ? normalizeEvent(rawEvent) : "";
+    obj.eventIgnored = rawEvent !== "" && obj.category !== RACE_CATEGORY;
     articles.push(obj);
   });
 
@@ -181,5 +194,7 @@ module.exports = {
   displayLabel,
   CATEGORIES,
   EVENTS,
-  EVENT_CATEGORY
+  RACE_CATEGORY,
+  EVENT_CATEGORY,
+  EVENTS_PAGE_CATEGORIES
 };

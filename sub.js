@@ -308,7 +308,7 @@ document.querySelectorAll('.global-nav a').forEach(a => {
 })();
 
 // =========================================================
-// news.html：カテゴリで絞り込む（?cat=report のように URL でも指定できる）
+// news.html：カテゴリで絞り込む（?cat=race のように URL でも指定できる。?cat=race,event なら両方）
 // =========================================================
 (function () {
   const list = document.getElementById('newsCards');
@@ -318,15 +318,16 @@ document.querySelectorAll('.global-nav a').forEach(a => {
   const valid = Array.from(buttons).map(b => b.dataset.filter);
 
   function apply(filter) {
-    if (!valid.includes(filter)) filter = 'all';
+    let parts = String(filter).split(',').filter(f => valid.includes(f) && f !== 'all');
+    if (parts.length === 0) { filter = 'all'; parts = []; }
     buttons.forEach(b => {
-      const on = b.dataset.filter === filter;
+      const on = filter === 'all' ? b.dataset.filter === 'all' : parts.includes(b.dataset.filter);
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     let shown = 0;
     list.querySelectorAll('.post-card').forEach(card => {
-      const hit = filter === 'all' || card.dataset.cat === filter || card.dataset.event === filter;
+      const hit = filter === 'all' || parts.includes(card.dataset.cat) || parts.includes(card.dataset.event);
       card.hidden = !hit;
       if (hit) shown++;
     });
