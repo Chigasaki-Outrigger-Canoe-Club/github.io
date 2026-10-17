@@ -24,7 +24,7 @@ function esc(v) {
 // 写真の大きさ：width / height を書き、元の幅より大きく引き伸ばさない（小さい写真が粗くならないように）
 function sizeAttrs(size) {
   if (!size || !size.w || !size.h) return "";
-  return ` width="${size.w}" height="${size.h}" style="max-width:${size.w}px"`;
+  return ` width="${size.w}" height="${size.h}" style="max-width:min(${size.w}px,100%)"`;
 }
 
 // リンクに使ってよい URL だけ通す
