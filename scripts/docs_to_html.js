@@ -89,6 +89,19 @@ function imageUri(doc, id) {
   return e && e.imageProperties ? e.imageProperties.contentUri : "";
 }
 
+// Doc で切り抜いた量（0〜1 の割合）と、Doc 上の表示の縦横（pt）
+function imageCrop(doc, id) {
+  const e = embeddedOf(doc, id, false) || embeddedOf(doc, id, true);
+  const c = (e && e.imageProperties && e.imageProperties.cropProperties) || {};
+  const clamp = v => Math.min(0.95, Math.max(0, Number(v) || 0));
+  const size = e && e.size;
+  return {
+    left: clamp(c.offsetLeft), right: clamp(c.offsetRight), top: clamp(c.offsetTop), bottom: clamp(c.offsetBottom),
+    shownW: size && size.width && size.width.magnitude || 0,
+    shownH: size && size.height && size.height.magnitude || 0
+  };
+}
+
 function imageAlt(doc, id) {
   const e = embeddedOf(doc, id, false) || embeddedOf(doc, id, true);
   return (e && (e.description || e.title)) || "";
@@ -309,4 +322,4 @@ function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
   return { html: out.join("\n"), warnings: [...warnings] };
 }
 
-module.exports = { convertDocsToHtml, collectImages, imageUri, sizeAttrs };
+module.exports = { convertDocsToHtml, collectImages, imageUri, imageCrop, sizeAttrs };
