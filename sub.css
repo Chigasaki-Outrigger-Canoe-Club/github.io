@@ -1488,3 +1488,14 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
 .scroll-ctrl.is-dragging .scroll-progress { cursor: grabbing; }
 /* PC の左右のボタンはやめて、バーで動かす */
 @media (min-width: 769px) { .scroll-side { display: none !important; } }
+
+/* =========================================================
+   サブページ（トップ以外）の本文の文字は黒に（読みやすさ優先）
+   見出し・ボタン・大会ページの色の付いた部分は今のまま
+   ========================================================= */
+html body { color: #111; }
+.page-section p, .page-section li, .page-section dt, .page-section dd,
+.page-section td, .page-section .info-table tbody th,
+.post-body, .post-body p, .post-body li, .post-body td, .post-body th, .post-body .lead,
+.post-media-text, .card p, .faq-list summary, .faq-list details p { color: #111; }
+.post-photo figcaption, .post-photo-grid figcaption { color: #444; }
