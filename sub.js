@@ -430,6 +430,7 @@ document.querySelectorAll('.scroll-ctrl').forEach(ctrl => {
 
   function update() {
     const max = list.scrollWidth - list.clientWidth;
+    updateSide(max);
     ctrl.classList.toggle('is-active', max > 4);           // 流す余地がなければ隠す
     if (max <= 4) return;
     const ratio = list.clientWidth / list.scrollWidth;
@@ -440,6 +441,19 @@ document.querySelectorAll('.scroll-ctrl').forEach(ctrl => {
     next.disabled = list.scrollLeft >= max - 2;
   }
 
+  // PC：カードの写真の左右に重ねるボタン（写真の高さに合わせる）
+  const wrap = list.closest('.scroll-wrap');
+  const sidePrev = wrap && wrap.querySelector('.scroll-side--prev');
+  const sideNext = wrap && wrap.querySelector('.scroll-side--next');
+  function updateSide(max) {
+    if (!wrap) return;
+    const img = list.querySelector('.post-card-thumb');
+    if (img) wrap.style.setProperty('--thumb-h', img.getBoundingClientRect().height + 'px');
+    const on = max > 4;
+    sidePrev.hidden = !on || list.scrollLeft <= 2;
+    sideNext.hidden = !on || list.scrollLeft >= max - 2;
+  }
+
   const step = dir => {
     const card = list.querySelector('.post-card');
     const w = card ? card.getBoundingClientRect().width + 18 : list.clientWidth * 0.8;
@@ -447,6 +461,8 @@ document.querySelectorAll('.scroll-ctrl').forEach(ctrl => {
   };
   prev.addEventListener('click', () => step(-1));
   next.addEventListener('click', () => step(1));
+  if (sidePrev) sidePrev.addEventListener('click', () => step(-1));
+  if (sideNext) sideNext.addEventListener('click', () => step(1));
   list.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
   window.addEventListener('load', update);
