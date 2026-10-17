@@ -28,7 +28,7 @@ const esc = v => String(v == null ? "" : v).replace(/&/g, "&amp;").replace(/</g,
 const plain = html => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/\s+/g, "");
 
 // bodyHtml は 1 行に 1 つのかたまり（段落・見出し・写真）。見つからなかった文は warnings に入れる
-function insertPhotos(bodyHtml, id, prefix = "../../") {
+async function insertPhotos(bodyHtml, id, prefix = "../../") {
   const rules = rulesFor(id);
   if (!rules.length) return { html: bodyHtml, warnings: [] };
   const lines = bodyHtml.split("\n");
@@ -40,8 +40,13 @@ function insertPhotos(bodyHtml, id, prefix = "../../") {
     const i = lines.findIndex(l => /^<(p|h[2-4])[\s>]/.test(l) && plain(l).includes(key));
     if (!key || i < 0) { warnings.push(`写真の差し込み先が見つかりません（${r.after}）`); continue; }
     if (!fs.existsSync(path.join(process.cwd(), r.photo))) { warnings.push(`写真がありません（${r.photo}）`); continue; }
+    let size = "";
+    try {
+      const m = await require("sharp")(path.join(process.cwd(), r.photo)).metadata();
+      if (m.width && m.height) size = ` width="${m.width}" height="${m.height}" style="max-width:${m.width}px"`;
+    } catch (e) { /* 大きさが分からなくても表示はできる */ }
     const cap = r.caption ? `<figcaption class="is-center">${esc(r.caption)}</figcaption>` : "";
-    hits.push({ i, tag: `<figure class="post-photo"><img src="${esc(encodeURI(prefix + r.photo))}" alt="" loading="lazy">${cap}</figure>` });
+    hits.push({ i, tag: `<figure class="post-photo"><img src="${esc(encodeURI(prefix + r.photo))}" alt=""${size} loading="lazy">${cap}</figure>` });
   }
   hits.sort((a, b) => b.i - a.i).forEach(h => lines.splice(h.i + 1, 0, h.tag));
   return { html: lines.join("\n"), warnings };
