@@ -1402,3 +1402,34 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
 .post-body .is-center { text-align: center; }
 .post-body .is-right { text-align: right; }
 .post-photo figcaption { margin-top: 6px; }
+
+/* 記事の目次（左に出ないとき）：丸で囲まず、番号つきの 1 行ずつ。下線で区切る */
+@media (max-width: 1279px) {
+  .page-toc.post-toc { display: block; counter-reset: toc; }
+  .page-toc.post-toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 11px 4px;
+    border: 0;
+    border-bottom: 1px solid var(--line, rgba(0, 0, 0, 0.12));
+    border-radius: 0;
+    background: transparent;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: 0.06em;
+    color: var(--ink, #1e3447);
+    counter-increment: toc;
+  }
+  .page-toc.post-toc a::before {
+    content: counter(toc, decimal-leading-zero);
+    flex: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: var(--sun, #d9785a);
+  }
+  .page-toc.post-toc a:last-child { border-bottom: 0; }
+  .page-toc.post-toc a:hover { background: transparent; color: var(--sun, #d9785a); }
+  .toc-fold .post-toc { margin: 0 0 6px; }
+}
