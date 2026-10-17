@@ -1466,3 +1466,6 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
   .scroll-side svg { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8)); }
   .scroll-ctrl .scroll-btn { display: none; }
 }
+
+/* 記事の写真：小さい写真は元の幅までで止め（HTML の max-width）、真ん中に置く */
+.post-body figure img { margin-left: auto; margin-right: auto; }

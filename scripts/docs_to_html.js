@@ -21,6 +21,12 @@ function esc(v) {
     .replace(/"/g, "&quot;");
 }
 
+// 写真の大きさ：width / height を書き、元の幅より大きく引き伸ばさない（小さい写真が粗くならないように）
+function sizeAttrs(size) {
+  if (!size || !size.w || !size.h) return "";
+  return ` width="${size.w}" height="${size.h}" style="max-width:${size.w}px"`;
+}
+
 // リンクに使ってよい URL だけ通す
 function safeUrl(url) {
   const u = String(url || "").trim();
@@ -93,7 +99,8 @@ function imageAlt(doc, id) {
 // ---------------------------------------------------------
 
 // srcOf(id) は、写真の id → <img src> に入れる場所 を返す（保存できなかった写真は ""）
-function convertDocsToHtml(doc, srcOf = () => "") {
+// sizeOf(id) は、写真の id → { w, h }（分からなければ null）。小さい写真は元の大きさより引き伸ばさない
+function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
   const warnings = new Set();
   const lists = doc.lists || {};
   const out = [];
@@ -101,7 +108,7 @@ function convertDocsToHtml(doc, srcOf = () => "") {
   const imgTag = id => {
     const src = srcOf(id);
     if (!src) return "";
-    return `<img src="${esc(src)}" alt="${esc(imageAlt(doc, id))}" loading="lazy">`;
+    return `<img src="${esc(src)}" alt="${esc(imageAlt(doc, id))}"${sizeAttrs(sizeOf(id))} loading="lazy">`;
   };
 
   // 文字の部分（太字・斜体・リンクなど）
@@ -302,4 +309,4 @@ function convertDocsToHtml(doc, srcOf = () => "") {
   return { html: out.join("\n"), warnings: [...warnings] };
 }
 
-module.exports = { convertDocsToHtml, collectImages, imageUri };
+module.exports = { convertDocsToHtml, collectImages, imageUri, sizeAttrs };
