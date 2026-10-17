@@ -116,16 +116,11 @@
 
 ## 海外レース挑戦記（`overseas/`）
 
-- 旧サイト（chigasakioutriggercanoeclub.jp）にあった海外レースの挑戦記を、記録として移したもの。文章は当時のまま。
-- `overseas/index.html` が一覧。`molokai2010.html`（2010 Molokai Hoe）、`wahine.html`（2009 Na Wahine O Ke Kai）、`catalina.html`（2006 Catalina Crossing）が本文。
-- 入口は「大会・イベント」の `#overseas`。メニューには出さない。日本語のみ（英語版の「大会・イベント」からは日本語ページへリンク）。
-- 見た目は記事ページと同じ（`.post-…`）。足した指定は `sub.css` の「海外レース挑戦記」の部分（`.story` `.photos`）だけ。
-- 写真は `overseas/img/` に置く。HTML は旧サイトと同じファイル名で読み込んでいるので、画像を置けば表示される（HTML は直さない）。
-  - `overseas/img/molokai2010/` … `molokai2010_clip_image…` の44枚
-  - `overseas/img/2009wahine/` … `image002.jpg`〜`image156.jpg` の78枚
-  - `overseas/img/catalina/` と `overseas/img/2006catalina2.jpg` … 11枚
-- 画像がまだ無い写真は、`sub.js` の末尾の処理で非表示にしている。
-- 新しい挑戦を足すとき: 既存の本文ページをコピーして書き換え、`overseas/index.html` のカードを1つ足す。
+- 旧サイト（chigasakioutriggercanoeclub.jp）にあった海外レースの挑戦記は、Google Doc に移して記事にした（`posts/2010/` `posts/2009/` `posts/2006/`）。文章は当時のまま。
+- 以前の手作りの本文ページ（`molokai2010.html` `wahine.html` `catalina.html`）は、記事と重なるので削除した。
+- `overseas/index.html` が一覧。カードは、articles シートで大会・イベント名が「海外レース」の記事から自動で作る（`scripts/update_index.js`）。説明文は記事のリード文（Doc のサブタイトル）。
+- 入口は「大会・イベント」の `#overseas`。メニューには出さない。日本語のみ。
+- 新しい挑戦を足すとき: articles シートに 1 行足し、カテゴリ「大会」、大会・イベント名「海外レース」にして反映する。写真は Doc に貼る。
 
 ## スプレッドシートと HTML の関係（文章を直すときの注意）
 
