@@ -147,3 +147,35 @@
   .global-nav ul { padding: 8px 6% 16px; }
   .global-nav li a { padding: 14px 0; }
 }
+
+/* ---------- PC：メニューボタンを目立たせる（ヘッダーの高さは変えない） ----------
+   三本線を少し大きく太くし、半透明の枠と「MENU」の文字を付ける。明るい写真の上でも見えるように */
+@media (min-width: 769px) {
+  .menu-btn {
+    position: relative;
+    gap: 6px;
+    padding: 11px 84px 11px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
+    background: rgba(10, 20, 30, 0.35);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .menu-btn span { width: 26px; height: 2.5px; border-radius: 2px; }
+  .menu-btn::after {
+    content: "MENU";
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #fff;
+  }
+  .menu-btn.active::after { content: "CLOSE"; }
+  .menu-btn:hover { background: rgba(255, 255, 255, 0.18); border-color: #fff; }
+  .menu-btn.active span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+  .menu-btn.active span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+}
