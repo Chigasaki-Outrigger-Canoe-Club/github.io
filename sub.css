@@ -1378,8 +1378,13 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
 .post-photo-grid figure { margin: 0; }
 .post-photo-grid img { display: block; width: 100%; height: auto; border-radius: 6px; }
 .post-photo-grid img + img { margin-top: 6px; }
-.post-photo-grid figcaption { margin-top: 8px; font-size: 13px; line-height: 1.6; text-align: center; color: rgba(30, 52, 71, 0.75); }
+.post-photo-grid figcaption { margin-top: 6px; font-size: 13px; line-height: 1.6; color: rgba(30, 52, 71, 0.75); }
 .post-table td img { display: block; max-width: 100%; height: auto; border-radius: 4px; }
 @media (max-width: 768px) {
   .post-photo-grid--3, .post-photo-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* 記事：Doc で中央揃え・右揃えにした段落と写真の説明 */
+.post-body .is-center { text-align: center; }
+.post-body .is-right { text-align: right; }
+.post-photo figcaption { margin-top: 6px; }

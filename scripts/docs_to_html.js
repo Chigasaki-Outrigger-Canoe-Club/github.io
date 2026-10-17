@@ -7,7 +7,8 @@
 //   A 写真だけの行に 1 枚        → 横いっぱい
 //   B 同じ行に 2 枚              → 2 枚並び（スマホは縦）
 //   C 同じ行に 3 枚以上          → ギャラリー（3 列）
-//   D 写真のすぐ下の「※」で始まる行 → 写真の説明（キャプション）
+//   D 写真のすぐ下の「※」で始まる行、または中央揃えの行 → 写真の説明（キャプション）
+//   中央揃え・右揃えにした段落は、サイトでも中央揃え・右揃えになる
 //   F 1 行 2 列の表で、片方のマスに写真 → 写真と文章を左右に（スマホは縦）
 //   G どのマスにも写真がある表 → 写真を表の形のまま並べる。マスの文字は写真の説明
 //   それ以外の表 → ふつうの表（写真が入っていれば、マスの中に出す）
@@ -25,6 +26,13 @@ function safeUrl(url) {
   const u = String(url || "").trim();
   return /^(https?:|mailto:|tel:)/i.test(u) ? u : "";
 }
+
+// 段落の揃え方（Doc の中央揃え・右揃え）→ class 名。左揃え・両端揃えは空
+function alignOf(p) {
+  const a = p && p.paragraphStyle && p.paragraphStyle.alignment;
+  return a === "CENTER" ? "is-center" : a === "END" ? "is-right" : "";
+}
+const withClass = (tag, cls, inner) => `<${tag}${cls ? ` class="${cls}"` : ""}>${inner}</${tag}>`;
 
 // ---------------------------------------------------------
 // 1) 写真の一覧（Doc の中の順番）
@@ -132,11 +140,11 @@ function convertDocsToHtml(doc, srcOf = () => "") {
   };
 
   // 写真のかたまり（A・B・C）。caption は D
-  const imageBlock = (ids, caption) => {
+  const imageBlock = (ids, caption, capAlign = "") => {
     const tags = ids.map(imgTag).filter(Boolean);
     if (tags.length === 0) return "";
     const cls = tags.length === 1 ? "post-photo" : tags.length === 2 ? "post-photo post-photo--pair" : "post-photo post-photo--gallery";
-    const cap = caption ? `<figcaption>${caption}</figcaption>` : "";
+    const cap = caption ? withClass("figcaption", capAlign, caption) : "";
     return `<figure class="${cls}">${tags.join("")}${cap}</figure>`;
   };
 
@@ -155,20 +163,25 @@ function convertDocsToHtml(doc, srcOf = () => "") {
       if (!el.paragraph) continue;
       const { html, images } = splitParagraph(el.paragraph);
       if (withImages) for (const id of images) { const t = imgTag(id); if (t) parts.push(`<p>${t}</p>`); }
-      if (html) parts.push(el.paragraph.bullet ? `<li>${html}</li>` : `<p>${html}</p>`);
+      if (html) parts.push(el.paragraph.bullet ? `<li>${html}</li>` : withClass("p", alignOf(el.paragraph), html));
     }
     return parts.join("").replace(/(<li>.*?<\/li>)+/g, m => `<ul>${m}</ul>`);
   };
 
   // マスの文字だけを、改行でつないだ 1 つの説明にする（先頭の「※」は外す）
+  // 揃え方は、文字の段落の揃え方（どれかが中央揃えなら中央）
   const cellCaption = cell => {
     const lines = [];
+    let align = "";
     for (const el of cell.content || []) {
       if (!el.paragraph) continue;
       const { html } = splitParagraph(el.paragraph);
-      if (html) lines.push(html);
+      if (!html) continue;
+      lines.push(html);
+      const a = alignOf(el.paragraph);
+      if (a && (!align || a === "is-center")) align = a;
     }
-    return lines.join("<br>").replace(/^[※＊*]\s*/, "");
+    return { html: lines.join("<br>").replace(/^[※＊*]\s*/, ""), align };
   };
 
   const cellImages = cell => {
@@ -200,7 +213,7 @@ function convertDocsToHtml(doc, srcOf = () => "") {
         const tags = cellImages(c).map(imgTag).filter(Boolean);
         if (tags.length === 0) return "";
         const cap = cellCaption(c);
-        return `<figure>${tags.join("")}${cap ? `<figcaption>${cap}</figcaption>` : ""}</figure>`;
+        return `<figure>${tags.join("")}${cap.html ? withClass("figcaption", cap.align, cap.html) : ""}</figure>`;
       }).filter(Boolean);
       if (figs.length) return `<div class="post-photo-grid post-photo-grid--${cols}">${figs.join("")}</div>`;
     }
@@ -210,7 +223,7 @@ function convertDocsToHtml(doc, srcOf = () => "") {
       const tag = r === 0 && rows.length > 1 ? "th" : "td";
       const tds = (row.tableCells || []).map(c => {
         let inner = cellHtml(c, hasImages);
-        if (!/<(ul|ol)>/.test(inner)) inner = inner.replace(/^<p>/, "").replace(/<\/p>$/, "").replace(/<\/p><p>/g, "<br>");
+        if (!/<(ul|ol)>|<p class=/.test(inner)) inner = inner.replace(/^<p>/, "").replace(/<\/p>$/, "").replace(/<\/p><p>/g, "<br>");
         return `<${tag}>${inner}</${tag}>`;
       }).join("");
       return `<tr>${tds}</tr>`;
@@ -245,14 +258,18 @@ function convertDocsToHtml(doc, srcOf = () => "") {
       closeList();
       let caption = "";
       const next = content[i + 1] && content[i + 1].paragraph;
-      if (next) {
+      let capAlign = "";
+      if (next && !next.bullet) {
         const n = splitParagraph(next);
-        if (!n.images.length && /^[※＊*]/.test(n.plain)) {
-          caption = n.plain.replace(/^[※＊*]\s*/, "");
+        const nextStyle = (next.paragraphStyle && next.paragraphStyle.namedStyleType) || "NORMAL_TEXT";
+        const centered = alignOf(next) === "is-center" && nextStyle === "NORMAL_TEXT";
+        if (!n.images.length && n.html && (/^[※＊*]/.test(n.plain) || centered)) {
+          caption = n.html.replace(/^[※＊*]\s*/, "");
+          capAlign = alignOf(next);
           i++;
         }
       }
-      out.push(imageBlock(images, caption));
+      out.push(imageBlock(images, caption, capAlign));
       if (!html) continue;
     }
 
@@ -268,16 +285,17 @@ function convertDocsToHtml(doc, srcOf = () => "") {
     if (!html) { continue; }   // 空の行は詰める（段落のあいだは CSS で空ける）
     if (/^【写真をここに】$/.test(plain)) continue;   // 写真を入れる場所の目印（サイトには出さない）
 
-    if (style === "TITLE" || style === "HEADING_1") out.push(`<h2 id="sec-${++sectionNo}">${html}</h2>`);
+    const al = alignOf(p);
+    if (style === "TITLE" || style === "HEADING_1") out.push(`<h2 id="sec-${++sectionNo}"${al ? ` class="${al}"` : ""}>${html}</h2>`);
     else if (style === "SUBTITLE") {
       // サブタイトルが続くときは、1 つのリード文にまとめる（行は改行でつなぐ）
       const last = out[out.length - 1] || "";
-      if (last.startsWith('<p class="lead">')) out[out.length - 1] = last.replace(/<\/p>$/, `<br>${html}</p>`);
-      else out.push(`<p class="lead">${html}</p>`);
+      if (last.startsWith('<p class="lead')) out[out.length - 1] = last.replace(/<\/p>$/, `<br>${html}</p>`);
+      else out.push(withClass("p", al ? `lead ${al}` : "lead", html));
     }
-    else if (style === "HEADING_2") out.push(`<h3>${html}</h3>`);
-    else if (/^HEADING_[3-6]$/.test(style)) out.push(`<h4>${html}</h4>`);
-    else out.push(`<p>${html}</p>`);
+    else if (style === "HEADING_2") out.push(withClass("h3", al, html));
+    else if (/^HEADING_[3-6]$/.test(style)) out.push(withClass("h4", al, html));
+    else out.push(withClass("p", al, html));
   }
   closeList();
 
