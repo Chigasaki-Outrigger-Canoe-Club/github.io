@@ -657,8 +657,8 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
 @media (max-width: 768px) {
   .post { padding: 96px 6% 64px; }
   .post-body { font-size: 15px; }
-  .post-photo--pair, .post-media { grid-template-columns: 1fr; }
-  .post-media--right .post-photo { order: 0; }
+  .post-photo--pair { grid-template-columns: 1fr; }
+  .post-media { gap: 14px; }                       /* 表から作った並びは、スマホでも Doc の列の割合のまま */
   .post-photo--gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* 縦長の写真が画面をうめないよう、高さを画面の 60% までにして中央に置く */
   .post-photo img, .post-images img { width: auto; max-width: 100%; max-height: 60vh; margin: 0 auto; }
@@ -1395,7 +1395,7 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
 .post-photo-grid figcaption { margin-top: 6px; font-size: 13px; line-height: 1.6; color: rgba(30, 52, 71, 0.75); }
 .post-table td img { display: block; max-width: 100%; height: auto; border-radius: 4px; }
 @media (max-width: 768px) {
-  .post-photo-grid--3, .post-photo-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .post-photo-grid { gap: 8px; }                   /* 列の数と割合は Doc の表のまま（HTML の style） */
 }
 
 /* 記事：Doc で中央揃え・右揃えにした段落と写真の説明 */

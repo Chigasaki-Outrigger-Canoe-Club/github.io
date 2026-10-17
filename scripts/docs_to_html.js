@@ -210,8 +210,30 @@ function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
     return ids;
   };
 
+  // 表の列の幅（Doc の割合）。手で幅を決めた列は pt、均等の列は残りを等分。百分率の配列
+  const colRatios = (table, n) => {
+    const props = (table.tableStyle && table.tableStyle.tableColumnProperties) || [];
+    const ds = doc.documentStyle || {};
+    const pt = v => (v && v.magnitude) || 0;
+    const page = (pt(ds.pageSize && ds.pageSize.width) - pt(ds.marginLeft) - pt(ds.marginRight)) || 468;
+    const fixed = [];
+    for (let i = 0; i < n; i++) {
+      const c = props[i] || {};
+      fixed.push(c.widthType === "FIXED_WIDTH" && pt(c.width) > 0 ? pt(c.width) : null);
+    }
+    const used = fixed.reduce((s, v) => s + (v || 0), 0);
+    const free = fixed.filter(v => v == null).length;
+    const share = free ? Math.max(page - used, free * 36) / free : 0;
+    const w = fixed.map(v => (v == null ? share : v));
+    const total = w.reduce((s, v) => s + v, 0) || 1;
+    return w.map(v => Math.round((v / total) * 1000) / 10);
+  };
+  const gridStyle = ratios => ` style="grid-template-columns:${ratios.map(r => `minmax(0,${r}fr)`).join(" ")}"`;
+
   const tableHtml = table => {
     const rows = table.tableRows || [];
+    const nCols = table.columns || Math.max(1, ...rows.map(row => (row.tableCells || []).length));
+    const ratios = colRatios(table, nCols);
     // F：1 行 2 列で、片方のマスだけに写真 → 写真と文章を左右に
     if (rows.length === 1 && (rows[0].tableCells || []).length === 2) {
       const [c1, c2] = rows[0].tableCells;
@@ -221,21 +243,24 @@ function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
         const photo = imageBlock(photoLeft ? i1 : i2, "");
         const text = cellHtml(photoLeft ? c2 : c1);
         if (photo) {
-          return `<div class="post-media${photoLeft ? "" : " post-media--right"}">${photo}<div class="post-media-text">${text}</div></div>`;
+          // 並びは Doc の表のまま（写真が右の表なら、文章・写真の順）。列の幅も Doc の割合
+          const first = photoLeft ? photo : `<div class="post-media-text">${text}</div>`;
+          const second = photoLeft ? `<div class="post-media-text">${text}</div>` : photo;
+          return `<div class="post-media"${gridStyle(ratios)}>${first}${second}</div>`;
         }
       }
     }
     // G：どのマスにも写真がある → 写真を並べる（列の数は表のまま。マスの文字は説明）
     const cells = rows.flatMap(row => row.tableCells || []);
     if (cells.length > 0 && cells.every(c => cellImages(c).length > 0)) {
-      const cols = Math.min(4, Math.max(...rows.map(row => (row.tableCells || []).length)));
+      const cols = nCols;
       const figs = cells.map(c => {
         const tags = cellImages(c).map(imgTag).filter(Boolean);
         if (tags.length === 0) return "";
         const cap = cellCaption(c);
         return `<figure>${tags.join("")}${cap.html ? withClass("figcaption", cap.align, cap.html) : ""}</figure>`;
       }).filter(Boolean);
-      if (figs.length) return `<div class="post-photo-grid post-photo-grid--${cols}">${figs.join("")}</div>`;
+      if (figs.length) return `<div class="post-photo-grid post-photo-grid--${cols}"${gridStyle(ratios)}>${figs.join("")}</div>`;
     }
     // ふつうの表（1 行目を見出しにする）。マスの中の段落は改行でつなぐ
     const hasImages = cellImagesAny(rows);
@@ -248,7 +273,8 @@ function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
       }).join("");
       return `<tr>${tds}</tr>`;
     }).join("");
-    return `<div class="post-table"><table>${body}</table></div>`;
+    const colgroup = `<colgroup>${ratios.map(r => `<col style="width:${r}%">`).join("")}</colgroup>`;
+    return `<div class="post-table"><table>${colgroup}${body}</table></div>`;
   };
 
   const cellImagesAny = rows => rows.some(row => (row.tableCells || []).some(c => cellImages(c).length > 0));
