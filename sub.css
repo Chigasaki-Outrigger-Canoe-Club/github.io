@@ -1433,3 +1433,6 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
   .page-toc.post-toc a:hover { background: transparent; color: var(--sun, #d9785a); }
   .toc-fold .post-toc { margin: 0 0 6px; }
 }
+
+/* 海外レース挑戦記のカード（日付の小さなラベル） */
+.card .card-date { display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: 0.1em; color: rgba(30, 52, 71, 0.6); }
