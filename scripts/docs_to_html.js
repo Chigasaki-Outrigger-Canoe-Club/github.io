@@ -9,7 +9,8 @@
 //   C 同じ行に 3 枚以上          → ギャラリー（3 列）
 //   D 写真のすぐ下の「※」で始まる行 → 写真の説明（キャプション）
 //   F 1 行 2 列の表で、片方のマスに写真 → 写真と文章を左右に（スマホは縦）
-//   写真が入っていない表 → ふつうの表
+//   G どのマスにも写真がある表 → 写真を表の形のまま並べる。マスの文字は写真の説明
+//   それ以外の表 → ふつうの表（写真が入っていれば、マスの中に出す）
 
 function esc(v) {
   return String(v == null ? "" : v)
@@ -147,15 +148,27 @@ function convertDocsToHtml(doc, srcOf = () => "") {
     return !!(lv && lv.glyphType && !/GLYPH_TYPE_UNSPECIFIED|NONE/.test(lv.glyphType));
   };
 
-  // 表のマスの中身（段落と箇条書きだけの簡単な形）
-  const cellHtml = cell => {
+  // 表のマスの中身（段落と箇条書きだけの簡単な形）。withImages なら写真もマスの中に出す
+  const cellHtml = (cell, withImages) => {
     const parts = [];
     for (const el of cell.content || []) {
       if (!el.paragraph) continue;
-      const { html } = splitParagraph(el.paragraph);
+      const { html, images } = splitParagraph(el.paragraph);
+      if (withImages) for (const id of images) { const t = imgTag(id); if (t) parts.push(`<p>${t}</p>`); }
       if (html) parts.push(el.paragraph.bullet ? `<li>${html}</li>` : `<p>${html}</p>`);
     }
     return parts.join("").replace(/(<li>.*?<\/li>)+/g, m => `<ul>${m}</ul>`);
+  };
+
+  // マスの文字だけを、改行でつないだ 1 つの説明にする（先頭の「※」は外す）
+  const cellCaption = cell => {
+    const lines = [];
+    for (const el of cell.content || []) {
+      if (!el.paragraph) continue;
+      const { html } = splitParagraph(el.paragraph);
+      if (html) lines.push(html);
+    }
+    return lines.join("<br>").replace(/^[※＊*]\s*/, "");
   };
 
   const cellImages = cell => {
@@ -179,13 +192,29 @@ function convertDocsToHtml(doc, srcOf = () => "") {
         }
       }
     }
-    // ふつうの表（1 行目を見出しにする）
+    // G：どのマスにも写真がある → 写真を並べる（列の数は表のまま。マスの文字は説明）
+    const cells = rows.flatMap(row => row.tableCells || []);
+    if (cells.length > 0 && cells.every(c => cellImages(c).length > 0)) {
+      const cols = Math.min(4, Math.max(...rows.map(row => (row.tableCells || []).length)));
+      const figs = cells.map(c => {
+        const tags = cellImages(c).map(imgTag).filter(Boolean);
+        if (tags.length === 0) return "";
+        const cap = cellCaption(c);
+        return `<figure>${tags.join("")}${cap ? `<figcaption>${cap}</figcaption>` : ""}</figure>`;
+      }).filter(Boolean);
+      if (figs.length) return `<div class="post-photo-grid post-photo-grid--${cols}">${figs.join("")}</div>`;
+    }
+    // ふつうの表（1 行目を見出しにする）。マスの中の段落は改行でつなぐ
+    const hasImages = cellImagesAny(rows);
     const body = rows.map((row, r) => {
       const tag = r === 0 && rows.length > 1 ? "th" : "td";
-      const cells = (row.tableCells || []).map(c => `<${tag}>${cellHtml(c).replace(/^<p>([\s\S]*)<\/p>$/, "$1")}</${tag}>`).join("");
-      return `<tr>${cells}</tr>`;
+      const tds = (row.tableCells || []).map(c => {
+        let inner = cellHtml(c, hasImages);
+        if (!/<(ul|ol)>/.test(inner)) inner = inner.replace(/^<p>/, "").replace(/<\/p>$/, "").replace(/<\/p><p>/g, "<br>");
+        return `<${tag}>${inner}</${tag}>`;
+      }).join("");
+      return `<tr>${tds}</tr>`;
     }).join("");
-    if (cellImagesAny(rows)) warnings.add("写真入りの表は、1 行 2 列（写真と文章）のときだけ左右に並びます");
     return `<div class="post-table"><table>${body}</table></div>`;
   };
 

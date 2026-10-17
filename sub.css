@@ -1368,3 +1368,18 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
 @media (max-width: 768px) {
   .info-table .th-sub { display: block; }
 }
+
+/* 記事：写真だけの表（G）。表の列の数で並べる。スマホは 2 列 */
+.post-photo-grid { display: grid; gap: 14px; margin: 2em 0; align-items: start; }
+.post-photo-grid--1 { grid-template-columns: minmax(0, 1fr); }
+.post-photo-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.post-photo-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.post-photo-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.post-photo-grid figure { margin: 0; }
+.post-photo-grid img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.post-photo-grid img + img { margin-top: 6px; }
+.post-photo-grid figcaption { margin-top: 8px; font-size: 13px; line-height: 1.6; text-align: center; color: rgba(30, 52, 71, 0.75); }
+.post-table td img { display: block; max-width: 100%; height: auto; border-radius: 4px; }
+@media (max-width: 768px) {
+  .post-photo-grid--3, .post-photo-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
