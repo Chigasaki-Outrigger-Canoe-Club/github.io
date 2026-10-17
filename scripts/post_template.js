@@ -51,9 +51,12 @@ function buildPostHtml(article, bodyHtml) {
     .map(m => ({ id: m[1], text: m[2].replace(/<[^>]+>/g, "").trim() }));
   const tocHtml = sections.length >= 3
     ? `
+        <details class="toc-fold">
+        <summary>目次</summary>
         <nav class="page-toc post-toc" aria-label="この記事の目次">
 ${sections.map(s => `          <a href="#${s.id}">${escapeHtml(s.text)}</a>`).join("\n")}
         </nav>
+        </details>
 `
     : "";
 

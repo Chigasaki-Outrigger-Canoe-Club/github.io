@@ -660,6 +660,9 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
   .post-photo--pair, .post-media { grid-template-columns: 1fr; }
   .post-media--right .post-photo { order: 0; }
   .post-photo--gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* 縦長の写真が画面をうめないよう、高さを画面の 60% までにして中央に置く */
+  .post-photo img, .post-images img { width: auto; max-width: 100%; max-height: 60vh; margin: 0 auto; }
+  .post-photo--gallery img { width: 100%; }
 }
 
 /* FAQ の答えの中のリンク */
@@ -1202,6 +1205,17 @@ html[lang="en"] .section-inner .section-title {
 
 /* 記事の目次（1280px 未満のときはボタンの並び。広いときは左に出る） */
 .post-toc { max-width: none; margin: 0 0 40px; padding: 0; }
+
+/* 目次の折りたたみ：スマホだけ「目次 ▼」をタップして開く。PCは sub.js が開いておく */
+.toc-fold summary { display: none; }
+@media (max-width: 768px) {
+  .toc-fold { margin: 0 0 32px; border-top: 1px solid var(--line, rgba(0, 0, 0, 0.12)); border-bottom: 1px solid var(--line, rgba(0, 0, 0, 0.12)); }
+  .toc-fold summary { display: block; padding: 14px 4px; font-size: 14px; letter-spacing: 0.12em; color: var(--ink, #1e3447); cursor: pointer; list-style: none; }
+  .toc-fold summary::-webkit-details-marker { display: none; }
+  .toc-fold summary::after { content: "▼"; float: right; font-size: 11px; transition: transform 0.2s ease; }
+  .toc-fold[open] summary::after { transform: rotate(180deg); }
+  .toc-fold .post-toc { margin: 0 0 16px; }
+}
 
 @media (min-width: 1280px) {
   body.has-side-toc .post { padding-left: var(--side-pad); padding-right: var(--side-pad); }

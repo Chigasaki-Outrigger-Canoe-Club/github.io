@@ -466,3 +466,8 @@ document.querySelectorAll('.scroll-ctrl').forEach(ctrl => {
     th.appendChild(span);
   });
 })();
+
+// 記事の目次：PC（769px 以上）では最初から開いておく。スマホはタップで開く
+document.querySelectorAll('.toc-fold').forEach(function (fold) {
+  if (window.innerWidth > 768) fold.open = true;
+});
