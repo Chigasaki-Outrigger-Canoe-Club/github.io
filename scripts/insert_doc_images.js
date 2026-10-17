@@ -3,6 +3,7 @@
 // 使い方：GitHub の「Googleドキュメントに写真を入れる」から動かす。
 //   PLAN … 計画ファイル（{ doc, base, groups:[{ after, images:[…] }] }）
 //   after … この文で終わる段落のすぐ下に入れる（"TOP" なら本文のいちばん上）
+//   table: true … 写真を 1 行の表に入れる（写真の枚数ぶんの列。1 マスに 1 枚）
 //   DRY_RUN=true なら、Doc は変えずに、どこに入るかだけ表示する
 // Doc はサービスアカウントに「編集者」で共有しておく。
 
@@ -48,12 +49,33 @@ async function main() {
     }
     jobs.push({ index, top: g.after === "TOP", images: g.images, after: g.after });
   }
-  for (const j of jobs) console.log(`${j.images.join(", ")} → ${j.top ? "いちばん上" : "「…" + j.after + "」の下"}`);
+  plan.groups.forEach((g, i) => { jobs[i].table = !!g.table; });
+  for (const j of jobs) console.log(`${j.images.join(", ")} → ${j.top ? "いちばん上" : "「…" + j.after + "」の下"}${j.table ? "（表）" : ""}`);
   if (dry) { console.log("DRY_RUN：Doc は変えていません"); return; }
 
-  // 下から順に入れると、上の場所がずれない
+  // 表に入れる分：下から 1 つずつ。表を入れたら Doc を読み直して、マスの場所を調べて写真を入れる
+  for (const j of jobs.filter(x => x.table).sort((a, b) => b.index - a.index)) {
+    const n = j.images.length;
+    await docs.documents.batchUpdate({ documentId: plan.doc, requestBody: { requests: [
+      { insertTable: { rows: 1, columns: n, location: { index: j.index } } }
+    ] } });
+    const fresh = (await docs.documents.get({ documentId: plan.doc })).data;
+    const tableEl = (fresh.body.content || []).find(el => el.table && el.startIndex >= j.index);
+    if (!tableEl) throw new Error(`入れた表が見つかりません：${j.after}`);
+    const cells = tableEl.table.tableRows[0].tableCells;
+    const width = n === 1 ? 300 : n === 2 ? 200 : 140;
+    const reqs = [];
+    for (let c = n - 1; c >= 0; c--) {           // 後ろのマスから入れると、前のマスの場所がずれない
+      const at = cells[c].content[0].startIndex;
+      reqs.push({ insertInlineImage: { location: { index: at }, uri: plan.base + j.images[c], objectSize: { width: { magnitude: width, unit: "PT" } } } });
+    }
+    await docs.documents.batchUpdate({ documentId: plan.doc, requestBody: { requests: reqs } });
+    console.log(`表に写真 ${n} 枚：「…${j.after}」の下`);
+  }
+
+  // 表に入れない分：下から順に入れると、上の場所がずれない
   const requests = [];
-  for (const j of [...jobs].sort((a, b) => b.index - a.index)) {
+  for (const j of [...jobs].filter(x => !x.table).sort((a, b) => b.index - a.index)) {
     const width = j.images.length === 1 ? 420 : j.images.length === 2 ? 210 : 140;
     const at = j.top ? j.index : j.index + 1;
     requests.push({ insertText: { location: { index: j.index }, text: "\n" } });
@@ -62,7 +84,7 @@ async function main() {
       requests.push({ insertInlineImage: { location: { index: at }, uri: plan.base + name, objectSize: { width: { magnitude: width, unit: "PT" } } } });
     }
   }
-  await docs.documents.batchUpdate({ documentId: plan.doc, requestBody: { requests } });
+  if (requests.length) await docs.documents.batchUpdate({ documentId: plan.doc, requestBody: { requests } });
   console.log(`写真 ${jobs.reduce((n, j) => n + j.images.length, 0)} 枚を入れました（${jobs.length} か所）`);
 }
 
