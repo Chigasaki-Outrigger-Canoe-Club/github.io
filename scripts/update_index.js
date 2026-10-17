@@ -11,6 +11,7 @@
 const fs = require("fs");
 const path = require("path");
 const { postRelPath } = require("./post_paths");
+const { rulesFor } = require("./post_photos");
 const { fetchArticles, categorySlug, eventSlug, displayLabel, EVENTS_PAGE_CATEGORIES } = require("./sheets_fetch");
 
 const ROOT = process.cwd();
@@ -64,7 +65,9 @@ function metaHtml(a) {
 // Doc に貼った最初の写真（images/posts/年/記事の名前/01.webp）。なければ空
 function docCover(a) {
   const rel = `images/posts/${postRelPath(a).replace(/\.html$/, "")}/01.webp`;
-  return fs.existsSync(path.join(ROOT, rel)) ? encodeURI(rel) : "";
+  if (fs.existsSync(path.join(ROOT, rel))) return encodeURI(rel);
+  const extra = (rulesFor(a.id)[0] || {}).photo;               // git に置いた写真（data/post_photos.json）
+  return extra && fs.existsSync(path.join(ROOT, extra)) ? encodeURI(extra) : "";
 }
 
 function thumb(a, i) {
