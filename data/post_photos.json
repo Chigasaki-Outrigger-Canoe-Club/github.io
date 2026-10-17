@@ -1,0 +1,18 @@
+{
+  "_説明": "Google Doc に写真を貼らずに、git に置いた写真を記事に差し込むための設定。キーは記事id（articles シートの「記事id（自動）」）。after に書いた文を含む段落（見出し）のすぐ下に、photo の写真を入れる。caption は写真の説明（なくてよい）。写真の場所はサイトのトップから見た場所。",
+  "5": {
+    "title": "2006 カタリナクロッシング",
+    "photos": [
+      { "after": "このストーリーはアウトリガー一年坊主", "photo": "images/posts/2009/Catalina/catalina_01.jpg" },
+      { "after": "漕ぐこと1時間ベイの出口付近", "photo": "images/posts/2009/Catalina/catalina_02.jpg" },
+      { "after": "いよいよ大会当日", "photo": "images/posts/2009/Catalina/catalina_03.jpg" },
+      { "after": "9月11日DAY4", "photo": "images/posts/2009/Catalina/catalina_04.jpg" },
+      { "after": "5:00集合", "photo": "images/posts/2009/Catalina/catalina_05.jpg" },
+      { "after": "ニューポートを出て1時間半", "photo": "images/posts/2009/Catalina/katalina_06.jpg" },
+      { "after": "それを見守るように各チーム", "photo": "images/posts/2009/Catalina/katalina_07.jpg" },
+      { "after": "ほどのグループに分かれてきた", "photo": "images/posts/2009/Catalina/katalina_08.jpg" },
+      { "after": "するとトーマスから最初のチェンジオーバー", "photo": "images/posts/2009/Catalina/katalina_09.jpg" },
+      { "after": "もちろん行くしかない", "photo": "images/posts/2009/Catalina/katalina_10.jpg" }
+    ]
+  }
+}

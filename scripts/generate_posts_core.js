@@ -4,6 +4,7 @@ const { google } = require("googleapis");
 const { convertDocsToHtml, collectImages, imageUri } = require("./docs_to_html");
 const { extractDocumentId } = require("./utils");
 const { buildPostHtml } = require("./post_template");
+const { insertPhotos, rulesFor } = require("./post_photos");
 
 const auth = new google.auth.GoogleAuth({
   credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT),
@@ -100,10 +101,11 @@ async function writePost(article, doc) {
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const images = await saveImages(doc, rel);
   const body = convertDocsToHtml(doc, images.srcOf);
-  const html = buildPostHtml({ ...article, cover: images.first }, body.html);
+  const extra = insertPhotos(body.html, article.id);            // git に置いた写真（data/post_photos.json）
+  const html = buildPostHtml({ ...article, cover: images.first || ((rulesFor(article.id)[0] || {}).photo || "") }, extra.html);
   fs.writeFileSync(outputPath, html, "utf-8");
   console.log(`Generated: posts/${rel}`);
-  return { rel, warnings: [...images.warnings, ...body.warnings] };
+  return { rel, warnings: [...images.warnings, ...body.warnings, ...extra.warnings] };
 }
 
 module.exports = { fetchDoc, writePost };
