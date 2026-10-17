@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { google } = require("googleapis");
-const { convertDocsToHtml, collectImages, imageUri } = require("./docs_to_html");
+const { convertDocsToHtml, collectImages, imageUri, imageCrop } = require("./docs_to_html");
 const { extractDocumentId } = require("./utils");
 const { buildPostHtml } = require("./post_template");
 const { insertPhotos, rulesFor } = require("./post_photos");
@@ -49,10 +49,32 @@ async function downloadImage(uri) {
   return Buffer.from(await res.arrayBuffer());
 }
 
-async function toWebp(buf) {
+// Doc で切り抜いた写真は、同じように切り抜く。
+// Google が切り抜き済みの写真を渡してきたとき（縦横の比が Doc の表示と同じ）は、二重に切らない
+async function cropLikeDoc(sharp, buf, crop) {
+  if (!crop || !(crop.left || crop.right || crop.top || crop.bottom)) return buf;
+  const { width: w, height: h } = await sharp(buf).metadata();
+  if (!w || !h) return buf;
+  const cw = w * (1 - crop.left - crop.right), ch = h * (1 - crop.top - crop.bottom);
+  if (cw < 10 || ch < 10) return buf;
+  if (crop.shownW && crop.shownH) {
+    const shown = crop.shownW / crop.shownH;
+    const near = r => Math.abs(r - shown) / shown < 0.02;
+    if (near(w / h) && !near(cw / ch)) return buf;            // もう切り抜かれている
+  }
+  const left = Math.round(w * crop.left), top = Math.round(h * crop.top);
+  return sharp(buf).extract({
+    left, top,
+    width: Math.max(1, Math.min(w - left, Math.round(cw))),
+    height: Math.max(1, Math.min(h - top, Math.round(ch)))
+  }).toBuffer();
+}
+
+async function toWebp(buf, crop) {
   const sharp = require("sharp");
-  return sharp(buf, { failOn: "none" })
-    .rotate()                                   // スマホ写真の向きを直す
+  const upright = await sharp(buf, { failOn: "none" }).rotate().toBuffer();   // スマホ写真の向きを直す
+  const cropped = await cropLikeDoc(sharp, upright, crop);
+  return sharp(cropped)
     .resize({ width: 1600, withoutEnlargement: true })
     .webp({ quality: 80 })
     .toBuffer();
@@ -73,7 +95,7 @@ async function saveImages(doc, rel) {
   for (let i = 0; i < ids.length; i++) {
     const name = `${String(i + 1).padStart(2, "0")}.webp`;
     try {
-      const webp = await toWebp(await downloadImage(imageUri(doc, ids[i])));
+      const webp = await toWebp(await downloadImage(imageUri(doc, ids[i])), imageCrop(doc, ids[i]));
       fs.mkdirSync(dir, { recursive: true });
       const file = path.join(dir, name);
       if (!fs.existsSync(file) || !fs.readFileSync(file).equals(webp)) fs.writeFileSync(file, webp);
