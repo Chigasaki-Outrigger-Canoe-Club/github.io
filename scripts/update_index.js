@@ -108,6 +108,23 @@ function renderCards(list, emptyText) {
   return list.map(renderCard).join("\n");
 }
 
+// 挑戦記のカードに出す説明：記事のリード文（Doc の「サブタイトル」）。なければ最初の段落を短くしたもの
+function summaryOf(a) {
+  const file = path.join(ROOT, "posts", postRelPath(a));
+  if (!fs.existsSync(file)) return "";
+  const html = fs.readFileSync(file, "utf-8");
+  const body = html.split('<div class="post-body">')[1] || "";
+  const m = body.match(/<p class="lead[^"]*">([\s\S]*?)<\/p>/) || body.match(/<p[^>]*>([\s\S]*?)<\/p>/);
+  const text = m ? m[1].replace(/<br>/g, " ").replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim() : "";
+  return text.length > 90 ? text.slice(0, 88) + "…" : text;
+}
+
+// 海外レース挑戦記のページ（overseas/index.html）の 1 件分。1 つ下の階層なので ../ を付ける
+function renderOverseasCard(a) {
+  const summary = summaryOf(a);
+  return `  <li class="card"><span class="card-date">${escapeHtml(a.date.replace(/-/g, "."))}</span><span class="card-title">${escapeHtml(a.title)}</span>${summary ? `<p>${escapeHtml(summary)}</p>` : ""}<p class="card-link"><a class="btn" href="${encodeURI("../posts/" + postFile(a))}">挑戦記を読む</a></p></li>`;
+}
+
 // <!-- NAME:START --> と <!-- NAME:END --> のあいだを入れ替える
 function replaceBlock(html, name, inner) {
   const re = new RegExp(`(<!-- ${name}:START -->)[\\s\\S]*?(<!-- ${name}:END -->)`);
@@ -164,11 +181,11 @@ async function main() {
     replaceBlock(html, "CARDS_KIDS", renderCards(byCat("KIDS").slice(0, 6), "KIDS の記事は、まだありません。")));
 
   // 海外レース挑戦記（overseas/index.html。1 つ下の階層なので、場所の頭に ../ を付ける）
+  const overseas = articles.filter(a => a.event === "海外レース");
   updateFile("overseas/index.html", html =>
-    replaceBlock(html, "CARDS_OVERSEAS", renderCards(articles.filter(a => a.event === "海外レース"), "挑戦記は、まだありません。")
-      .replace(/href="posts\//g, 'href="../posts/')
-      .replace(/src="images\//g, 'src="../images/')
-      .replace(/this\.src='images\//g, "this.src='../images/")));
+    replaceBlock(html, "CARDS_OVERSEAS", overseas.length
+      ? overseas.map(renderOverseasCard).join("\n")
+      : `  <li class="card"><p>挑戦記は、まだありません。</p></li>`));
 }
 
 main().catch(err => {
