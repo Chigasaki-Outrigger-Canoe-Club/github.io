@@ -1,0 +1,28 @@
+name: Googleドキュメントに写真を入れる
+
+on:
+  workflow_dispatch:
+    inputs:
+      plan:
+        description: "計画ファイル（例：tmp_doc_images/molokai2010/plan.json）"
+        required: true
+      dry_run:
+        description: "試すだけ（Doc は変えない）"
+        type: boolean
+        default: true
+
+jobs:
+  insert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm install
+      - name: Insert images
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          PLAN: ${{ inputs.plan }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: node scripts/insert_doc_images.js
