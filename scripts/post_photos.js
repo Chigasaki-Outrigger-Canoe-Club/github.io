@@ -43,7 +43,7 @@ async function insertPhotos(bodyHtml, id, prefix = "../../") {
     let size = "";
     try {
       const m = await require("sharp")(path.join(process.cwd(), r.photo)).metadata();
-      if (m.width && m.height) size = ` width="${m.width}" height="${m.height}" style="max-width:${m.width}px"`;
+      if (m.width && m.height) size = ` width="${m.width}" height="${m.height}" style="max-width:min(${m.width}px,100%)"`;
     } catch (e) { /* 大きさが分からなくても表示はできる */ }
     const cap = r.caption ? `<figcaption class="is-center">${esc(r.caption)}</figcaption>` : "";
     hits.push({ i, tag: `<figure class="post-photo"><img src="${esc(encodeURI(prefix + r.photo))}" alt=""${size} loading="lazy">${cap}</figure>` });
