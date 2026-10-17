@@ -459,6 +459,41 @@ document.querySelectorAll('.scroll-ctrl').forEach(ctrl => {
     const w = card ? card.getBoundingClientRect().width + 18 : list.clientWidth * 0.8;
     list.scrollBy({ left: dir * w, behavior: 'smooth' });
   };
+  // バーをクリック・ドラッグして動かす（クリックした場所にバーの真ん中が来る）
+  const track = ctrl.querySelector('.scroll-progress');
+  let dragging = false, grabOffset = 0;
+  const moveTo = clientX => {
+    const r = track.getBoundingClientRect();
+    const ratio = list.clientWidth / list.scrollWidth;
+    const thumbW = r.width * ratio;
+    const x = Math.min(Math.max(clientX - r.left - grabOffset, 0), r.width - thumbW);
+    const max = list.scrollWidth - list.clientWidth;
+    list.scrollLeft = (r.width - thumbW) > 0 ? (x / (r.width - thumbW)) * max : 0;
+  };
+  track.addEventListener('pointerdown', e => {
+    if (!ctrl.classList.contains('is-active')) return;
+    const tr = thumb.getBoundingClientRect();
+    // つまみをつかんだときは、つかんだ位置を保つ。バーの空いたところなら、つまみの真ん中をそこへ
+    grabOffset = (e.clientX >= tr.left && e.clientX <= tr.right) ? e.clientX - tr.left : tr.width / 2;
+    dragging = true;
+    track.setPointerCapture(e.pointerId);
+    list.style.scrollBehavior = 'auto';
+    list.style.scrollSnapType = 'none';
+    ctrl.classList.add('is-dragging');
+    moveTo(e.clientX);
+    e.preventDefault();
+  });
+  track.addEventListener('pointermove', e => { if (dragging) moveTo(e.clientX); });
+  const end = () => {
+    if (!dragging) return;
+    dragging = false;
+    ctrl.classList.remove('is-dragging');
+    list.style.scrollSnapType = '';
+    list.style.scrollBehavior = '';
+  };
+  track.addEventListener('pointerup', end);
+  track.addEventListener('pointercancel', end);
+
   prev.addEventListener('click', () => step(-1));
   next.addEventListener('click', () => step(1));
   if (sidePrev) sidePrev.addEventListener('click', () => step(-1));
