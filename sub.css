@@ -1443,15 +1443,15 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
 @media (min-width: 769px) {
   .scroll-side {
     position: absolute;
-    top: 0;
+    top: calc((var(--thumb-h, 200px) - 112px) / 2);   /* 写真の縦の真ん中 */
     z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 56px;
-    height: var(--thumb-h, 200px);
+    height: 112px;                                      /* 縦 2：横 1 */
     padding: 0;
-    border: 0;
+    border: 1px solid var(--ink, #1e3447);
     background: rgba(255, 255, 255, 0.35);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
@@ -1461,8 +1461,8 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
   }
   .scroll-side[hidden] { display: none; }
   .scroll-side:hover { background: rgba(255, 255, 255, 0.6); }
-  .scroll-side--prev { left: 0; border-radius: 6px 0 0 0; }
-  .scroll-side--next { right: 0; border-radius: 0 6px 0 0; }
+  .scroll-side--prev { left: 10px; border-radius: 6px; }
+  .scroll-side--next { right: 10px; border-radius: 6px; }
   .scroll-side svg { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8)); }
   .scroll-ctrl .scroll-btn { display: none; }
 }
