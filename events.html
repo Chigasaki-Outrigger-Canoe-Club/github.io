@@ -136,6 +136,9 @@
         <h2 data-cms="events.event-news.02" class="section-title">大会・イベントの記事</h2>
         <p data-cms="events.event-news.03">大会やイベントのお知らせ、当日の連絡、結果のレポートを、新しい順に載せています。</p>
         <!-- 記事のカードは、スプレッドシートの articles シート（カテゴリ「大会・イベント」）から作り直される -->
+        <div class="scroll-wrap">
+        <button type="button" class="scroll-side scroll-side--prev" data-for="eventCards" aria-label="前の記事へ"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="scroll-side scroll-side--next" data-for="eventCards" aria-label="次の記事へ"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <ul class="post-cards post-cards--scroll" id="eventCards">
 <!-- CARDS_EVENT:START -->
           <li class="post-card" data-cat="race" data-event="overseas">
@@ -185,6 +188,7 @@
           </li>
 <!-- CARDS_EVENT:END -->
         </ul>
+        </div>
         <div class="scroll-ctrl" data-for="eventCards">
           <div class="scroll-progress"><span></span></div>
           <button type="button" class="scroll-btn scroll-btn--prev" aria-label="前の記事へ">←</button>
