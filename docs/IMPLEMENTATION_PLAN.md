@@ -5,6 +5,7 @@
 
 ## 決まりごと
 
+- ファイルの置き場所は `docs/FOLDERS.md`。CSS は `html/css/`、JS は `html/js/`、ページは `html/sites/`（英語は `html/sites/en/`）。
 - `style.css` と `script.js` はトップページ用。**変更しない。**
 - サブページは `style.css` に加えて次の共通ファイルを読み込む。
   - `nav.css` … スマホ用メニューの開閉（トップページと共通）
@@ -62,14 +63,14 @@
 - 置き換えたら、「写真は準備中です…【仮】」の1行（`.insta-note`）も削除する。
 - ページを作り直す生成スクリプトはリポジトリに入れていない。以降の変更は HTML を直接編集する。
 
-## 英語版（`en/`）
+## 英語版（`html/sites/en/`）
 
-- 日本語ページと同じファイル名で、`en/` フォルダに英語版を置いている（9ページ）。
+- 日本語ページと同じファイル名で、`html/sites/en/` フォルダに英語版を置いている（9ページ）。
 - ヘッダーの「JP / EN」で、同じページの別の言語に切り替わる。
-- 日本語ページの内容を変えたら、`en/` の同じページも直す（自動では同期しない）。
+- 日本語ページの内容を変えたら、`html/sites/en/` の同じページも直す（自動では同期しない）。
 - 共通ファイル（`style.css` `nav.css` `sub.css` `sub.js` `script.js` と画像）は日本語と共用。サブページは `../` で参照している。
-- `en/index.html` だけは `<base href="../">` を使い、パスをサイトの最上位から解決している（`script.js` のスライド画像のパスを変えずに使うため）。このページ内のリンクは `en/…` と書く。
-- 英語トップの NEWS は、日本語サイトへの案内のみ。記事（`posts/`）は日本語で、ワークフローが更新するのは日本語の `index.html` だけ。
+- `html/sites/en/index.html` だけは `<base href="../">` を使い、パスを `html/sites/` から解決している（`script.js` のスライド画像のパスを変えずに使うため）。このページ内のリンクは `en/…` と書く。
+- 英語トップの NEWS は、日本語サイトへの案内のみ。記事（`html/posts/`）は日本語で、ワークフローが更新するのは日本語の `html/sites/index.html` だけ。
 - 【仮】は英語版では `[TBC]` と表記。
 
 ## メニュー
@@ -92,11 +93,11 @@
 
 ## 共有時の画像（OGP）
 
-- 全ページの `<head>` に OGP のタグを入れている。画像は `images/site/ogp.png`（1200×630、白地にヘッダーのロゴ）。
+- 全ページの `<head>` に OGP のタグを入れている。画像は `images/sites/COMMON/ogp.png`（1200×630、白地にヘッダーのロゴ）。
 - タグの中の URL は `https://chigasaki-outrigger-canoe-club.github.io/github.io/` で始まる絶対 URL。独自ドメインに変えたら、全ページの `og:url` と `og:image` を書き換える。
 - 新しいページを作るときは、既存ページの OGP のタグをコピーして、`og:title` `og:description` `og:url` を直す。
 
-## 記事ページ（`posts/年/*.html`）
+## 記事ページ（`html/posts/年/*.html`）
 
 - ひな形は `scripts/post_template.js`。サイト共通のヘッダー・フッターと `style.css` `nav.css` `sub.css` を読み込む。見た目は `sub.css` の「記事ページ」の部分（`.post-…`）。
 - 記事の見た目を変えたいときは `sub.css` を直せば、既存の記事にもすぐ効く。
@@ -110,16 +111,13 @@
 - 色は `theme.css` の先頭の `:root` で決めている（砂浜の白、海の紺、朝の海の青緑、朝日の色）。ここを変えれば全体が変わる。
 - 書体は Google Fonts の Cormorant Garamond（英字の見出し）、Shippori Mincho（日本語の見出し）、Zen Kaku Gothic New（本文）。
 - 区切り線とフッターの線画は、水平線の上に烏帽子岩が立つ形（CSS に埋め込んだ SVG）。
-- 新しいページを作るときは、`<link rel="stylesheet" href="theme.css">` を CSS の最後に足す。
+- 新しいページを作るときは、`<link rel="stylesheet" href="../css/theme.css">` を CSS の最後に足す。
 - テーマだけを外したいときは、各ページのこの 1 行を消す（または `theme.css` を空にする）と、以前の白・黒・Bebas Neue の見た目に戻る。
 
-## 海外レース挑戦記（`overseas/`）
+## 海外レース挑戦記
 
-- 旧サイト（chigasakioutriggercanoeclub.jp）にあった海外レースの挑戦記は、Google Doc に移して記事にした（`posts/2010/` `posts/2009/` `posts/2006/`）。文章は当時のまま。
-- 以前の手作りの本文ページ（`molokai2010.html` `wahine.html` `catalina.html`）は、記事と重なるので削除した。
-- `overseas/index.html` が一覧。カードは、articles シートで大会・イベント名が「海外レース」の記事から自動で作る（`scripts/update_index.js`）。説明文は記事のリード文（Doc のサブタイトル）。
-- 入口は「大会・イベント」の `#overseas`。メニューには出さない。日本語のみ。
-- 新しい挑戦を足すとき: articles シートに 1 行足し、カテゴリ「大会」、大会・イベント名「海外レース」にして反映する。写真は Doc に貼る。
+- 旧サイトの海外レースの挑戦記は、Google Doc に移して記事にした（カテゴリ「大会」、大会・イベント名「海外レース」）。記事一覧の「海外レース」で絞り込んで見られる。
+- 以前あった一覧ページ（overseas/）と、大会・イベントページの「海外レース挑戦記」の節は削除した。
 
 ## スプレッドシートと HTML の関係（文章を直すときの注意）
 
@@ -130,8 +128,8 @@
 ## Ho'aikane のページの雰囲気
 
 - `hoaikane.html` は `<body class="theme-hoaikane">`。色（ロゴのピンク、濃いローズ、薄いピンクの地）と書体（英字の見出しは Fraunces）は、`sub.css` の末尾「Ho'aikane のページだけの雰囲気」で決めている。ほかのページには影響しない。
-- ロゴは `images/site/events/hoaikane_logo.png`（白い図柄だけを切り抜いた、背景が透明の画像）。
-- 大会・イベントのカードの画像は `images/site/events/hoaikane_card.jpg`（メダルの写真・ペンダントの写真・ロゴを 1 枚に組み合わせたもの）。写真を替えるときは作り直す。
+- ロゴは `images/sites/HOAIKANE/hoaikane_logo.webp`（白い図柄だけを切り抜いた、背景が透明の画像）。
+- 大会・イベントのカードの画像は `images/sites/EVENTS/hoaikane_card.webp`（メダルの写真・ペンダントの写真・ロゴを 1 枚に組み合わせたもの）。写真を替えるときは作り直す。
 
 ## Hukilau Challenge のページの雰囲気
 

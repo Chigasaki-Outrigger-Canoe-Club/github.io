@@ -1,7 +1,7 @@
 // 大会・イベントのページの「保存版」を扱う
 //
-//   archive/2027/hukilau.html      ← hukilau.html の 2027 年の保存版
-//   archive/2027/en/hukilau.html   ← 英語版
+//   html/archive/2027/hukilau.html      ← html/sites/hukilau.html の 2027 年の保存版
+//   html/archive/2027/en/hukilau.html   ← 英語版
 //
 // 1) 保存版を固定する
 //    - 置き場所が変わるので、CSS・画像・リンクの場所を書き換える
@@ -18,7 +18,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = process.cwd();
-const ARCHIVE_DIR = path.join(ROOT, "archive");
+const ARCHIVE_DIR = path.join(ROOT, "html", "archive");
 
 // 保存できるページ
 const PAGES = {
@@ -32,8 +32,8 @@ function esc(v) {
 }
 
 // サイトのトップから見た場所
-const currentPath = (page, lang) => (lang === "en" ? `en/${page}.html` : `${page}.html`);
-const archivePath = (page, year, lang) => (lang === "en" ? `archive/${year}/en/${page}.html` : `archive/${year}/${page}.html`);
+const currentPath = (page, lang) => (lang === "en" ? `html/sites/en/${page}.html` : `html/sites/${page}.html`);
+const archivePath = (page, year, lang) => (lang === "en" ? `html/archive/${year}/en/${page}.html` : `html/archive/${year}/${page}.html`);
 
 // 元のページ（fromFile）で書かれていた相対リンクを、新しい場所（toFile）から見た相対リンクにする
 function relocate(html, fromFile, toFile) {
@@ -70,7 +70,7 @@ function freezeHtml(html, page, year, lang) {
   const suffix = lang === "en" ? ` (${year})` : `（${year}年）`;
   html = html.replace(/(<title>)(.*?)(\s*[｜|])/, (m, a, t, sep) => a + t + suffix + sep);
   html = html.replace(/(<meta property="og:title" content=")(.*?)(\s*[｜|])/, (m, a, t, sep) => a + t + suffix + sep);
-  html = html.replace(new RegExp(`(<meta property="og:url" content="https?://[^"]*?/)(?:en/)?${page}\\.html"`), `$1${to}"`);
+  html = html.replace(new RegExp(`(<meta property="og:url" content="https?://[^"]*?/)(?:html/sites/)?(?:en/)?${page}\\.html"`), `$1${to}"`);
 
   // 「準備中」のお知らせの代わりに、保存版の帯を出す
   const latest = path.posix.relative(path.posix.dirname(to), from);

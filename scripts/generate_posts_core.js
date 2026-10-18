@@ -4,7 +4,6 @@ const { google } = require("googleapis");
 const { convertDocsToHtml, collectImages, imageUri, imageCrop } = require("./docs_to_html");
 const { extractDocumentId } = require("./utils");
 const { buildPostHtml } = require("./post_template");
-const { insertPhotos, rulesFor } = require("./post_photos");
 
 const auth = new google.auth.GoogleAuth({
   credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT),
@@ -104,8 +103,8 @@ async function saveImages(doc, rel) {
         const meta = await require("sharp")(webp).metadata();
         if (meta.width && meta.height) sizeMap.set(ids[i], { w: meta.width, h: meta.height });
       } catch (e) { /* 大きさが分からなくても表示はできる */ }
-      // 記事ページ（posts/年/…）から見た場所
-      srcMap.set(ids[i], encodeURI(`../../images/posts/${base}/${name}`));
+      // 記事ページ（html/posts/年/…）から見た場所
+      srcMap.set(ids[i], encodeURI(`../../../images/posts/${base}/${name}`));
       if (!first) first = `images/posts/${base}/${name}`;
     } catch (e) {
       console.error(`写真 ${i + 1} 枚目：${e.message}`);
@@ -121,18 +120,17 @@ async function saveImages(doc, rel) {
   return { srcOf: id => srcMap.get(id) || "", sizeOf: id => sizeMap.get(id) || null, first, warnings };
 }
 
-// 記事ページを書き出す（posts/2026/… に置く）。注意（warnings）を返す
+// 記事ページを書き出す（html/posts/2026/… に置く）。注意（warnings）を返す
 async function writePost(article, doc) {
   const rel = postRelPath(article);
   const outputPath = path.join(POSTS_DIR, rel);
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const images = await saveImages(doc, rel);
   const body = convertDocsToHtml(doc, images.srcOf, images.sizeOf);
-  const extra = await insertPhotos(body.html, article.id);            // git に置いた写真（data/post_photos.json）
-  const html = buildPostHtml({ ...article, cover: images.first || ((rulesFor(article.id)[0] || {}).photo || "") }, extra.html);
+  const html = buildPostHtml({ ...article, cover: images.first }, body.html);
   fs.writeFileSync(outputPath, html, "utf-8");
-  console.log(`Generated: posts/${rel}`);
-  return { rel, warnings: [...images.warnings, ...body.warnings, ...extra.warnings] };
+  console.log(`Generated: html/posts/${rel}`);
+  return { rel, warnings: [...images.warnings, ...body.warnings] };
 }
 
 module.exports = { fetchDoc, writePost };
