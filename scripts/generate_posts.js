@@ -13,7 +13,6 @@ const crypto = require("crypto");
 const { readArticleSheet, sheetsClient, columnLetter, displayLabel } = require("./sheets_fetch");
 const { fetchDoc, writePost } = require("./generate_posts_core");
 const { postRelPath, listPostFiles, removePost } = require("./post_paths");
-const { photosHash } = require("./post_photos");
 
 const REBUILD_ALL = String(process.env.REBUILD_ALL || "").toLowerCase() === "true";
 
@@ -30,7 +29,7 @@ function nowLabel() {
 // タイトル・日付・画像・カテゴリが変わったときも作り直すための目印
 function metaHash(a) {
   return crypto.createHash("md5")
-    .update([a.title, a.date, a.image_urls, a.category, a.event, photosHash(a.id)].join("\u0001"))
+    .update([a.title, a.date, a.image_urls, a.category, a.event].join("\u0001"))
     .digest("hex").slice(0, 8);
 }
 

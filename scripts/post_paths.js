@@ -11,7 +11,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = process.cwd();
-const POSTS_DIR = path.join(ROOT, "posts");
+const POSTS_DIR = path.join(ROOT, "html", "posts");
 const POST_IMAGES_DIR = path.join(ROOT, "images", "posts");
 
 // 以前の名前（2026-08-07_COCC_WEB_1.html）も、記事id を読み取れるようにする

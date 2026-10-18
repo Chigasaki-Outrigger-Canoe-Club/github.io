@@ -5,7 +5,7 @@
 // しくみ
 // ・HTML の中で、書き換えてよい文章には data-cms="キー" という印が付いている。
 // ・「content」シートは 1 行に 1 つの文章（キー / ページ / 場所 / 日本語 / 英語）。
-// ・公開のたびに、シートの文章を HTML（日本語は直下、英語は en/）に入れる。
+// ・公開のたびに、シートの文章を HTML（日本語は html/sites/、英語は html/sites/en/）に入れる。
 // ・シートに無いキーが HTML にあれば、今の文章をシートの末尾に足す。
 //   シートがまだ無いときは、シートを作って、今の文章をすべて書き出す。
 // ・シートを読めないときは、何も変えずに終わる（公開は止めない）。
@@ -22,6 +22,7 @@ const path = require("path");
 const SHEET = "content";
 const HEADER = ["キー", "ページ", "場所", "日本語", "英語"];
 const ROOT = process.cwd();
+const SITE = path.join(ROOT, "html", "sites");   // ページの置き場所（英語は html/sites/en/）
 
 function esc(v) {
   return String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -70,17 +71,17 @@ function textToHtml(text) {
 // data-cms の付いた要素を探す
 const ELEMENT = /<([a-z0-9]+)((?:\s[^>]*)?\sdata-cms="([^"]+)"[^>]*)>([\s\S]*?)<\/\1>/g;
 
-// トップの階層のページだけ（保存版は archive/ にあるので対象外。古い名前の hukilau-2027.html も念のため除く）
+// html/sites/ のページだけ（保存版は html/archive/ にあるので対象外。古い名前の hukilau-2027.html も念のため除く）
 function pageFiles() {
-  return fs.readdirSync(ROOT).filter(f => f.endsWith(".html") && !/-\d{4}\.html$/.test(f)).sort();
+  return fs.readdirSync(SITE).filter(f => f.endsWith(".html") && !/-\d{4}\.html$/.test(f)).sort();
 }
 
 // いまの HTML から、キーごとの文章を取り出す
 function extractAll() {
   const rows = new Map();
   for (const f of pageFiles()) {
-    const ja = fs.readFileSync(path.join(ROOT, f), "utf-8");
-    const enPath = path.join(ROOT, "en", f);
+    const ja = fs.readFileSync(path.join(SITE, f), "utf-8");
+    const enPath = path.join(SITE, "en", f);
     const en = fs.existsSync(enPath) ? fs.readFileSync(enPath, "utf-8") : "";
     const enMap = new Map();
     for (const m of en.matchAll(ELEMENT)) enMap.set(m[3], htmlToText(m[4]));
@@ -97,7 +98,7 @@ function extractAll() {
 function applyAll(sheetRows) {
   let changed = 0;
   for (const f of pageFiles()) {
-    for (const [lang, file] of [["ja", path.join(ROOT, f)], ["en", path.join(ROOT, "en", f)]]) {
+    for (const [lang, file] of [["ja", path.join(SITE, f)], ["en", path.join(SITE, "en", f)]]) {
       if (!fs.existsSync(file)) continue;
       const before = fs.readFileSync(file, "utf-8");
       const after = before.replace(ELEMENT, (m, tag, attrs, key, inner) => {
@@ -231,8 +232,8 @@ function extractFaq(html) {
 }
 
 function faqSeedValues() {
-  const ja = extractFaq(fs.readFileSync(path.join(ROOT, "faq.html"), "utf-8"));
-  const enPath = path.join(ROOT, "en", "faq.html");
+  const ja = extractFaq(fs.readFileSync(path.join(SITE, "faq.html"), "utf-8"));
+  const enPath = path.join(SITE, "en", "faq.html");
   const en = fs.existsSync(enPath) ? extractFaq(fs.readFileSync(enPath, "utf-8")) : [];
   return [FAQ_HEADER, ...ja.map((r, i) => {
     const e = en[i] || { category: "", q: "", a: "" };
@@ -285,7 +286,7 @@ ${items}
 function applyFaq(groups) {
   if (!groups.length) return 0;
   let changed = 0;
-  for (const [lang, file] of [["ja", path.join(ROOT, "faq.html")], ["en", path.join(ROOT, "en", "faq.html")]]) {
+  for (const [lang, file] of [["ja", path.join(SITE, "faq.html")], ["en", path.join(SITE, "en", "faq.html")]]) {
     if (!fs.existsSync(file)) continue;
     const before = fs.readFileSync(file, "utf-8");
     if (!FAQ_BLOCK.test(before)) continue;

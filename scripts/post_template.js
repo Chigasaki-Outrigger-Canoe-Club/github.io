@@ -85,71 +85,71 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
   <title>${title}｜${SITE_NAME}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- アイコン（ブラウザのタブ・ホーム画面に追加したとき） -->
-  <link rel="icon" href="../../images/site/icons/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="../../images/site/icons/favicon-32.png">
-  <link rel="apple-touch-icon" href="../../images/site/icons/apple-touch-icon.png">
-  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="icon" href="../../../images/sites/COMMON/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../images/sites/COMMON/icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="../../../images/sites/COMMON/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../../../site.webmanifest">
   <meta name="theme-color" content="#fbf8f2">
   <!-- SNS や LINE で共有したときに出る情報（OGP） -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="${SITE_NAME}">
   <meta property="og:title" content="${title}｜${SITE_NAME}">
-  <meta property="og:url" content="${SITE_URL}posts/${escapeHtml(encodeURI(fileName))}">
-  <meta property="og:image" content="${escapeHtml(images[0] || (article.cover ? SITE_URL + encodeURI(article.cover) : SITE_URL + "images/site/ogp.png"))}">
+  <meta property="og:url" content="${SITE_URL}html/posts/${escapeHtml(encodeURI(fileName))}">
+  <meta property="og:image" content="${escapeHtml(images[0] || (article.cover ? SITE_URL + encodeURI(article.cover) : SITE_URL + "images/sites/COMMON/ogp.png"))}">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
 
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <!-- サイト共通の CSS（記事は posts/年/ の中にあるので ../../ で読み込む） -->
-  <link rel="stylesheet" href="../../style.css">
-  <link rel="stylesheet" href="../../nav.css">
-  <link rel="stylesheet" href="../../sub.css">
-  <link rel="stylesheet" href="../../theme.css">
+  <!-- サイト共通の CSS（記事は html/posts/年/ の中にあるので ../../css/ を読み込む） -->
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/nav.css">
+  <link rel="stylesheet" href="../../css/sub.css">
+  <link rel="stylesheet" href="../../css/theme.css">
   </head>
 
-  <body class="post-page" data-back="${article.event === "海外レース" ? "../../news.html?cat=overseas" : "../../news.html"}" data-back-label="${article.event === "海外レース" ? "海外レースの記事" : "NEWS"}">
+  <body class="post-page" data-back="${article.event === "海外レース" ? "../../sites/news.html?cat=overseas" : "../../sites/news.html"}" data-back-label="${article.event === "海外レース" ? "海外レースの記事" : "NEWS"}">
 
     <header class="site-header">
       <div class="header-inner">
         <div class="logo-area">
-          <a href="../../index.html">
-            <img src="../../images/site/header/chigasaki_logo_touka_v3.png" class="header-logo" alt="${SITE_NAME}">
+          <a href="../../sites/index.html">
+            <img src="../../../images/sites/COMMON/chigasaki_logo_touka_v3.webp" class="header-logo" alt="${SITE_NAME}">
           </a>
           <span class="logo-text-pc">CHIGASAKI OUTRIGGER CANOE CLUB</span>
           <span class="logo-text-mobile">COCC</span>
         </div>
 
-        <div class="lang-switch"><a href="../../index.html" lang="ja" aria-current="true">JP</a><span aria-hidden="true">/</span><a href="../../en/index.html" lang="en">EN</a></div>
+        <div class="lang-switch"><a href="../../sites/index.html" lang="ja" aria-current="true">JP</a><span aria-hidden="true">/</span><a href="../../sites/en/index.html" lang="en">EN</a></div>
         <div class="menu-btn" id="menuBtn">
           <span></span><span></span><span></span>
         </div>
 
         <nav class="global-nav" id="globalNav">
           <ul>
-            <li><a href="../../about.html">クラブについて</a></li>
-            <li><a href="../../beginners.html">初めての方へ</a></li>
-            <li class="has-sub"><a href="../../membership.html">会員案内</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="会員案内の中を開く"></button>
+            <li><a href="../../sites/about.html">クラブについて</a></li>
+            <li><a href="../../sites/beginners.html">初めての方へ</a></li>
+            <li class="has-sub"><a href="../../sites/membership.html">会員案内</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="会員案内の中を開く"></button>
               <ul class="sub-menu">
-                <li><a href="../../membership.html#fee">会費</a></li>
-                <li><a href="../../membership.html#time">活動時間</a></li>
+                <li><a href="../../sites/membership.html#fee">会費</a></li>
+                <li><a href="../../sites/membership.html#time">活動時間</a></li>
               </ul>
             </li>
-            <li><a href="../../safety.html">安全管理</a></li>
-            <li><a href="../../kids.html">COCC KIDS</a></li>
-            <li class="has-sub"><a href="../../events.html">大会・イベント</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="大会・イベントの中を開く"></button>
+            <li><a href="../../sites/safety.html">安全管理</a></li>
+            <li><a href="../../sites/kids.html">COCC KIDS</a></li>
+            <li class="has-sub"><a href="../../sites/events.html">大会・イベント</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="大会・イベントの中を開く"></button>
               <ul class="sub-menu">
-                <li><a href="../../events.html#event-schedule">年間スケジュール</a></li>
-                <li><a href="../../oshima.html">大島クロッシング</a></li>
-                <li><a href="../../hukilau.html">Hukilau Challenge</a></li>
-                <li><a href="../../hoaikane.html">Women's Ho'aikane</a></li>
+                <li><a href="../../sites/events.html#event-schedule">年間スケジュール</a></li>
+                <li><a href="../../sites/oshima.html">大島クロッシング</a></li>
+                <li><a href="../../sites/hukilau.html">Hukilau Challenge</a></li>
+                <li><a href="../../sites/hoaikane.html">Women's Ho'aikane</a></li>
               </ul>
             </li>
-            <li class="has-sub"><a href="../../contact.html">お問い合わせ</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="お問い合わせの中を開く"></button>
+            <li class="has-sub"><a href="../../sites/contact.html">お問い合わせ</a><button type="button" class="sub-toggle" aria-expanded="false" aria-label="お問い合わせの中を開く"></button>
               <ul class="sub-menu">
-                <li><a href="../../contact.html#access">アクセス</a></li>
+                <li><a href="../../sites/contact.html#access">アクセス</a></li>
               </ul>
             </li>
-            <li><a href="../../faq.html">FAQ</a></li>
+            <li><a href="../../sites/faq.html">FAQ</a></li>
           </ul>
         </nav>
       </div>
@@ -172,7 +172,7 @@ ${tocHtml}
         </div>
 ${imagesHtml}${entryHtml}
 
-        <p class="post-foot"><a class="btn" href="../../news.html">NEWS一覧へ戻る</a></p>
+        <p class="post-foot"><a class="btn" href="../../sites/news.html">NEWS一覧へ戻る</a></p>
       </article>
     </main>
 
@@ -192,7 +192,7 @@ ${imagesHtml}${entryHtml}
       </div>
     </footer>
 
-    <script src="../../sub.js"></script>
+    <script src="../../js/sub.js"></script>
 
   </body>
 </html>

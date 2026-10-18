@@ -5,7 +5,7 @@
 ## 考え方
 
 - `hukilau.html` などは、いつも「次の開催」のページとして使い続ける。
-- 開催が終わったら、そのときのページを **`archive/年/` のフォルダにコピーして保存** する（例：`archive/2027/hukilau.html`）。
+- 開催が終わったら、そのときのページを **`html/archive/年/` のフォルダにコピーして保存** する（例：`html/archive/2027/hukilau.html`）。
 - 保存したページは、元のページの「これまでの大会（これまでの開催）」に自動で並ぶ。
 - 保存したページは固定される（スプレッドシートを直しても書き換わらない）。上に「○年の記録です」の帯が付く。
 
@@ -29,7 +29,7 @@
 6. 「何年の記録として残すか」に年を 4 けたで入れる（例：2027）。
 7. 緑の「Run workflow」を押す。1 分ほどで終わり、数分でサイトに出る。
 
-- 日本語版と英語版の両方が保存される（`archive/2027/hukilau.html` と `archive/2027/en/hukilau.html`）。
+- 日本語版と英語版の両方が保存される（`html/archive/2027/hukilau.html` と `html/archive/2027/en/hukilau.html`）。
 - 同じ年をもう一度保存しようとすると、止まる（上書きはしない）。作り直したいときは、先にその年のファイルを消す（下の「保存したページを消す」）。
 
 ## ボタンが使えないとき（手でコピーする）
@@ -38,17 +38,17 @@ GitHub の画面だけでできる。
 
 1. GitHub で `hukilau.html` を開き、右上の「Raw」の横のコピーのボタン（Copy raw file）を押す。
 2. リポジトリのトップに戻り、「Add file」→「Create new file」。
-3. 名前に `archive/2027/hukilau.html` と入れ（`/` を打つとフォルダになる）、中身に貼り付けて「Commit changes」。
-4. 英語版も残すときは、`en/hukilau.html` を同じように `archive/2027/en/hukilau.html` として作る。
+3. 名前に `html/archive/2027/hukilau.html` と入れ（`/` を打つとフォルダになる）、中身に貼り付けて「Commit changes」。
+4. 英語版も残すときは、`html/sites/en/hukilau.html` を同じように `html/archive/2027/en/hukilau.html` として作る。
 5. スプレッドシートから「サイトに反映する」を行う。→ 固定と、一覧への追加が自動で行われる。
 
-置き場所は必ず **`archive/年4けた/ページ名.html`**（例：`archive/2027/oshima.html`、`archive/2028/hoaikane.html`）。英語版は `archive/年/en/ページ名.html`。この形なら、保存版として扱われる。
+置き場所は必ず **`html/archive/年4けた/ページ名.html`**（例：`html/archive/2027/oshima.html`、`html/archive/2028/hoaikane.html`）。英語版は `html/archive/年/en/ページ名.html`。この形なら、保存版として扱われる。
 コピーした直後は CSS や画像の場所が合っていないが、反映すると自動で直る。
 
 ## 保存したページを消す
 
-1. GitHub でそのファイル（例：`archive/2027/hukilau.html`）を開く。
-2. 右上の「…」→「Delete file」→「Commit changes」。英語版（`archive/2027/en/` の中）も同じ。
+1. GitHub でそのファイル（例：`html/archive/2027/hukilau.html`）を開く。
+2. 右上の「…」→「Delete file」→「Commit changes」。英語版（`html/archive/2027/en/` の中）も同じ。
 3. スプレッドシートから「サイトに反映する」を行う。→ 一覧から消える。
 
 ## 以前の外部サイト（2024〜2026 年など）のリンク

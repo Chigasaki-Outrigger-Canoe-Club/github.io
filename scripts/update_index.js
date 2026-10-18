@@ -4,14 +4,12 @@
 // - news.html    … すべての記事（カテゴリで絞り込める）       <!-- CARDS_ALL -->
 // - events.html  … 大会とイベント（12 件）                     <!-- CARDS_EVENT -->
 // - kids.html    … KIDS（6 件）                               <!-- CARDS_KIDS -->
-// - overseas/index.html … 海外レースの挑戦記                <!-- CARDS_OVERSEAS -->
 //
 // <!-- 名前:START --> と <!-- 名前:END --> のあいだを、毎回作り直す。
 
 const fs = require("fs");
 const path = require("path");
 const { postRelPath } = require("./post_paths");
-const { rulesFor } = require("./post_photos");
 const { fetchArticles, categorySlug, eventSlug, displayLabel, EVENTS_PAGE_CATEGORIES } = require("./sheets_fetch");
 
 const ROOT = process.cwd();
@@ -19,7 +17,7 @@ const ROOT = process.cwd();
 // サイトに載せる記事：「載せる」にチェックがあり、記事ページができているもの
 function isListed(a) {
   if (!a.publish || !a.date || !a.title || !a.id) return false;
-  return fs.existsSync(path.join(ROOT, "posts", postRelPath(a)));
+  return fs.existsSync(path.join(ROOT, "html", "posts", postRelPath(a)));
 }
 
 function postFile(a) {
@@ -28,11 +26,11 @@ function postFile(a) {
 
 // 記事に画像がないとき（または読み込めないとき）に使う写真。順番に割り当てる。
 const DEFAULT_IMAGES = [
-  "images/site/about/mc10_296.jpg",
-  "images/site/hero/pc_hayama_hoe1.jpg",
-  "images/site/about/mc10_316.jpg",
-  "images/site/hero/pc_hayama_hoe2.jpg",
-  "images/site/hero/pc_mc10_272.jpg"
+  "images/sites/COMMON/mc10_296.webp",
+  "images/sites/COMMON/pc_hayama_hoe1.webp",
+  "images/sites/COMMON/mc10_316.webp",
+  "images/sites/COMMON/pc_hayama_hoe2.webp",
+  "images/sites/COMMON/pc_mc10_272.webp"
 ];
 
 // HTML に入れても安全な文字にする
@@ -65,14 +63,15 @@ function metaHtml(a) {
 // Doc に貼った最初の写真（images/posts/年/記事の名前/01.webp）。なければ空
 function docCover(a) {
   const rel = `images/posts/${postRelPath(a).replace(/\.html$/, "")}/01.webp`;
-  if (fs.existsSync(path.join(ROOT, rel))) return encodeURI(rel);
-  const extra = (rulesFor(a.id)[0] || {}).photo;               // git に置いた写真（data/post_photos.json）
-  return extra && fs.existsSync(path.join(ROOT, extra)) ? encodeURI(extra) : "";
+  return fs.existsSync(path.join(ROOT, rel)) ? encodeURI(rel) : "";
 }
 
+// ページ（html/sites/…）から見た場所にする。https:// の画像はそのまま
+const fromPage = p => (/^https?:/i.test(p) ? p : "../../" + p);
+
 function thumb(a, i) {
-  const fallback = DEFAULT_IMAGES[i % DEFAULT_IMAGES.length];
-  const image = firstImageUrl(a.image_urls) || docCover(a) || fallback;
+  const fallback = fromPage(DEFAULT_IMAGES[i % DEFAULT_IMAGES.length]);
+  const image = firstImageUrl(a.image_urls) || (docCover(a) && fromPage(docCover(a))) || fallback;
   return `<img src="${escapeHtml(image)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">`;
 }
 
@@ -80,7 +79,7 @@ function thumb(a, i) {
 function renderNewsItem(a, i) {
   return `
       <li class="news-item">
-        <a href="${encodeURI("posts/" + postFile(a))}">
+        <a href="${encodeURI("../posts/" + postFile(a))}">
           <span class="news-thumb">${thumb(a, i)}</span>
           <span class="news-body">
             ${metaHtml(a)}
@@ -94,7 +93,7 @@ function renderNewsItem(a, i) {
 // 一覧ページ（news / events / kids）の1件分
 function renderCard(a, i) {
   return `          <li class="post-card" data-cat="${categorySlug(a.category) || "none"}" data-event="${eventSlug(a.event) || "none"}">
-            <a href="${encodeURI("posts/" + postFile(a))}">
+            <a href="${encodeURI("../posts/" + postFile(a))}">
               <span class="post-card-thumb">${thumb(a, i)}</span>
               <span class="post-card-body">
                 ${metaHtml(a)}
@@ -109,23 +108,6 @@ function renderCards(list, emptyText) {
     return `          <li class="post-cards-empty">${escapeHtml(emptyText)}</li>`;
   }
   return list.map(renderCard).join("\n");
-}
-
-// 挑戦記のカードに出す説明：記事のリード文（Doc の「サブタイトル」）。なければ最初の段落を短くしたもの
-function summaryOf(a) {
-  const file = path.join(ROOT, "posts", postRelPath(a));
-  if (!fs.existsSync(file)) return "";
-  const html = fs.readFileSync(file, "utf-8");
-  const body = html.split('<div class="post-body">')[1] || "";
-  const m = body.match(/<p class="lead[^"]*">([\s\S]*?)<\/p>/) || body.match(/<p[^>]*>([\s\S]*?)<\/p>/);
-  const text = m ? m[1].replace(/<br>/g, " ").replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim() : "";
-  return text.length > 90 ? text.slice(0, 88) + "…" : text;
-}
-
-// 海外レース挑戦記のページ（overseas/index.html）の 1 件分。1 つ下の階層なので ../ を付ける
-function renderOverseasCard(a) {
-  const summary = summaryOf(a);
-  return `  <li class="card"><span class="card-date">${escapeHtml(a.date.replace(/-/g, "."))}</span><span class="card-title">${escapeHtml(a.title)}</span>${summary ? `<p>${escapeHtml(summary)}</p>` : ""}<p class="card-link"><a class="btn" href="${encodeURI("../posts/" + postFile(a))}">挑戦記を読む</a></p></li>`;
 }
 
 // <!-- NAME:START --> と <!-- NAME:END --> のあいだを入れ替える
@@ -166,29 +148,23 @@ async function main() {
         <span class="news-text">まだ記事はありません。</span>
       </li>
     `;
-  updateFile("index.html", html => html.replace(
+  updateFile("html/sites/index.html", html => html.replace(
     /<ul class="news-right">[\s\S]*?<\/ul>/m,
     `<ul class="news-right">\n${newsListHtml}\n</ul>`
   ));
 
   // news.html（すべて）
-  updateFile("news.html", html =>
+  updateFile("html/sites/news.html", html =>
     replaceBlock(html, "CARDS_ALL", renderCards(articles, "まだ記事はありません。")));
 
   // events.html（大会・イベント）
-  updateFile("events.html", html =>
+  updateFile("html/sites/events.html", html =>
     replaceBlock(html, "CARDS_EVENT", renderCards(articles.filter(a => EVENTS_PAGE_CATEGORIES.includes(a.category)).slice(0, 12), "大会・イベントの記事は、まだありません。")));
 
   // kids.html（KIDS）
-  updateFile("kids.html", html =>
+  updateFile("html/sites/kids.html", html =>
     replaceBlock(html, "CARDS_KIDS", renderCards(byCat("KIDS").slice(0, 6), "KIDS の記事は、まだありません。")));
 
-  // 海外レース挑戦記（overseas/index.html。1 つ下の階層なので、場所の頭に ../ を付ける）
-  const overseas = articles.filter(a => a.event === "海外レース");
-  updateFile("overseas/index.html", html =>
-    replaceBlock(html, "CARDS_OVERSEAS", overseas.length
-      ? overseas.map(renderOverseasCard).join("\n")
-      : `  <li class="card"><p>挑戦記は、まだありません。</p></li>`));
 }
 
 main().catch(err => {
