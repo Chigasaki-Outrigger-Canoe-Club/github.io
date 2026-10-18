@@ -10,7 +10,7 @@
 
 ```
 github.io/
-├─ index.html                 転送だけ（…/github.io/ を開くと html/sites/index.html へ移る）。消さない
+├─ index.html                 以前の公開のしかた用の転送。いまは使っていない
 ├─ site.webmanifest           スマホのホーム画面に追加したときの設定
 │
 ├─ html/
@@ -26,12 +26,24 @@ github.io/
 │   └─ posts/                 ★年ごと：記事の写真（自動で作る）
 │
 ├─ data/                      年間スケジュールのデータ（自動で作る）
-├─ scripts/                   自動で動くプログラム
+├─ scripts/                   自動で動くプログラム（build_site.js が公開用の形に組み立てる）
 ├─ docs/                      手順書（このファイルもここ）
 └─ .github/workflows/         GitHub のボタン・自動処理
 ```
 
-ページの URL は `…/github.io/html/sites/about.html` のようになる（トップは `…/github.io/` のままで開ける）。
+見る人の URL には、フォルダ名（html/sites など）と「.html」は出ない。公開するときに自動で並べ替えている（`docs/PUBLISH.md`）。
+
+| 見る人の URL（`…/github.io/` のあと） | GitHub の中のファイル |
+|---|---|
+| （なし）＝トップ | `html/sites/index.html` |
+| `about` `kids` `events` など | `html/sites/about.html` `kids.html` `events.html` … |
+| `en/` ・ `en/kids` など | `html/sites/en/index.html` ・ `en/kids.html` … |
+| `posts/2026/2026-08-07_1_…` | `html/posts/2026/2026-08-07_1_….html` |
+| `archive/2027/hukilau` | `html/archive/2027/hukilau.html` |
+| `images/…` | `images/…`（そのまま） |
+
+- 直したいページは、URL の最後の名前に `.html` を付けたファイルを `html/sites/` で探せばよい。
+- 前の URL（`…/html/sites/kids.html` など）で開いても、新しい URL に自動で移る。
 
 ## サイトの写真：`images/sites/`
 

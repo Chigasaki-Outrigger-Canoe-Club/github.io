@@ -1,0 +1,49 @@
+name: サイトを公開
+
+# GitHub の中のファイル（html/sites/ など）を、見る人向けの短い URL の形に組み立てて公開する。
+# main に保存されたとき、記事の生成などの自動処理が終わったときに、自動で動く。
+# 手で動かすときは Actions →「サイトを公開」→ Run workflow。
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Generate Posts", "大会・イベントのページを保存"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 公開用のサイトを組み立てる
+        run: node scripts/build_site.js
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

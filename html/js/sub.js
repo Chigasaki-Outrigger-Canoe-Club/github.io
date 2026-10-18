@@ -186,13 +186,15 @@ document.querySelectorAll('.global-nav a').forEach(a => {
 
   // 下に並べるほかのページ：
   // そのページだけの関連リンク（.page-toc の中のほかのページへのリンク）＋ メニューのページ（今のページは除く）
-  const here = location.pathname.replace(/\/$/, '/index.html');
+  // 「…/kids」「…/kids.html」「…/」「…/index.html」を同じページとして扱う
+  const norm = p => p.replace(/index\.html$/, '').replace(/\.html$/, '');
+  const here = norm(location.pathname);
   const seen = new Set([here]);
   const pages = [];
   function addPage(a) {
     const url = new URL(a.getAttribute('href'), location.href);
-    const key = url.pathname + url.hash;
-    if (url.origin !== location.origin || seen.has(key) || (!url.hash && url.pathname === here)) return;
+    const key = norm(url.pathname) + url.hash;
+    if (url.origin !== location.origin || seen.has(key) || (!url.hash && norm(url.pathname) === here)) return;
     seen.add(key);
     pages.push({ href: a.getAttribute('href'), text: a.textContent.trim() });
   }
@@ -377,10 +379,11 @@ document.querySelectorAll('.global-nav a').forEach(a => {
   const footer = document.querySelector('.site-footer');
   if (!footer || isPost || body.getAttribute('data-pager') === 'off') return;
   const logo = document.querySelector('.site-header .logo-area a');
+  const norm = p => p.replace(/index\.html$/, '').replace(/\.html$/, '');
   const top = { href: logo ? logo.getAttribute('href') : 'index.html', text: en ? 'Top page' : 'トップページ' };
   const items = Array.from(document.querySelectorAll('#globalNav > ul > li > a'))
-    .map(a => ({ href: a.getAttribute('href'), text: a.textContent.trim(), path: new URL(a.getAttribute('href'), location.href).pathname }));
-  const here = location.pathname;
+    .map(a => ({ href: a.getAttribute('href'), text: a.textContent.trim(), path: norm(new URL(a.getAttribute('href'), location.href).pathname) }));
+  const here = norm(location.pathname);
   const i = items.findIndex(it => it.path === here);
 
   let prev = null, next = null;
