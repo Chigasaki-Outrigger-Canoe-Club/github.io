@@ -1499,3 +1499,18 @@ html body { color: #111; }
 .post-body, .post-body p, .post-body li, .post-body td, .post-body th, .post-body .lead,
 .post-media-text, .card p, .faq-list summary, .faq-list details p { color: #111; }
 .post-photo figcaption, .post-photo-grid figcaption { color: #444; }
+
+/* 「MORE」：トップページの NEWS の MORE と同じ見た目（小さな文字のリンク＋矢印） */
+.section-inner .post-cards-more--link { margin: 24px 0 0; text-align: right; }
+.news-more {
+  display: inline-block;
+  padding: 4px 0;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(30, 52, 71, 0.6);
+  transition: color 0.2s ease;
+}
+.news-more::after { content: "→"; margin-left: 8px; display: inline-block; transition: transform 0.2s ease; }
+.news-more:hover { color: var(--ink, #1e3447); }
+.news-more:hover::after { transform: translateX(4px); }
