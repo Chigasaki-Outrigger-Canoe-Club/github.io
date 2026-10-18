@@ -148,35 +148,191 @@
   .global-nav li a { padding: 14px 0; }
 }
 
-/* ---------- PC：メニューボタンを目立たせる（ヘッダーの高さは変えない） ----------
-   三本線を少し大きく太くし、半透明の枠と「MENU」の文字を付ける。明るい写真の上でも見えるように */
+/* ---------- PC：メニューボタン（細い線＋「MENU」） ----------
+   ヘッダーの高さ・並びは変えない。線 1 本と小さな跳ね（パドルの先のような形）、下に MENU の文字。
+   開いているときは細い × と「CLOSE」になる。スマホは上の三本線のまま。 */
 @media (min-width: 769px) {
   .menu-btn {
     position: relative;
-    gap: 6px;
-    padding: 11px 104px 11px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 999px;
-    background: rgba(10, 20, 30, 0.35);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-    transition: background 0.2s ease, border-color 0.2s ease;
+    width: 76px;
+    height: 44px;
+    padding: 0;
+    gap: 0;
+    border: 0;
+    background: none;
   }
-  .menu-btn span { width: 26px; height: 2.5px; border-radius: 2px; }
+  .menu-btn span {
+    position: absolute;
+    top: 13px;
+    left: 8px;
+    width: 60px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);   /* 明るい写真の上でも見えるように */
+    transition: transform 0.35s ease, opacity 0.25s ease, background 0.3s ease;
+  }
+  .menu-btn span:nth-child(2) {           /* 右端の小さな跳ね */
+    left: auto;
+    right: 8px;
+    width: 13px;
+    transform-origin: right center;
+    transform: rotate(-35deg);
+  }
+  .menu-btn span:nth-child(3) { opacity: 0; }
   .menu-btn::after {
     content: "MENU";
     position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    bottom: 2px;
+    transform: translateX(-50%);
     font-family: "Cormorant Garamond", "Times New Roman", serif;   /* ヘッダーの「CHIGASAKI OUTRIGGER CANOE CLUB」と同じ */
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.24em;
+    padding-left: 0.24em;
+    line-height: 1;
     color: #fff;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease;
   }
+  .menu-btn:hover span:nth-child(1) { transform: translateX(-4px); }
   .menu-btn.active::after { content: "CLOSE"; }
-  .menu-btn:hover { background: rgba(255, 255, 255, 0.18); border-color: #fff; }
-  .menu-btn.active span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
-  .menu-btn.active span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+  .menu-btn.active span:nth-child(1) { transform: translateY(2px) rotate(13deg); }
+  .menu-btn.active span:nth-child(2) { opacity: 0; transform: rotate(-35deg); }
+  .menu-btn.active span:nth-child(3) { opacity: 1; transform: translateY(2px) rotate(-13deg); }
+}
+
+/* ---------- PC：開いたメニューを画面いっぱいに大きく出す ----------
+   メニューの HTML はそのまま。PC のときだけ見せ方を変えている（スマホは上の形のまま）。 */
+@media (min-width: 769px) {
+  html:has(.global-nav.nav-open) { overflow: hidden; }          /* 開いている間は後ろを動かさない */
+
+  .header-inner > :not(.global-nav) { position: relative; z-index: 2; }  /* ロゴ・JP/EN・ボタンはメニューより手前 */
+
+  html body .site-header .global-nav {   /* theme.css・各ページ（Hoaikane など）の色より優先する */
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper, #fbf8f2);
+    border-top: 0;
+    transform: none;
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+  }
+  .global-nav.nav-open { transform: none; transition: opacity 0.4s ease, visibility 0s; }
+
+  /* 開いている間、ヘッダーは透明にして、文字とボタンを紺にする */
+  html body .site-header.site-header:has(.global-nav.nav-open) {
+    background: transparent;
+    border-bottom-color: var(--line, rgba(30, 52, 71, 0.16));
+  }
+  .site-header:has(.global-nav.nav-open) .logo-text-pc,
+  .site-header:has(.global-nav.nav-open) .lang-switch,
+  .site-header:has(.global-nav.nav-open) .lang-switch a,
+  .site-header:has(.global-nav.nav-open) .menu-btn::after { color: var(--ink, #1e3447); text-shadow: none; }
+  .site-header:has(.global-nav.nav-open) .lang-switch a[aria-current="true"] { border-bottom-color: var(--ink, #1e3447); }
+  .site-header:has(.global-nav.nav-open) .menu-btn span { background: var(--ink, #1e3447); box-shadow: none; }
+
+  /* 項目の並び：横 3 列。番号（01〜）、大きな項目名、その下に中の項目 */
+  .global-nav > ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(32px, 5vw, 80px);
+    row-gap: clamp(8px, 2vh, 24px);
+    width: min(1180px, 100%);
+    margin: 0;
+    padding: clamp(96px, 14vh, 140px) clamp(32px, 6vw, 96px) clamp(72px, 10vh, 110px);
+    counter-reset: navno;
+  }
+  .global-nav > ul > li,
+  .global-nav > ul > li.has-sub {
+    display: block;
+    border-top: 1px solid var(--line, rgba(30, 52, 71, 0.16));
+    padding: 18px 0 14px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .global-nav.nav-open > ul > li { opacity: 1; transform: none; }
+  .global-nav.nav-open > ul > li:nth-child(2) { transition-delay: 0.04s; }
+  .global-nav.nav-open > ul > li:nth-child(3) { transition-delay: 0.08s; }
+  .global-nav.nav-open > ul > li:nth-child(4) { transition-delay: 0.12s; }
+  .global-nav.nav-open > ul > li:nth-child(5) { transition-delay: 0.16s; }
+  .global-nav.nav-open > ul > li:nth-child(6) { transition-delay: 0.20s; }
+  .global-nav.nav-open > ul > li:nth-child(7) { transition-delay: 0.24s; }
+  .global-nav.nav-open > ul > li:nth-child(8) { transition-delay: 0.28s; }
+
+  .global-nav > ul > li > a {
+    display: block;
+    padding: 0;
+    border: 0;
+    font-family: var(--mincho, serif);
+    font-size: clamp(24px, 2.5vw, 36px);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: none;
+    color: var(--ink, #1e3447);
+    white-space: nowrap;
+    transition: color 0.2s ease, transform 0.3s ease;
+  }
+  html[lang="en"] .global-nav > ul > li > a { font-family: var(--display, serif); font-weight: 600; letter-spacing: 0.06em; }
+  .global-nav > ul > li > a::before {
+    counter-increment: navno;
+    content: counter(navno, decimal-leading-zero);
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--display, serif);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--sun, #d9785a);
+  }
+  .global-nav li a:hover { padding-left: 0; color: var(--sun, #d9785a); }
+  .global-nav > ul > li > a:hover { transform: translateX(6px); }
+  .global-nav > ul > li > a[aria-current="page"] { color: var(--sun, #d9785a); }
+
+  /* 中の項目は、開かなくても最初から並べる（「＋」は使わない） */
+  .global-nav .sub-toggle { display: none; }
+  .global-nav .sub-menu,
+  .global-nav li.has-sub.is-open > .sub-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 20px;
+    margin: 8px 0 0;
+    padding: 0;
+    border: 0;
+    animation: none;
+  }
+  .global-nav .sub-menu li a {
+    padding: 2px 0;
+    font-family: var(--gothic, sans-serif);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--ink, #1e3447);
+    opacity: 0.75;
+  }
+  .global-nav .sub-menu li a:hover { opacity: 1; }
+
+  /* 画面の下にクラブ名 */
+  .global-nav::after {
+    content: "CHIGASAKI OUTRIGGER CANOE CLUB";
+    position: fixed;
+    right: clamp(32px, 6vw, 96px);
+    bottom: 28px;
+    font-family: var(--display, serif);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--ink, #1e3447);
+    opacity: 0.45;
+  }
 }

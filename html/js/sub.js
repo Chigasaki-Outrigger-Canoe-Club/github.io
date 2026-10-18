@@ -518,3 +518,14 @@ document.querySelectorAll('.scroll-ctrl').forEach(ctrl => {
 document.querySelectorAll('.toc-fold').forEach(function (fold) {
   if (window.innerWidth > 768) fold.open = true;
 });
+
+// Esc キーでメニューを閉じる
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  const nav = document.getElementById('globalNav');
+  const btn = document.getElementById('menuBtn');
+  if (nav && nav.classList.contains('nav-open')) {
+    nav.classList.remove('nav-open');
+    if (btn) btn.classList.remove('active');
+  }
+});
