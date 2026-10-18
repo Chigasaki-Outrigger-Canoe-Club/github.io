@@ -332,6 +332,16 @@ function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
     if (/^【写真をここに】$/.test(plain)) continue;   // 写真を入れる場所の目印（サイトには出さない）
 
     const al = alignOf(p);
+    // 同じ大きさの見出しが続けて並んだら（あいだに本文や写真がない）、1 つの見出しにまとめて改行でつなぐ。
+    // Doc で見出しの途中を Enter で改行しても、サイトでは 1 つの見出しになる。
+    const headTag = (style === "TITLE" || style === "HEADING_1") ? "h2"
+      : style === "HEADING_2" ? "h3"
+      : /^HEADING_[3-6]$/.test(style) ? "h4" : "";
+    const prev = out[out.length - 1] || "";
+    if (headTag && new RegExp(`^<${headTag}[\\s>][\\s\\S]*</${headTag}>$`).test(prev)) {
+      out[out.length - 1] = prev.replace(new RegExp(`</${headTag}>$`), `<br>${html}</${headTag}>`);
+      continue;
+    }
     if (style === "TITLE" || style === "HEADING_1") out.push(`<h2 id="sec-${++sectionNo}"${al ? ` class="${al}"` : ""}>${html}</h2>`);
     else if (style === "SUBTITLE") {
       // サブタイトルが続くときは、1 つのリード文にまとめる（行は改行でつなぐ）
