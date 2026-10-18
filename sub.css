@@ -1514,3 +1514,27 @@ html body { color: #111; }
 .news-more::after { content: "→"; margin-left: 8px; display: inline-block; transition: transform 0.2s ease; }
 .news-more:hover { color: var(--ink, #1e3447); }
 .news-more:hover::after { transform: translateX(4px); }
+
+/* =========================================================
+   年間スケジュール（見やすく）
+   - 年の切り替えは本文と同じ書体
+   - 日付は本文と同じ色。イベント名はシートで太字にしたものだけ太字
+   - 補足などは PC でも行を押したときだけ開く（▼ が目印）
+   ========================================================= */
+#scheduleApp .year-tab { font-family: var(--gothic, "Zen Kaku Gothic New", sans-serif); font-weight: 500; font-size: 15px; letter-spacing: 0.06em; padding: 8px 16px; }
+#scheduleApp .sched-date { color: inherit; font-weight: 600; }
+.sched-name { font-weight: 400; }
+.sched-name.is-bold { font-weight: 700; }
+.sched-more { display: none !important; padding: 6px 0 2px; font-size: 13px; line-height: 1.7; }
+.sched-row.is-open .sched-more { display: block !important; }
+.sched-more > span { display: block !important; margin: 0 !important; opacity: 0.8; }
+.sched-detail { margin-left: 0; font-size: 1em; }
+.sched-note { color: inherit !important; opacity: 0.8 !important; }
+.sched-row.has-more { cursor: pointer !important; }
+.sched-row.has-more .sched-name::after { content: "▾"; margin-left: 8px; font-size: 0.8em; opacity: 0.45; display: inline-block; transition: transform 0.2s ease; }
+.sched-row.is-open .sched-name::after { transform: rotate(180deg); }
+@media (min-width: 769px) {
+  .sched-main { display: block; }
+  .section-inner .sched-hint { display: block; }
+  .sched-link { margin-top: 4px; }
+}

@@ -92,8 +92,10 @@ window.addEventListener('load', updateHeader);
       return '<li class="sched-row' + (more ? ' has-more' : '') + '"' + (more ? ' tabindex="0" role="button" aria-expanded="false"' : '') + '>' +
         '<span class="sched-date">' + esc(pick(item, 'date')) + '</span>' +
         '<span class="sched-main">' +
-          '<span class="sched-name">' + name + (detail ? '<span class="sched-detail">' + detail + '</span>' : '') + '</span>' +
+          '<span class="sched-name' + (item.bold ? ' is-bold' : '') + '">' + name + '</span>' +
+          // 補足・日付の補足・主催／開催地・リンクは、行を押したときだけ出す（PC もスマホも）
           '<span class="sched-more">' +
+            (detail ? '<span class="sched-detail">' + detail + '</span>' : '') +
             (note ? '<span class="sched-note">' + note + '</span>' : '') +
             (place ? '<span class="sched-place">' + place + '</span>' : '') +
             (link ? '<a class="sched-link" href="' + link + '">' + (isEn ? 'Event page' : '大会ページを見る') + '</a>' : '') +
@@ -102,11 +104,7 @@ window.addEventListener('load', updateHeader);
       '</li>';
     }).join('');
 
-    const prov = cur.provisional
-      ? '<p class="sched-prov">' + (isEn
-          ? cur.year + ': provisional content. <span class="kari">[TBC]</span>'
-          : cur.year + '年の内容は仮のものです。<span class="kari">【仮】</span>') + '</p>'
-      : '';
+    const prov = '';
     const foot = (isEn ? cur.footnote_en : cur.footnote) || '';
 
     app.innerHTML =

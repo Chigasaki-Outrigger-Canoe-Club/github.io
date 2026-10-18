@@ -22,7 +22,6 @@ const COLUMN_MAP = {
   "補足": "detail",
   "主催・開催地": "place",
   "リンク": "link",
-  "仮の年?": "provisional",
   "英語：日付": "en_date",
   "英語：日付の補足": "en_note",
   "英語：イベント名": "en_name",
@@ -41,7 +40,8 @@ function safeLink(value) {
 }
 
 // シートの行（1 行目は列名）から、年ごとのデータを組み立てる
-function buildYears(rows) {
+// bold … 行ごとに「イベント名」のセルが太字かどうか（rows と同じ並び。無ければ太字なし）
+function buildYears(rows, bold) {
   const warnings = [];
   if (!rows || rows.length < 2) return { years: [], warnings: ["シートに行がありません。"] };
 
@@ -62,9 +62,8 @@ function buildYears(rows) {
       return;
     }
     const year = Number(r.year);
-    if (!byYear.has(year)) byYear.set(year, { year, provisional: false, footnote: "", footnote_en: "", items: [] });
+    if (!byYear.has(year)) byYear.set(year, { year, footnote: "", footnote_en: "", items: [] });
     const y = byYear.get(year);
-    if (isYes(r.provisional)) y.provisional = true;
 
     // 日付が「※」の行は、その年の注記
     if (r.date === "※") { y.footnote = r.name || ""; y.footnote_en = r.en_name || ""; return; }
@@ -74,6 +73,7 @@ function buildYears(rows) {
     const item = { date: r.date };
     if (r.note) item.note = r.note;
     item.name = r.name;
+    if (bold && bold[i + 1]) item.bold = true;      // シートでイベント名が太字なら、サイトでも太字
     if (r.detail) item.detail = r.detail;
     if (r.place) item.place = r.place;
     const link = safeLink(r.link);
@@ -99,7 +99,6 @@ function buildScheduleJs(years) {
   const body = years.map(y =>
     "  {\n" +
     `    year: ${y.year},\n` +
-    `    provisional: ${y.provisional ? "true" : "false"},\n` +
     `    footnote: ${JSON.stringify(y.footnote)},\n` +
     `    footnote_en: ${JSON.stringify(y.footnote_en)},\n` +
     "    items: [\n" +
@@ -132,20 +131,40 @@ async function fetchRows() {
   });
   const sheets = google.sheets({ version: "v4", auth });
   const res = await sheets.spreadsheets.values.get({ spreadsheetId: process.env.SHEET_ID, range: SHEET_RANGE });
-  return res.data.values || [];
+  const rows = res.data.values || [];
+
+  // 「イベント名」の列の太字を読む（読めなくても、太字なしで続ける）
+  let bold = null;
+  try {
+    const header = (rows[0] || []).map(h => String(h || "").trim());
+    const c = header.indexOf("イベント名");
+    if (c >= 0) {
+      const col = String.fromCharCode(65 + c);
+      const g = await sheets.spreadsheets.get({
+        spreadsheetId: process.env.SHEET_ID,
+        ranges: [`schedule!${col}1:${col}${rows.length}`],
+        fields: "sheets.data.rowData.values.effectiveFormat.textFormat.bold"
+      });
+      const rd = (((g.data.sheets || [])[0] || {}).data || [])[0];
+      bold = ((rd && rd.rowData) || []).map(r => !!(r.values && r.values[0] && r.values[0].effectiveFormat && r.values[0].effectiveFormat.textFormat && r.values[0].effectiveFormat.textFormat.bold));
+    }
+  } catch (e) {
+    console.log("イベント名の太字を読めませんでした（太字なしで続けます）:", e.message);
+  }
+  return { rows, bold };
 }
 
 async function main() {
-  let rows;
+  let rows, bold;
   try {
-    rows = await fetchRows();
+    ({ rows, bold } = await fetchRows());
   } catch (e) {
     // シートがまだ無い場合など。サイトの公開は止めず、今のデータをそのまま使う。
     console.log("schedule シートを読めませんでした。今の data/schedule.js をそのまま使います。理由:", e.message);
     return;
   }
 
-  const { years, warnings } = buildYears(rows);
+  const { years, warnings } = buildYears(rows, bold);
   warnings.forEach(w => console.log("注意:", w));
 
   if (years.length === 0) {
