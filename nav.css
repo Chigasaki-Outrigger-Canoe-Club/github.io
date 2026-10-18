@@ -154,7 +154,7 @@
   .menu-btn {
     position: relative;
     gap: 6px;
-    padding: 11px 98px 11px 16px;
+    padding: 11px 104px 11px 16px;
     border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 999px;
     background: rgba(10, 20, 30, 0.35);
@@ -169,7 +169,8 @@
     right: 18px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 16px;
+    font-family: "Cormorant Garamond", "Times New Roman", serif;   /* ヘッダーの「CHIGASAKI OUTRIGGER CANOE CLUB」と同じ */
+    font-size: 18px;
     font-weight: 600;
     letter-spacing: 0.16em;
     color: #fff;
