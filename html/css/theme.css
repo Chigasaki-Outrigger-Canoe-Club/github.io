@@ -39,7 +39,7 @@ html, body { background: var(--paper); color: var(--ink); font-family: var(--got
 .stat-num       { font-size: clamp(30px, 4.6vw, 48px); letter-spacing: 0.08em; }
 .race-card-en   { font-size: clamp(24px, 3.8vw, 36px); letter-spacing: 0.12em; }
 .year-tab       { font-size: 17px; letter-spacing: 0.12em; padding: 7px 14px 6px; }
-.step-list > li::before { font-size: 32px; color: var(--sun); }
+.step-list > li::before { font-family: var(--gothic); font-size: 26px; font-weight: 500; letter-spacing: 0.04em; color: var(--sun); top: 18px; }
 .contact-label  { color: var(--ink); }
 
 /* ---------- 日本語の見出し：明朝で静かに ---------- */
