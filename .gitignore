@@ -2,3 +2,4 @@ node_modules/
 
 # Claude Code などの作業ログ（ローカル専用・リモートに載せない）
 docs/logs/
+_site/
