@@ -79,7 +79,7 @@ function rewriteRef(ref, srcDir, pubDir) {
   return relFrom(pubDir, pageUrl(pub)) + m[2];
 }
 
-const ATTR_RE = /(\s(?:href|src|data-back|poster|content)=")([^"]*)(")/g;
+const ATTR_RE = /(\s(?:href|src|data-src|data-src-sp|data-back|poster|content)=")([^"]*)(")/g;
 
 function rewriteHtml(text, srcFile, pubFile) {
   let srcDir = P.dirname(srcFile);
