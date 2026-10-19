@@ -1586,3 +1586,6 @@ html body { color: var(--ink, #12203f); }
   .message-layout { grid-template-columns: 1fr; gap: 24px; }
   .message-photo { max-width: 260px; }
 }
+
+/* 表のすぐ下の注意書き（※） */
+.section-inner .table-note { margin: 10px 0 0; font-size: 13px; line-height: 1.8; opacity: 0.8; }
