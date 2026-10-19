@@ -58,7 +58,7 @@ window.addEventListener('scroll', () => {
 (function () {
   const v = document.querySelector('.hero-video');
   if (!v) return;
-  const sp = window.matchMedia('(max-width: 768px)').matches;
+  const sp = window.matchMedia('(max-width: 768px) and (orientation: portrait)').matches;   // 縦向きのスマホは縦長の動画
   v.src = (sp && v.dataset.srcSp) || v.dataset.src;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   v.autoplay = true;
