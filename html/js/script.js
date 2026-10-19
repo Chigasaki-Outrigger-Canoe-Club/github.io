@@ -166,3 +166,16 @@ document.addEventListener('keydown', e => {
     if (btn) btn.classList.remove('active');
   }
 });
+
+// PC のメニュー：一番上に「トップページ」へのリンクを置く（ロゴと同じ行き先）
+(function () {
+  const nav = document.getElementById('globalNav');
+  const logo = document.querySelector('.site-header .logo-area a');
+  if (!nav || !logo || nav.querySelector('.nav-top')) return;
+  const en = (document.documentElement.lang || '').startsWith('en');
+  const a = document.createElement('a');
+  a.className = 'nav-top';
+  a.href = logo.getAttribute('href');
+  a.textContent = en ? 'Top page' : 'トップページ';
+  nav.insertBefore(a, nav.firstChild);
+})();

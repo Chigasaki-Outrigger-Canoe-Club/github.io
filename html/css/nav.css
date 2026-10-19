@@ -148,6 +148,10 @@
   .global-nav li a { padding: 14px 0; }
 }
 
+/* メニューの「トップページ」は PC だけ（スマホは今のまま） */
+.global-nav .nav-top { display: none; }
+.global-nav .nav-top::after { display: none; }
+
 /* ---------- PC：メニューボタン（細い線＋「MENU」） ----------
    ヘッダーの高さ・並びは変えない。線 1 本と小さな跳ね（パドルの先のような形）、下に MENU の文字。
    開いているときは細い × と「CLOSE」になる。スマホは上の三本線のまま。 */
@@ -220,6 +224,7 @@
     max-height: none;
     overflow-y: auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background: var(--paper, #fff);
@@ -240,6 +245,23 @@
   .site-header:has(.global-nav.nav-open) .menu-btn::after { color: var(--ink, #12203f); text-shadow: none; }
   .site-header:has(.global-nav.nav-open) .lang-switch a[aria-current="true"] { border-bottom-color: var(--ink, #12203f); }
   .site-header:has(.global-nav.nav-open) .menu-btn span { background: var(--ink, #12203f); box-shadow: none; }
+
+  /* 一番上の「トップページ」（番号の項目より小さく） */
+  .global-nav .nav-top {
+    display: block;
+    width: min(1180px, 100%);
+    padding: clamp(96px, 14vh, 140px) clamp(32px, 6vw, 96px) 0;
+    font-family: var(--mincho, serif);
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: var(--ink, #12203f);
+    opacity: 0;
+    transition: opacity 0.5s ease, color 0.2s ease;
+  }
+  .global-nav .nav-top::before { content: "\2190"; margin-right: 10px; color: var(--sun, #cf3a31); }
+  .global-nav.nav-open .nav-top { opacity: 1; }
+  .global-nav .nav-top:hover { color: var(--sun, #cf3a31); }
+  .global-nav .nav-top + ul { padding-top: 28px; }
 
   /* 項目の並び：横 3 列。番号（01〜）、大きな項目名、その下に中の項目 */
   .global-nav > ul {
