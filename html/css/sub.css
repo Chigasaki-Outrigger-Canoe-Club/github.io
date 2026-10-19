@@ -85,6 +85,11 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
 .page-toc a:hover,
 .btn:hover { background: #000; color: #fff; }
 
+/* 丸で囲んだ目次ボタンの並びは出さない（場所をとるため）。
+   HTML の .page-toc は残す：広い画面の左の目次（CONTENTS）は、ここのリンクから作っている。
+   記事の目次（.post-toc）はこの対象外。 */
+.page-toc:not(.post-toc) { display: none; }
+
 /* ---------- 本文セクション ---------- */
 .page-section { padding: 80px 6% 0; }
 .page-section:last-of-type { padding-bottom: 80px; }
