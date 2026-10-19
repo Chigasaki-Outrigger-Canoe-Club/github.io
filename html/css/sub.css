@@ -817,10 +817,8 @@ body.theme-hoaikane .page-hero-en { font-size: clamp(40px, 7.5vw, 84px); }
 
 /* ページ上部：ロゴのピンクに、中央から明るくにじむ光 */
 body.theme-hoaikane .page-hero--logo {
-  /* 夜の海の黒に、ロゴのうしろだけハイビスカスの色がほのかににじむ */
-  background:
-    radial-gradient(ellipse 42% 62% at 74% 50%, rgba(214, 36, 110, 0.32) 0%, rgba(214, 36, 110, 0) 70%),
-    var(--night);
+  /* 夜の海の黒に、白いロゴだけ */
+  background: var(--night);
 }
 
 /* ボタンや目次：ピンクの丸い枠。押すとピンクで塗る */
