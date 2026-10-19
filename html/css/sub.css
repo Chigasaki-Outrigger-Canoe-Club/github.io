@@ -373,8 +373,8 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
 }
 
 /* Ho'aikane のページだけ、差し色をロゴの色にする */
-.theme-hoaikane .section-title::after { background: #da506d; }
-.theme-hoaikane .step-list > li::before { color: #da506d; }
+.theme-hoaikane .section-title::after { background: var(--rose, #ff358c); }
+.theme-hoaikane .step-list > li::before { color: var(--rose, #ff358c); }
 
 @media (max-width: 768px) {
   .page-hero--logo {
@@ -784,18 +784,20 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
    theme.css より後に効かせるため、body から書いている。
    ========================================================= */
 body.theme-hoaikane {
-  --rose: #de4f6d;        /* ロゴのピンク */
-  --rose-deep: #a82e50;   /* 濃いローズ（文字やヘッダー） */
-  --blush: #fff5f7;       /* ごく薄いピンク（地の色） */
+  /* 色（2026-10-19 に調整）：地は白、文字はほかのページと同じ。ピンクは差し色だけに使う */
+  --rose: #ff358c;        /* 差し色のピンク（見出しの線・番号・リンク・ボタン） */
+  --rose-deep: #333333;   /* 見出しや表の文字（ピンクにしない） */
+  --blush: #fff0f6;       /* ごく薄いピンク（小さな面だけ） */
+  --ink: #333333;
   --sun: var(--rose);
-  --sea: #c93f62;
-  --line: rgba(168, 46, 80, 0.18);
-  background: var(--blush);
+  --sea: var(--rose);
+  --line: rgba(0, 0, 0, 0.12);
+  background: #fff;
 }
 body.theme-hoaikane .site-header.scrolled,
 body.theme-hoaikane .site-header:has(.global-nav.nav-open),
-body.theme-hoaikane .global-nav { background: rgba(168, 46, 80, 0.96); }
-body.theme-hoaikane .site-footer { background: var(--rose-deep); }
+body.theme-hoaikane .global-nav { background: rgba(236, 52, 132, 0.95); }   /* ヘッダーの帯：差し色と同じピンク */
+body.theme-hoaikane .site-footer { background: #d92a77; }
 
 /* 英字の見出し：チラシの題字に近い、丸みのある太いセリフ体 */
 body.theme-hoaikane .section-label,
@@ -815,7 +817,7 @@ body.theme-hoaikane .page-hero--logo {
 }
 
 /* ボタンや目次：ピンクの丸い枠。押すとピンクで塗る */
-body.theme-hoaikane .btn,
+body.theme-hoaikane .btn { border-color: var(--rose); color: #fff; background: var(--rose); }
 body.theme-hoaikane .page-toc a { border-color: var(--rose); color: var(--rose-deep); background: #fff; }
 body.theme-hoaikane .btn:hover,
 body.theme-hoaikane .page-toc a:hover { background: var(--rose); border-color: var(--rose); color: #fff; }
@@ -825,7 +827,7 @@ body.theme-hoaikane .info-table thead th { border-bottom-color: var(--rose); col
 body.theme-hoaikane .info-table tbody th { color: var(--rose-deep); }
 body.theme-hoaikane .info-table th,
 body.theme-hoaikane .info-table td { border-bottom-color: var(--line); }
-body.theme-hoaikane .section-inner .link-list li a { color: var(--rose-deep); }
+body.theme-hoaikane .section-inner .link-list li a { color: var(--rose); }
 body.theme-hoaikane .draft-notice > p,
 body.theme-hoaikane .draft-notice { border-left-color: var(--rose); }
 
