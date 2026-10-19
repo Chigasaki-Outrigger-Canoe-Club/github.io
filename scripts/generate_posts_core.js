@@ -126,7 +126,7 @@ async function writePost(article, doc) {
   const outputPath = path.join(POSTS_DIR, rel);
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const images = await saveImages(doc, rel);
-  const body = convertDocsToHtml(doc, images.srcOf, images.sizeOf);
+  const body = convertDocsToHtml(doc, images.srcOf, images.sizeOf, { title: article.title });
   const html = buildPostHtml({ ...article, cover: images.first }, body.html);
   fs.writeFileSync(outputPath, html, "utf-8");
   console.log(`Generated: html/posts/${rel}`);
