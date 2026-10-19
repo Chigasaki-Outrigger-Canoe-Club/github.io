@@ -41,6 +41,8 @@ html, body { background: var(--paper); color: var(--ink); font-family: var(--got
 .year-tab       { font-size: 17px; letter-spacing: 0.12em; padding: 7px 14px 6px; }
 .step-list > li::before { font-family: var(--gothic); font-size: 26px; font-weight: 500; letter-spacing: 0.04em; color: var(--sun); top: 18px; }
 .contact-label  { color: var(--ink); }
+/* 数字は英字見出しの書体（Cormorant Garamond）を使わず、本文と同じ書体にする */
+.stat-num { font-family: var(--gothic); font-weight: 500; }
 
 /* ---------- 日本語の見出し：明朝で静かに ---------- */
 .hero-title, .section-title, .page-hero-title, .post-title, .last-quote, .about-text, .contact-text {
