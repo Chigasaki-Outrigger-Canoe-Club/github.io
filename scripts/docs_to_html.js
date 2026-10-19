@@ -113,15 +113,20 @@ function imageAlt(doc, id) {
 
 // srcOf(id) は、写真の id → <img src> に入れる場所 を返す（保存できなかった写真は ""）
 // sizeOf(id) は、写真の id → { w, h }（分からなければ null）。小さい写真は元の大きさより引き伸ばさない
-function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
+// opts.title は記事のタイトル。写真の説明（alt）が無いときに「タイトルの写真」として使う
+function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null, opts = {}) {
   const warnings = new Set();
   const lists = doc.lists || {};
   const out = [];
 
-  const imgTag = id => {
+  // 写真の説明（alt）：Doc の「代替テキスト」→ 写真の説明文（キャプション）→「記事タイトルの写真」の順
+  const plainText = h => String(h || "").replace(/<br\s*\/?>/g, " ").replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
+  const titleAlt = opts.title ? `${opts.title}の写真` : "";
+  const imgTag = (id, caption) => {
     const src = srcOf(id);
     if (!src) return "";
-    return `<img src="${esc(src)}" alt="${esc(imageAlt(doc, id))}"${sizeAttrs(sizeOf(id))} loading="lazy">`;
+    const alt = imageAlt(doc, id) || plainText(caption) || titleAlt;
+    return `<img src="${esc(src)}" alt="${esc(alt)}"${sizeAttrs(sizeOf(id))} loading="lazy">`;
   };
 
   // 文字の部分（太字・斜体・リンクなど）
@@ -161,7 +166,7 @@ function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
 
   // 写真のかたまり（A・B・C）。caption は D
   const imageBlock = (ids, caption, capAlign = "") => {
-    const tags = ids.map(imgTag).filter(Boolean);
+    const tags = ids.map(id => imgTag(id, caption)).filter(Boolean);
     if (tags.length === 0) return "";
     const cls = tags.length === 1 ? "post-photo" : tags.length === 2 ? "post-photo post-photo--pair" : "post-photo post-photo--gallery";
     const cap = caption ? withClass("figcaption", capAlign, caption) : "";
@@ -182,7 +187,7 @@ function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
     for (const el of cell.content || []) {
       if (!el.paragraph) continue;
       const { html, images } = splitParagraph(el.paragraph);
-      if (withImages) for (const id of images) { const t = imgTag(id); if (t) parts.push(`<p>${t}</p>`); }
+      if (withImages) for (const id of images) { const t = imgTag(id, ""); if (t) parts.push(`<p>${t}</p>`); }
       if (html) parts.push(el.paragraph.bullet ? `<li>${html}</li>` : withClass("p", alignOf(el.paragraph), html));
     }
     return parts.join("").replace(/(<li>.*?<\/li>)+/g, m => `<ul>${m}</ul>`);
@@ -255,9 +260,9 @@ function convertDocsToHtml(doc, srcOf = () => "", sizeOf = () => null) {
     if (cells.length > 0 && cells.every(c => cellImages(c).length > 0)) {
       const cols = nCols;
       const figs = cells.map(c => {
-        const tags = cellImages(c).map(imgTag).filter(Boolean);
-        if (tags.length === 0) return "";
         const cap = cellCaption(c);
+        const tags = cellImages(c).map(id => imgTag(id, cap.html)).filter(Boolean);
+        if (tags.length === 0) return "";
         return `<figure>${tags.join("")}${cap.html ? withClass("figcaption", cap.align, cap.html) : ""}</figure>`;
       }).filter(Boolean);
       if (figs.length) return `<div class="post-photo-grid post-photo-grid--${cols}"${gridStyle(ratios)}>${figs.join("")}</div>`;
