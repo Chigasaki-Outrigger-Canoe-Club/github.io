@@ -12,7 +12,7 @@
 //
 // シートでの書き方
 // ・改行はそのまま改行になる。
-// ・【仮】（英語は [TBC]）と書くと、赤い「仮」の印になる。
+// ・【仮】（英語は [TBC]）の印は使わない。シートに書いてあっても、公開のときにシートからもページからも消す。
 // ・リンクは [表示する文字](ページ名.html) または [表示する文字](https://…) と書く。
 // ・日本語の欄を空にした行は、書き換えない（今の文章のまま）。
 // =========================================================
@@ -61,11 +61,32 @@ function textToHtml(text) {
     links.push(`<a href="${esc(safe)}"${ext}>${esc(label)}</a>`);
     return `\u0000${links.length - 1}\u0000`;
   });
-  s = esc(s);
-  s = s.replace(/(【仮】|\[TBC\])/g, '<span class="kari">$1</span>');
+  s = esc(stripKari(s));
   s = s.replace(/\r?\n/g, "<br>");
   s = s.replace(/\u0000(\d+)\u0000/g, (m, i) => links[Number(i)]);
   return s;
+}
+
+// 【仮】・[TBC] の印を取り除く（前の空白も一緒に）
+const KARI = /[ \u3000]*(【仮】|\[TBC\])/g;
+function stripKari(v) { return String(v).replace(KARI, ""); }
+
+// シートに【仮】が残っていたら、そのセルから消して書き戻す。消したあとの値を返す
+async function cleanKari(sheets, spreadsheetId, title, values) {
+  const colName = i => { let n = i + 1, c = ""; while (n) { c = String.fromCharCode(65 + (n - 1) % 26) + c; n = Math.floor((n - 1) / 26); } return c; };
+  const data = [];
+  const cleaned = (values || []).map((row, r) => (row || []).map((v, c) => {
+    if (r === 0 || typeof v !== "string" || !KARI.test(v)) { KARI.lastIndex = 0; return v; }
+    KARI.lastIndex = 0;
+    const nv = stripKari(v);
+    data.push({ range: `'${title}'!${colName(c)}${r + 1}`, values: [[nv]] });
+    return nv;
+  }));
+  if (data.length) {
+    await sheets.spreadsheets.values.batchUpdate({ spreadsheetId, requestBody: { valueInputOption: "RAW", data } });
+    console.log(`「${title}」シートの【仮】の印を ${data.length} か所消しました。`);
+  }
+  return cleaned;
 }
 
 // data-cms の付いた要素を探す
@@ -349,7 +370,7 @@ async function main() {
     [HEADER, ...[...current.values()].map(r => [r.key, r.page, r.place, r.ja, r.en])], [150, 150, 150, 420, 420], false);
   let contentRows = new Map();
   if (!madeContent) {
-    const values = await readSheet(sheets, spreadsheetId, `${SHEET}!A:E`);
+    const values = await cleanKari(sheets, spreadsheetId, SHEET, await readSheet(sheets, spreadsheetId, `${SHEET}!A:E`));
     contentRows = parseSheet(values);
     const missing = [...current.values()].filter(r => !contentRows.has(r.key));
     if (missing.length) {
@@ -381,7 +402,7 @@ async function main() {
   // 2) 基本情報（よく直す項目。content より優先する）
   const madeInfo = await ensureSheet(sheets, spreadsheetId, meta, INFO_SHEET, infoSeedValues(current), [240, 420, 420, 120], true);
   let infoRows = new Map();
-  if (!madeInfo) infoRows = parseInfo(await readSheet(sheets, spreadsheetId, `'${INFO_SHEET}'!A:D`));
+  if (!madeInfo) infoRows = parseInfo(await cleanKari(sheets, spreadsheetId, INFO_SHEET, await readSheet(sheets, spreadsheetId, `'${INFO_SHEET}'!A:D`)));
 
   const merged = new Map([...contentRows, ...infoRows]);
   const changed = applyAll(merged);
@@ -390,7 +411,7 @@ async function main() {
   // 3) FAQ（行を足せば質問が増える）
   const madeFaq = await ensureSheet(sheets, spreadsheetId, meta, FAQ_SHEET, faqSeedValues(), [170, 300, 460, 170, 300, 460], false);
   if (!madeFaq) {
-    const groups = parseFaq(await readSheet(sheets, spreadsheetId, `'${FAQ_SHEET}'!A:F`));
+    const groups = parseFaq(await cleanKari(sheets, spreadsheetId, FAQ_SHEET, await readSheet(sheets, spreadsheetId, `'${FAQ_SHEET}'!A:F`)));
     if (groups.length === 0) console.log("FAQ シートに使える行がないので、FAQ のページは今のままにします。");
     else console.log(`FAQ を反映しました（${groups.length} 分類、変わったファイル: ${applyFaq(groups)} 個）。`);
   }
@@ -403,4 +424,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { htmlToText, textToHtml, extractAll, applyAll, parseSheet, infoSeedValues, parseInfo, faqSeedValues, parseFaq, applyFaq, extractFaq };
+module.exports = { cleanKari, stripKari, htmlToText, textToHtml, extractAll, applyAll, parseSheet, infoSeedValues, parseInfo, faqSeedValues, parseFaq, applyFaq, extractFaq };
