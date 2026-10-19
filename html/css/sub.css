@@ -1589,3 +1589,29 @@ html body { color: var(--ink, #12203f); }
 
 /* 表のすぐ下の注意書き（※） */
 .section-inner .table-note { margin: 10px 0 0; font-size: 13px; line-height: 1.8; opacity: 0.8; }
+
+/* 写真の全体を必ず見せる（クラブについての集合写真：前列が下にいるので切らない） */
+.page-hero--fit.page-hero--full { max-height: none; }
+
+/* =========================================================
+   各ページの一番上の写真の文字：すべて左下にそろえる（2026-10-19）
+   明るい写真でも読めるように、文字にやわらかい影を付ける
+   ========================================================= */
+html body .page-hero,
+html body .page-hero--fit,
+html body .page-hero--fit.page-hero--title-bottom,
+html body .page-hero--tall,
+html body .page-hero--fire {
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-top: 0;
+  padding-bottom: clamp(24px, 4vw, 48px);
+}
+html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は左下、ロゴは右 */
+.page-hero-copy {
+  text-align: left;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45), 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+@media (max-width: 768px) {
+  html body .page-hero--logo { align-items: flex-start; }   /* 縦に並ぶので、文字を左にそろえる */
+}
