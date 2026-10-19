@@ -1640,3 +1640,10 @@ html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は
 /* 初めての方へ：陸でのレクチャーの写真（正方形の写真を大きくしすぎない） */
 .section-photo.lecture-photo { max-width: 240px; margin: 12px 0 8px; }   /* PC・スマホとも幅 240px まで */
 .section-photo.lecture-photo figcaption { margin-top: 6px; font-size: 13px; opacity: 0.75; }
+
+/* 前後のページ（2026-10-19）：PREV / NEXT の文字と区切りの線をやめ、矢印とページ名だけに。矢印と文字のどちらを押しても移動する */
+.page-pager { border-top: 0; border-bottom: 0; }
+.page-pager-dir { display: none; }
+.page-pager-link--next { border-left: 0; }
+.page-pager-link:hover { background: transparent; }
+.page-pager-link:hover .page-pager-name { color: var(--sun, #cf3a31); }
