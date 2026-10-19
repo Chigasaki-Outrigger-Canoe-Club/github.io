@@ -100,8 +100,10 @@
     </header>
 
     <section class="hero">
-      <div class="hero-bg bg1"></div>
-      <div class="hero-bg bg2"></div>
+      <!-- トップの動画（横幅いっぱい・16:9 のまま全体を見せる）。PC は hero.mp4、スマホは軽い hero_sp.mp4 を script.js が選ぶ -->
+      <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true"
+        poster="../../images/sites/TOP/hero_poster.webp"
+        data-src="../../images/sites/TOP/hero.mp4" data-src-sp="../../images/sites/TOP/hero_sp.mp4"></video>
       <div class="scroll-indicator">SCROLL<div class="scroll-line"></div></div>
       <div class="hero-overlay">
         <div class="hero-copy fade-target">

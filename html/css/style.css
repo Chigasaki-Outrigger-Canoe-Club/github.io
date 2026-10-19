@@ -156,22 +156,19 @@ img { max-width: 100%; display: block; }
 .hero {
   position: relative;
   width: 100%;
-  height: 65vh;        /* 画面の高さの65%（以前は100vh） */
-  min-height: 440px;   /* 横長の小さい画面でも文字が収まるように */
+  aspect-ratio: 16 / 9;   /* 動画と同じ形。横幅いっぱいで、動画の全体を見せる（スマホも同じ） */
   overflow: hidden;
+  background: #0d1622;
 }
 
-.hero-bg {
+.hero-video {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: opacity 1.0s ease-in-out;
+  object-fit: cover;
+  display: block;
 }
-
-.bg1 { opacity: 1; }
-.bg2 { opacity: 0; }
 
 .scroll-indicator {
   /* 写真の右下に、縦書きの「SCROLL」と下へ伸びる線を置く */
@@ -247,9 +244,11 @@ img { max-width: 100%; display: block; }
   margin-bottom: 32px;
 }
 
-/* 横幅 1280px 以上：HERO を画面いっぱいに */
-@media (min-width: 1280px) {
-  .hero { height: 100vh; }
+/* スマホは動画が低くなるので、SCROLL の印は出さず、キャッチも少し小さくして動画の中に収める */
+@media (max-width: 600px) {
+  .scroll-indicator { display: none; }
+  .hero-overlay { padding: 52px 20px 12px; }
+  .hero .hero-title { font-size: 24px; line-height: 1.5; }
 }
 
 /* キャッチだけを置くので、下の余白はとらない */

@@ -52,62 +52,19 @@ window.addEventListener('scroll', () => {
 });
 
 // ===============================
-// 背景フェード式スライドショー
+// トップの動画（スライドショーの代わり）
+// スマホ（横幅 768px 以下）は軽いほうの動画を読み込む。動きを減らす設定の人には、最初の 1 枚（poster）だけ見せる
 // ===============================
-let images;
-if (window.innerWidth > 900) {
-  // ★ PC用画像セット
-  images = [
-    "../../images/sites/COMMON/pc_hayama_hoe1.webp",
-    "../../images/sites/COMMON/pc_mc10_272.webp",
-    "../../images/sites/COMMON/pc_hayama_hoe2.webp",
-    "../../images/sites/TOP/pc_mc10_368.webp"
-  ];
-} else {
-  // ★ スマホ用画像セット
-  images = [
-    "../../images/sites/COMMON/mobile_hayama_hoe1.webp",
-    "../../images/sites/TOP/mobile_mc10_033.webp",
-    "../../images/sites/TOP/mobile_hayama_hoe2.webp",
-    "../../images/sites/TOP/mobile_mc10_015.webp"
-  ];
-}
-// ===============================
-// ★ 画像プリロード（裏で読み込む）
-// ===============================
-const preloaded = [];
-
-images.forEach(src => {
-  const img = new Image();
-  img.src = src;
-  preloaded.push(img);
-});
-
-// ===============================
-// スライドショー
-// ===============================
-
-let index = 0;
-const bg1 = document.querySelector('.bg1');
-const bg2 = document.querySelector('.bg2');
-
-bg1.style.backgroundImage = `url(${images[0]})`;
-bg2.style.backgroundImage = `url(${images[0]})`;
-
-function changeImage() {
-  index = (index + 1) % images.length;
-
-  bg2.style.backgroundImage = `url(${images[index]})`;
-  bg2.style.opacity = 1;
-
-  setTimeout(() => {
-    bg1.style.backgroundImage = bg2.style.backgroundImage;
-    bg2.style.opacity = 0;
-  }, 1000);
-}
-
-// 静止 + フェード = 7秒ごとに切り替え
-setInterval(changeImage, 6500);
+(function () {
+  const v = document.querySelector('.hero-video');
+  if (!v) return;
+  const sp = window.matchMedia('(max-width: 768px)').matches;
+  v.src = (sp && v.dataset.srcSp) || v.dataset.src;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  v.autoplay = true;
+  const p = v.play();
+  if (p && p.catch) p.catch(() => {});   // 自動再生が止められても、poster のまま表示される
+})();
 
 // ===============================
 // NEWS：横に流せるときの現在位置バー

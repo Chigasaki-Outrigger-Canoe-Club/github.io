@@ -52,7 +52,7 @@ github.io/
 | `COMMON/` | いくつかのページで使う写真（ヘッダーのロゴ、トップと各ページの大きな写真など） |
 | `COMMON/icons/` | アイコン（ブラウザのタブ・ホーム画面）。PNG / ICO のまま |
 | `COMMON/ogp.png` | SNS で共有したときに出る画像。PNG のまま |
-| `TOP/` | トップページ（`html/sites/index.html`） |
+| `TOP/` | トップページ（`html/sites/index.html`）。一番上の動画は `hero.mp4`（PC）・`hero_sp.mp4`（スマホ用の軽い版）・`hero_poster.webp`（読み込み中に出す最初の 1 枚）。動画を替えるときは同じ名前で置き換える（16:9、音なし、2MB 前後が目安） |
 | `ABOUT/` `FOR_BEGINNERS/` `MEMBERSHIP/` `SAFETY/` `KIDS/` `EVENTS/` `CONTACT/` `FAQ/` `NEWS/` | それぞれのページ（使う写真があるときだけフォルダがある） |
 | `OSHIMA/` `HUKILAU/` `HOAIKANE/` | 大会のページ。中の `gallery/` に写真を入れると「ギャラリー」に並ぶ（ファイル名の順。01_ 02_ … で決める） |
 
