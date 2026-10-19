@@ -643,11 +643,45 @@ img { max-width: 100%; display: block; }
   opacity: 1;
 }
 
+/* ページの一覧（MENU）：2 列。sub.js / script.js がメニューから作る */
+.footer-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 8px 32px;
+}
+.footer-menu a {
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+.footer-menu a:hover { opacity: 1; }
+
+/* Instagram・Facebook の右の白いアイコン（文字と同じ大きさ） */
+.footer-sns li a { display: inline-flex; align-items: center; gap: 8px; }
+.footer-sns li a svg { width: 1em; height: 1em; flex-shrink: 0; }
+.footer-sns li + li { margin-top: 4px; }
+
+@media (min-width: 769px) {
+  .footer-inner { display: grid; grid-template-columns: auto 1fr auto; }
+  .footer-menu { justify-self: center; }
+}
+
 @media (max-width: 768px) {
   .footer-inner {
     flex-direction: column;
     gap: 30px;
   }
+  .footer-menu {
+    padding: 22px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .footer-menu ul { grid-template-columns: 1fr 1fr; gap: 12px 16px; }
 }
 
 /* =========================================================

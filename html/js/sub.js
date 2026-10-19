@@ -198,8 +198,7 @@ document.querySelectorAll('.global-nav a').forEach(a => {
     seen.add(key);
     pages.push({ href: a.getAttribute('href'), text: a.textContent.trim() });
   }
-  if (pageToc) pageToc.querySelectorAll('a:not([href^="#"])').forEach(addPage);
-  if (!isPost) document.querySelectorAll('#globalNav > ul > li > a').forEach(addPage);
+  // ほかのページの一覧は、左の目次には出さない（フッターの「MENU」にまとめた）
 
   if (items.length === 0 && pages.length === 0) return;
 
@@ -541,4 +540,42 @@ document.addEventListener('keydown', e => {
   a.href = logo.getAttribute('href');
   a.textContent = en ? 'Top page' : 'トップページ';
   nav.insertBefore(a, nav.firstChild);
+})();
+
+// フッター：ページの一覧（トップページ＋メニューの項目）と、Instagram・Facebook のアイコン
+// 一覧はメニューから作るので、メニューを変えればフッターも変わる
+(function () {
+  const inner = document.querySelector('.site-footer .footer-inner');
+  if (!inner || inner.querySelector('.footer-menu')) return;
+  const en = (document.documentElement.lang || '').startsWith('en');
+  const logo = document.querySelector('.site-header .logo-area a');
+  const links = [];
+  if (logo) links.push({ href: logo.getAttribute('href'), text: en ? 'Top page' : 'トップページ' });
+  document.querySelectorAll('#globalNav > ul > li > a').forEach(a => links.push({ href: a.getAttribute('href'), text: a.textContent.trim() }));
+  if (links.length > 1) {
+    const box = document.createElement('nav');
+    box.className = 'footer-menu';
+    box.setAttribute('aria-label', en ? 'Site menu' : 'サイトのページ');
+    box.innerHTML = '<p class="footer-label">MENU</p><ul></ul>';
+    const ul = box.querySelector('ul');
+    links.forEach(o => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = o.href;
+      a.textContent = o.text;
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    const right = inner.querySelector('.footer-right');
+    inner.insertBefore(box, right || null);
+  }
+  const icons = {
+    instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>',
+    facebook: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>'
+  };
+  inner.querySelectorAll('.footer-sns a').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    const key = /instagram/.test(href) ? 'instagram' : /facebook/.test(href) ? 'facebook' : '';
+    if (key && !a.querySelector('svg')) a.insertAdjacentHTML('beforeend', icons[key]);
+  });
 })();
