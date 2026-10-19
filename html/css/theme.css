@@ -53,7 +53,7 @@ html, body { background: var(--paper); color: var(--ink); font-family: var(--got
 
 /* ---------- 差し色：見出しの下線、リンク、日付 ---------- */
 .section-title::after { background: var(--sun); }
-.theme-hoaikane .section-title::after { background: #da506d; }   /* Ho'aikane はロゴの色のまま */
+.theme-hoaikane .section-title::after { background: var(--rose, #ec7f2d); }   /* Ho'aikane は夕日のオレンジ */
 .sched-date, .sched-note { color: var(--sea); }
 .sched-link, .post-body a, .faq details p a, .schedule-table td a:hover { color: var(--sea); }
 .sched-row.has-more:hover { background: rgba(61, 127, 141, 0.06); }
