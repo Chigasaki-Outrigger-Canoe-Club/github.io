@@ -99,7 +99,6 @@ ${images.map(u => `          <li><img src="${escapeHtml(u)}" alt="" loading="laz
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <!-- サイト共通の CSS（記事は html/posts/年/ の中にあるので ../../css/ を読み込む） -->
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="../../css/nav.css">
