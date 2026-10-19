@@ -1447,7 +1447,8 @@ html[lang="en"] .page-pager-name { font-family: var(--display, serif); }
   .page-toc.post-toc a::before {
     content: counter(toc, decimal-leading-zero);
     flex: none;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--gothic, sans-serif);   /* 番号は本文と同じ書体 */
+    font-weight: 500;
     font-size: 15px;
     letter-spacing: 0.08em;
     color: var(--sun, #cf3a31);
