@@ -1615,3 +1615,12 @@ html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は
 @media (max-width: 768px) {
   html body .page-hero--logo { align-items: flex-start; }   /* 縦に並ぶので、文字を左にそろえる */
 }
+
+/* 代表の言葉の写真を小さく（縦横それぞれ半分ほど＝面積でおよそ 4 分の 1） */
+.message-layout { grid-template-columns: max-content 1fr; }
+.message-photo img { width: 150px; }
+.message-photo .message-role { white-space: nowrap; }   /* 肩書は 1 行で（写真より横に長くてよい） */
+@media (max-width: 768px) {
+  .message-layout { grid-template-columns: 1fr; }
+  .message-photo img { width: 130px; }
+}
