@@ -152,13 +152,12 @@
 .global-nav .nav-top { display: none; }
 .global-nav .nav-top::after { display: none; }
 
-/* ---------- PC：メニューボタン（細い線＋「MENU」） ----------
-   ヘッダーの高さ・並びは変えない。線 1 本と小さな跳ね（パドルの先のような形）、下に MENU の文字。
-   開いているときは細い × と「CLOSE」になる。スマホは上の三本線のまま。 */
+/* ---------- PC：メニューボタン（三本線＋下に「MENU」） ----------
+   ヘッダーの高さ・並びは変えない。開いているときは × と「CLOSE」になる。スマホは上の三本線のまま。 */
 @media (min-width: 769px) {
   .menu-btn {
     position: relative;
-    width: 76px;
+    width: 64px;
     height: 44px;
     padding: 0;
     gap: 0;
@@ -167,44 +166,38 @@
   }
   .menu-btn span {
     position: absolute;
-    top: 13px;
-    left: 8px;
-    width: 60px;
-    height: 1.5px;
+    left: 50%;
+    width: 30px;
+    height: 2px;
+    margin-left: -15px;
     border-radius: 1px;
     background: #fff;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);   /* 明るい写真の上でも見えるように */
-    transition: transform 0.35s ease, opacity 0.25s ease, background 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.2s ease, background 0.3s ease;
   }
-  .menu-btn span:nth-child(2) {           /* 右端の小さな跳ね */
-    left: auto;
-    right: 8px;
-    width: 13px;
-    transform-origin: right center;
-    transform: rotate(-35deg);
-  }
-  .menu-btn span:nth-child(3) { opacity: 0; }
+  .menu-btn span:nth-child(1) { top: 4px; }
+  .menu-btn span:nth-child(2) { top: 12px; }
+  .menu-btn span:nth-child(3) { top: 20px; }
   .menu-btn::after {
     content: "MENU";
     position: absolute;
     left: 50%;
-    bottom: 2px;
+    bottom: 1px;
     transform: translateX(-50%);
     font-family: "Cormorant Garamond", "Times New Roman", serif;   /* ヘッダーの「CHIGASAKI OUTRIGGER CANOE CLUB」と同じ */
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.24em;
-    padding-left: 0.24em;
+    letter-spacing: 0.2em;
+    padding-left: 0.2em;
     line-height: 1;
     color: #fff;
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
     transition: color 0.3s ease;
   }
-  .menu-btn:hover span:nth-child(1) { transform: translateX(-4px); }
   .menu-btn.active::after { content: "CLOSE"; }
-  .menu-btn.active span:nth-child(1) { transform: translateY(2px) rotate(13deg); }
-  .menu-btn.active span:nth-child(2) { opacity: 0; transform: rotate(-35deg); }
-  .menu-btn.active span:nth-child(3) { opacity: 1; transform: translateY(2px) rotate(-13deg); }
+  .menu-btn.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .menu-btn.active span:nth-child(2) { opacity: 0; }
+  .menu-btn.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 }
 
 /* ---------- PC：開いたメニューを画面いっぱいに大きく出す ----------
