@@ -121,7 +121,7 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
 }
 .section-inner p,
 .section-inner li {
-  font-size: clamp(14px, 2.2vw, 16px);
+  font-size: clamp(15px, 2.2vw, 16px);   /* スマホでも 15px 以上 */
   line-height: 1.9;
 }
 .section-inner p { margin: 0 0 1.2em; }
@@ -217,7 +217,7 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
   cursor: pointer;
   padding: 18px 32px 18px 0;
   font-weight: 600;
-  font-size: clamp(14px, 2.2vw, 16px);
+  font-size: clamp(15px, 2.2vw, 16px);
   letter-spacing: 0.03em;
   list-style: none;
   position: relative;
@@ -337,8 +337,8 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
 .race-card-jp { margin-top: 6px; font-size: 14px; letter-spacing: 0.05em; }
 .race-card-more {
   margin-top: 18px;
-  font-size: 12px;
-  letter-spacing: 0.2em;
+  font-size: 13px;
+  letter-spacing: 0.14em;
   padding-top: 12px;
   border-top: 1px solid rgba(255,255,255,0.5);
 }
@@ -498,7 +498,7 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
 
 .section-inner .sched-hint,
 .section-inner .sched-prov,
-.section-inner .sched-foot { font-size: 12px; margin: 0 0 6px; opacity: 0.7; }
+.section-inner .sched-foot { font-size: 13px; margin: 0 0 6px; opacity: 0.75; }
 .section-inner .sched-prov { opacity: 1; }
 .section-inner .sched-foot { margin-top: 10px; }
 
@@ -550,8 +550,8 @@ h1.page-hero-en { margin: 0; font-weight: inherit; }
 
 @media (max-width: 768px) {
   /* 20件ほどが1画面に収まる高さ（1行およそ30px）にする */
-  .sched-row { grid-template-columns: 74px 1fr; column-gap: 8px; padding: 5px 2px; font-size: 13px; line-height: 1.4; }
-  .sched-date { font-size: 12px; }
+  .sched-row { grid-template-columns: 84px 1fr; column-gap: 8px; padding: 5px 2px; font-size: 13px; line-height: 1.4; }
+  .sched-date { font-size: 13px; }
   .year-nav { margin: 12px 0 8px; }
 }
 
@@ -1281,8 +1281,8 @@ html[lang="en"] .section-inner .section-title {
   display: block;
   margin-bottom: 8px;
   font-family: var(--display, serif);
-  font-size: 12px;
-  letter-spacing: 0.3em;
+  font-size: 13px;
+  letter-spacing: 0.24em;
   color: var(--sun, #cf3a31);
 }
 .page-pager-name {
@@ -1517,8 +1517,8 @@ html body { color: var(--ink, #12203f); }
 .news-more {
   display: inline-block;
   padding: 4px 0;
-  font-size: 12px;
-  letter-spacing: 0.18em;
+  font-size: 13px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(18, 32, 63, 0.75);
   transition: color 0.2s ease;
