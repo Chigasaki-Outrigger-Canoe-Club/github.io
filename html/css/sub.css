@@ -1557,7 +1557,7 @@ html body { color: var(--ink, #12203f); }
 .page-hero--fit {
   height: auto;
   min-height: 0;
-  aspect-ratio: 1016 / 650;
+  aspect-ratio: 1609 / 1017;   /* KIDS の集合写真の形 */
   max-height: 80vh;
   background-position: center bottom;
   align-items: flex-start;
