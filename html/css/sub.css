@@ -1636,3 +1636,7 @@ html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は
 .section-inner .cta-lead { margin: 36px 0 0; font-weight: 600; }
 @media (max-width: 768px) { .btn.btn--cta { display: block; text-align: center; } }
 .section-inner p[data-cms="beginners.trial.faq"] a, .section-inner .table-note a { color: var(--sea, #2c5a8a); border-bottom: 1px solid currentColor; }
+
+/* 初めての方へ：陸でのレクチャーの写真（正方形の写真を大きくしすぎない） */
+.section-photo.lecture-photo { max-width: 480px; margin: 12px 0 8px; }
+.section-photo.lecture-photo figcaption { margin-top: 6px; font-size: 13px; opacity: 0.75; }
