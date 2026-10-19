@@ -134,3 +134,6 @@ summary:focus-visible,
 }
 .menu-btn:focus-visible { outline-color: #fff; }
 .site-header:has(.global-nav.nav-open) .menu-btn:focus-visible { outline-color: var(--ink); }
+
+/* トップの動画と ABOUT US の間の区切り（烏帽子岩の線）：白だと浮くので、あたたかい砂色に */
+.divider-section { background: #efe9df; }
