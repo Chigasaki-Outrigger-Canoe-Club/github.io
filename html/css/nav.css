@@ -222,7 +222,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--paper, #fbf8f2);
+    background: var(--paper, #fff);
     border-top: 0;
     transform: none;
     transition: opacity 0.4s ease, visibility 0s linear 0.4s;
@@ -232,14 +232,14 @@
   /* 開いている間、ヘッダーは透明にして、文字とボタンを紺にする */
   html body .site-header.site-header:has(.global-nav.nav-open) {
     background: transparent;
-    border-bottom-color: var(--line, rgba(30, 52, 71, 0.16));
+    border-bottom-color: var(--line, rgba(18, 32, 63, 0.16));
   }
   .site-header:has(.global-nav.nav-open) .logo-text-pc,
   .site-header:has(.global-nav.nav-open) .lang-switch,
   .site-header:has(.global-nav.nav-open) .lang-switch a,
-  .site-header:has(.global-nav.nav-open) .menu-btn::after { color: var(--ink, #1e3447); text-shadow: none; }
-  .site-header:has(.global-nav.nav-open) .lang-switch a[aria-current="true"] { border-bottom-color: var(--ink, #1e3447); }
-  .site-header:has(.global-nav.nav-open) .menu-btn span { background: var(--ink, #1e3447); box-shadow: none; }
+  .site-header:has(.global-nav.nav-open) .menu-btn::after { color: var(--ink, #12203f); text-shadow: none; }
+  .site-header:has(.global-nav.nav-open) .lang-switch a[aria-current="true"] { border-bottom-color: var(--ink, #12203f); }
+  .site-header:has(.global-nav.nav-open) .menu-btn span { background: var(--ink, #12203f); box-shadow: none; }
 
   /* 項目の並び：横 3 列。番号（01〜）、大きな項目名、その下に中の項目 */
   .global-nav > ul {
@@ -255,7 +255,7 @@
   .global-nav > ul > li,
   .global-nav > ul > li.has-sub {
     display: block;
-    border-top: 1px solid var(--line, rgba(30, 52, 71, 0.16));
+    border-top: 1px solid var(--line, rgba(18, 32, 63, 0.16));
     padding: 18px 0 14px;
     opacity: 0;
     transform: translateY(14px);
@@ -280,7 +280,7 @@
     letter-spacing: 0.08em;
     line-height: 1.4;
     text-transform: none;
-    color: var(--ink, #1e3447);
+    color: var(--ink, #12203f);
     white-space: nowrap;
     transition: color 0.2s ease, transform 0.3s ease;
   }
@@ -294,11 +294,11 @@
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.12em;
-    color: var(--sun, #d9785a);
+    color: var(--sun, #cf3a31);
   }
-  .global-nav li a:hover { padding-left: 0; color: var(--sun, #d9785a); }
+  .global-nav li a:hover { padding-left: 0; color: var(--sun, #cf3a31); }
   .global-nav > ul > li > a:hover { transform: translateX(6px); }
-  .global-nav > ul > li > a[aria-current="page"] { color: var(--sun, #d9785a); }
+  .global-nav > ul > li > a[aria-current="page"] { color: var(--sun, #cf3a31); }
 
   /* 中の項目は、開かなくても最初から並べる（「＋」は使わない） */
   .global-nav .sub-toggle { display: none; }
@@ -317,7 +317,7 @@
     font-family: var(--gothic, sans-serif);
     font-size: 13px;
     letter-spacing: 0.06em;
-    color: var(--ink, #1e3447);
+    color: var(--ink, #12203f);
     opacity: 0.75;
   }
   .global-nav .sub-menu li a:hover { opacity: 1; }
@@ -332,7 +332,7 @@
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.3em;
-    color: var(--ink, #1e3447);
+    color: var(--ink, #12203f);
     opacity: 0.45;
   }
 }
