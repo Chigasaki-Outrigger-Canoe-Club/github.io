@@ -244,11 +244,20 @@ img { max-width: 100%; display: block; }
   margin-bottom: 32px;
 }
 
-/* スマホは動画が低くなるので、SCROLL の印は出さず、キャッチも少し小さくして動画の中に収める */
+/* スマホ（縦向き）：動画を画面の高さの 70% で見せる。
+   動画は縦長に切り出したスマホ用（hero_sp.mp4、540×720）で、左右は少し切れる */
+@media (max-width: 768px) and (orientation: portrait) {
+  .hero {
+    aspect-ratio: auto;
+    height: 70vh;
+    height: 70svh;      /* アドレスバーが出ているときの画面の高さで計る */
+    min-height: 420px;
+  }
+}
+/* スマホは SCROLL の印は出さない */
 @media (max-width: 600px) {
   .scroll-indicator { display: none; }
-  .hero-overlay { padding: 52px 20px 12px; }
-  .hero .hero-title { font-size: 24px; line-height: 1.5; }
+  .hero-overlay { padding: 60px 20px 20px; }
 }
 
 /* キャッチだけを置くので、下の余白はとらない */
