@@ -290,10 +290,10 @@
     content: counter(navno, decimal-leading-zero);
     display: block;
     margin-bottom: 6px;
-    font-family: var(--display, serif);
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    font-family: var(--gothic, sans-serif);   /* 番号はサイトの本文と同じ書体 */
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     color: var(--sun, #d9785a);
   }
   .global-nav li a:hover { padding-left: 0; color: var(--sun, #d9785a); }
