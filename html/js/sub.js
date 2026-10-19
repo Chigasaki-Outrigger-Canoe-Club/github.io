@@ -579,3 +579,16 @@ document.addEventListener('keydown', e => {
     if (key && !a.querySelector('svg')) a.insertAdjacentHTML('beforeend', icons[key]);
   });
 })();
+
+// メニューボタンをキーボードでも押せるようにする（Tab で選んで Enter / スペース）
+(function () {
+  const btn = document.getElementById('menuBtn');
+  if (!btn || btn.hasAttribute('tabindex')) return;
+  const en = (document.documentElement.lang || '').startsWith('en');
+  btn.setAttribute('tabindex', '0');
+  btn.setAttribute('role', 'button');
+  btn.setAttribute('aria-label', en ? 'Menu' : 'メニュー');
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+  });
+})();

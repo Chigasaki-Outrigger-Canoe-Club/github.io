@@ -114,3 +114,23 @@ html, body { background: var(--paper); color: var(--ink); font-family: var(--got
 @media (max-width: 768px) {
   .site-footer::before { top: 16px; width: 96px; }
 }
+
+/* ---------- 余白をそろえる（2026-10-19）：トップの NEWS と最後の言葉も、サブページと同じ 80px（スマホ 56px） ---------- */
+.news-section { padding-top: 80px; padding-bottom: 80px; }
+.last-message { padding-top: 80px; padding-bottom: 80px; }
+@media (max-width: 768px) {
+  .news-section, .last-message { padding-top: 56px; padding-bottom: 56px; }
+}
+
+/* ---------- キーボードで移動したとき、今いる場所に枠を出す（マウスで押したときは出ない） ---------- */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible,
+.menu-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.menu-btn:focus-visible { outline-color: #fff; }
+.site-header:has(.global-nav.nav-open) .menu-btn:focus-visible { outline-color: var(--ink); }
