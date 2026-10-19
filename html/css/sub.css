@@ -1624,3 +1624,15 @@ html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は
   .message-layout { grid-template-columns: 1fr; }
   .message-photo img { width: 130px; }
 }
+
+/* 目立つ申し込みボタン（体験の申し込みなど） */
+.btn.btn--cta, html body .btn.btn--cta {
+  background: var(--sun, #cf3a31); border-color: var(--sun, #cf3a31); color: #fff;
+  padding: 14px 32px; font-size: 15px; font-weight: 600; letter-spacing: 0.08em;
+}
+.btn.btn--cta:hover, html body .btn.btn--cta:hover { background: var(--ink, #12203f); border-color: var(--ink, #12203f); color: #fff; }
+.section-inner .cta-row { margin: 28px 0 0; }
+.section-inner .cta-row--end { margin: 12px 0 20px; }
+.section-inner .cta-lead { margin: 36px 0 0; font-weight: 600; }
+@media (max-width: 768px) { .btn.btn--cta { display: block; text-align: center; } }
+.section-inner p[data-cms="beginners.trial.faq"] a, .section-inner .table-note a { color: var(--sea, #2c5a8a); border-bottom: 1px solid currentColor; }
