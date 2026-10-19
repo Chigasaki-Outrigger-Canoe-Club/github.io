@@ -1557,9 +1557,32 @@ html body { color: var(--ink, #12203f); }
 .page-hero--fit {
   height: auto;
   min-height: 0;
-  aspect-ratio: 1609 / 1017;   /* KIDS の集合写真の形 */
+  aspect-ratio: var(--hero-ratio, 1609 / 1017);   /* 写真の形（ページごとに --hero-ratio で指定。無ければ KIDS の集合写真の形） */
   max-height: 80vh;
   background-position: center bottom;
   align-items: flex-start;
   padding-top: clamp(64px, 7vw, 96px);
+}
+
+/* スマホで写真の上側に人がいるページ（クラブについて）は、題を写真の下側に置いて顔に重ならないようにする */
+@media (max-width: 768px) {
+  .page-hero--fit.page-hero--title-bottom { align-items: flex-end; padding-top: 0; padding-bottom: 16px; }
+}
+
+/* 代表の言葉：左に写真と名前、右にメッセージ（スマホは縦に並べる） */
+.message-layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 300px) 1fr;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+.message-photo { margin: 0; }
+.message-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 8px; }
+.message-photo figcaption { margin-top: 14px; }
+.section-inner .message-photo .message-sign { max-width: none; margin: 0; text-align: left; }
+.message-layout .message-body { max-width: 640px; padding-top: 4px; }
+.message-role { font-size: 13px; }
+@media (max-width: 768px) {
+  .message-layout { grid-template-columns: 1fr; gap: 24px; }
+  .message-photo { max-width: 260px; }
 }
