@@ -1551,3 +1551,15 @@ html body { color: var(--ink, #12203f); }
   .section-inner .sched-hint { display: block; }
   .sched-link { margin-top: 4px; }
 }
+
+/* ページ上部の写真を、写真の形に合わせて全体を見せる（COCC KIDS の集合写真など）
+   横幅いっぱい・写真と同じ縦横の比率。PC で高くなりすぎるときは画面の 80% までにし、そのときは空の側（上）を少し切る */
+.page-hero--fit {
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 1016 / 650;
+  max-height: 80vh;
+  background-position: center bottom;
+  align-items: flex-start;
+  padding-top: clamp(64px, 7vw, 96px);
+}
