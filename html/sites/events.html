@@ -91,8 +91,8 @@
 
     <nav class="page-toc" aria-label="このページの内容">
       <a href="#hosted">主催する行事と大会</a>
-      <a href="#event-schedule">年間スケジュール</a>
       <a href="#event-news">大会・イベントの記事</a>
+      <a href="#event-schedule">年間スケジュール</a>
     </nav>
 
     <section id="hosted" class="page-section">
@@ -107,17 +107,6 @@
       </div>
     </section>
 
-
-    <section id="event-schedule" class="page-section">
-      <div class="section-inner">
-        <h2 data-cms="events.event-schedule.02" class="section-title">年間スケジュール</h2>
-        <p data-cms="events.event-schedule.03">1年間の大会とイベントの予定です。海況などにより、日程が変わることがあります。</p>
-        <!-- 年間スケジュールは、data/schedule.js のデータを sub.js が表示している。年を足すときは data/schedule.js だけを直す。 -->
-        <div class="schedule" id="scheduleApp">
-          <noscript><p>スケジュールを表示するには、JavaScript を有効にしてください。</p></noscript>
-        </div>
-      </div>
-    </section>
 
     <section id="event-news" class="page-section">
       <div class="section-inner">
@@ -188,6 +177,17 @@
           <button type="button" class="scroll-btn scroll-btn--next" aria-label="次の記事へ">→</button>
         </div>
         <p class="post-cards-more post-cards-more--link"><a class="news-more" href="news.html?cat=race,event">MORE</a></p>
+      </div>
+    </section>
+
+    <section id="event-schedule" class="page-section">
+      <div class="section-inner">
+        <h2 data-cms="events.event-schedule.02" class="section-title">年間スケジュール</h2>
+        <p data-cms="events.event-schedule.03">1年間の大会とイベントの予定です。海況などにより、日程が変わることがあります。</p>
+        <!-- 年間スケジュールは、data/schedule.js のデータを sub.js が表示している。年を足すときは data/schedule.js だけを直す。 -->
+        <div class="schedule" id="scheduleApp">
+          <noscript><p>スケジュールを表示するには、JavaScript を有効にしてください。</p></noscript>
+        </div>
       </div>
     </section>
 
