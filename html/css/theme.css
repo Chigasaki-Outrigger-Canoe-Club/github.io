@@ -181,3 +181,11 @@ html body .card-title {
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   margin-top: 6px; font-size: 13px; line-height: 1.6; color: rgba(0, 0, 0, 0.6);
 }
+
+/* トップの動画の右下：「SCROLL」の文字はやめ、下へ伸びる線だけを落ち着いた金色で（2026-10-20） */
+.scroll-line {
+  width: 1px;
+  height: 64px;
+  background: linear-gradient(to bottom, rgba(201, 176, 122, 0), #c9b07a 35%, #b39a64);
+  box-shadow: none;
+}
