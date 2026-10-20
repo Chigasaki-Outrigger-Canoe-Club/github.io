@@ -1665,3 +1665,7 @@ html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は
 .season-table[data-season="winter"] tr > :nth-child(2) { display: none; }
 .season-table[data-season] tbody th { width: 28%; }
 .season-notes li[hidden] { display: none; }
+/* クラブについて（スマホ）：横長の写真だと低くなり、上のヘッダーに顔が隠れるので、少し高くして左右を少しだけ切る */
+@media (max-width: 600px) {
+  .page-hero--fit.page-hero--full { aspect-ratio: auto; height: 240px; background-position: center bottom; }
+}
