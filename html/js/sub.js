@@ -592,3 +592,34 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
   });
 })();
+
+// 季節で切り替える表（安全管理の必要装備）：見出しの「夏季／冬季」を切り替えのボタンにして、選んだ列だけ見せる
+// 注意書き（.season-notes の 1 行目＝夏、2 行目＝冬）も合わせて切り替える。最初は今の季節（5〜10月は夏）
+(function () {
+  document.querySelectorAll('table.season-table').forEach(table => {
+    const heads = table.querySelectorAll('thead th');
+    if (heads.length < 3) return;
+    const labels = [heads[1].textContent.trim(), heads[2].textContent.trim()];
+    const notes = table.closest('.section-inner') && table.closest('.section-inner').querySelector('.season-notes');
+    const sw = document.createElement('div');
+    sw.className = 'season-switch';
+    sw.setAttribute('role', 'tablist');
+    const buttons = labels.map((label, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'tab');
+      b.textContent = label;
+      b.addEventListener('click', () => show(i));
+      sw.appendChild(b);
+      return b;
+    });
+    (table.closest('.table-wrap') || table).insertAdjacentElement('beforebegin', sw);
+    function show(i) {
+      table.dataset.season = i === 0 ? 'summer' : 'winter';
+      buttons.forEach((b, k) => b.setAttribute('aria-selected', k === i ? 'true' : 'false'));
+      if (notes) [...notes.children].forEach((li, k) => { li.hidden = k !== i; });
+    }
+    const m = new Date().getMonth() + 1;
+    show(m >= 5 && m <= 10 ? 0 : 1);
+  });
+})();

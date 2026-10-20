@@ -1648,3 +1648,20 @@ html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は
 .page-pager-link:hover { background: transparent; }
 .page-pager-link:hover .page-pager-name { color: var(--sun, #cf3a31); }
 
+
+/* 季節の切り替え（安全管理の必要装備）
+   丸いボタンではなく、ヘッダーの JP / EN と同じ「文字＋下線」の切り替えにする */
+.season-switch { display: flex; gap: 28px; margin: 20px 0 4px; border-bottom: 1px solid var(--line, rgba(0,0,0,0.12)); }
+.season-switch button {
+  appearance: none; background: none; border: 0; padding: 8px 0 10px; margin-bottom: -1px; cursor: pointer;
+  font: inherit; font-size: 16px; letter-spacing: 0.12em; color: rgba(0,0,0,0.45);
+  border-bottom: 2px solid transparent;
+}
+.season-switch button[aria-selected="true"] { color: var(--ink, #12203f); font-weight: 600; border-bottom-color: var(--ink, #12203f); }
+.season-switch button:hover { color: var(--ink, #12203f); }
+/* 選んだ季節の列だけ見せる（見出しの行は切り替えがあるので隠す） */
+.season-table[data-season] thead { display: none; }
+.season-table[data-season="summer"] tr > :nth-child(3),
+.season-table[data-season="winter"] tr > :nth-child(2) { display: none; }
+.season-table[data-season] tbody th { width: 28%; }
+.season-notes li[hidden] { display: none; }
