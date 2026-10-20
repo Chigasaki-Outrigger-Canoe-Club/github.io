@@ -189,3 +189,84 @@ html body .card-title {
   background: linear-gradient(to bottom, rgba(201, 176, 122, 0), #c9b07a 35%, #b39a64);
   box-shadow: none;
 }
+
+/* =========================================================
+   ボタン（2026-10-20）：丸いボタンをやめ、四角いボタンに統一
+   ・うすいグレーの枠の四角。左に濃い丸の中の「›」。押せる場所だと分かる印
+   ・マウスを乗せると、左の端に濃い縦線が出る
+   ・申し込みのボタン（.btn--cta）は、縦線と印を差し色にして目立たせる
+   切り替え（年のタブ・記事の絞り込み）は、印なしの四角。選んでいるものに左の縦線
+   ========================================================= */
+html body .btn,
+html body .section-inner .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 28px 14px 16px;
+  border: 1px solid #d4d4d4;
+  border-left: 4px solid #d4d4d4;
+  border-radius: 0;
+  background: #fff;
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+html body .btn::before {
+  content: "";
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #333 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M8 5.5l4.5 4.5L8 14.5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
+}
+html body .btn:hover {
+  background: #fafafa;
+  color: #111;
+  border-color: #c4c4c4;
+  border-left-color: #111;
+}
+/* 申し込み（目立たせる） */
+html body .btn.btn--cta {
+  border-left-color: var(--sun, #cf3a31);
+  color: #111;
+  background: #fff;
+  font-weight: 700;
+  padding: 16px 32px 16px 18px;
+}
+html body .btn.btn--cta::before { background-color: var(--sun, #cf3a31); }
+html body .btn.btn--cta:hover { background: #fffaf9; border-left-color: var(--sun, #cf3a31); color: #111; }
+@media (max-width: 768px) {
+  html body .btn.btn--cta { display: flex; justify-content: flex-start; text-align: left; }
+}
+/* 大会ページは、それぞれの差し色で */
+html body.theme-hoaikane .btn:hover, html body.theme-hoaikane .btn.btn--cta { border-left-color: var(--rose); background: #fff; color: #222; }
+html body.theme-hoaikane .btn.btn--cta::before { background-color: var(--rose); }
+html body.theme-hukilau .btn:hover { border-left-color: var(--fire); background: #fff; color: var(--sumi); }
+
+/* 切り替え（年間スケジュールの年・記事の絞り込み）：印なしの四角、選んでいるものは左に縦線と太字 */
+html body .year-tab,
+html body #scheduleApp .year-tab,
+html body .news-filter-btn {
+  border-radius: 0;
+  border: 1px solid #d4d4d4;
+  border-left: 4px solid #d4d4d4;
+  background: #fff;
+  color: #333;
+  padding: 8px 18px 8px 14px;
+}
+html body .year-tab:hover,
+html body #scheduleApp .year-tab:hover,
+html body .news-filter-btn:hover { background: #fafafa; border-left-color: #888; color: #111; }
+html body .year-tab[aria-pressed="true"],
+html body #scheduleApp .year-tab[aria-pressed="true"],
+html body .news-filter-btn.is-active {
+  background: #fff;
+  color: #111;
+  font-weight: 700;
+  border-color: #c4c4c4;
+  border-left-color: #111;
+}
