@@ -75,16 +75,49 @@ function thumb(a, i) {
   return `<img src="${escapeHtml(image)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">`;
 }
 
+// 記事ページの本文から、カード用の「書き出し」と「読む時間」を取り出す
+function postInfo(a) {
+  const file = path.join(ROOT, "html", "posts", postRelPath(a));
+  let excerpt = "", minutes = 1;
+  try {
+    const html = fs.readFileSync(file, "utf-8");
+    const start = html.indexOf('<div class="post-body">');
+    const end = html.indexOf("</article>", start);
+    const body = start >= 0 ? html.slice(start, end > start ? end : undefined) : "";
+    const text = s => s.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
+    const paras = [...body.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].map(m => text(m[1])).filter(t => t.length >= 15);
+    excerpt = paras[0] || "";
+    if (excerpt.length > 70) excerpt = excerpt.slice(0, 70) + "…";
+    minutes = Math.max(1, Math.round(text(body).replace(/\s/g, "").length / 600));   // 日本語はおよそ 1 分で 600 字
+  } catch (e) { /* 記事ページが読めないときは書き出しなし */ }
+  return { excerpt, minutes };
+}
+
+const LOGO = "images/sites/COMMON/chigasaki_logo_touka_v3.webp";
+const CLOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+// カード 1 枚の中身（写真＋写真の下の帯（クラブ名と読む時間）、分類と日付、題、書き出し）
+// thumbClass / bodyClass / titleClass は、トップの NEWS と一覧ページで名前が違うため
+function cardInner(a, i, thumbClass, bodyClass, titleClass) {
+  const info = postInfo(a);
+  const slug = categorySlug(a.category);
+  const label = displayLabel(a);
+  const cat = label ? `<span class="news-cat news-cat--${slug}">${escapeHtml(label)}</span>` : "";
+  const time = `<span class="card-time">${CLOCK}${info.minutes} MIN</span>`;
+  return `<span class="${thumbClass} card-media">${thumb(a, i)}<span class="card-overlay"><span class="card-by"><img src="${fromPage(LOGO)}" alt="" loading="lazy">COCC</span>${time}</span></span>
+              <span class="${bodyClass} card-body">
+                <span class="card-meta">${cat}<span class="card-date">${escapeHtml(a.date)}</span></span>
+                <span class="${titleClass} card-title">${escapeHtml(a.title)}</span>
+                ${info.excerpt ? `<span class="card-excerpt">${escapeHtml(info.excerpt)}</span>` : ""}
+              </span>`;
+}
+
 // トップの NEWS の1件分
 function renderNewsItem(a, i) {
   return `
       <li class="news-item">
         <a href="${encodeURI("../posts/" + postFile(a))}">
-          <span class="news-thumb">${thumb(a, i)}</span>
-          <span class="news-body">
-            ${metaHtml(a)}
-            <span class="news-text">${escapeHtml(a.title)}</span>
-          </span>
+          ${cardInner(a, i, "news-thumb", "news-body", "news-text")}
         </a>
       </li>
     `;
@@ -94,11 +127,7 @@ function renderNewsItem(a, i) {
 function renderCard(a, i) {
   return `          <li class="post-card" data-cat="${categorySlug(a.category) || "none"}" data-event="${eventSlug(a.event) || "none"}">
             <a href="${encodeURI("../posts/" + postFile(a))}">
-              <span class="post-card-thumb">${thumb(a, i)}</span>
-              <span class="post-card-body">
-                ${metaHtml(a)}
-                <span class="post-card-title">${escapeHtml(a.title)}</span>
-              </span>
+              ${cardInner(a, i, "post-card-thumb", "post-card-body", "post-card-title")}
             </a>
           </li>`;
 }

@@ -1647,3 +1647,4 @@ html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は
 .page-pager-link--next { border-left: 0; }
 .page-pager-link:hover { background: transparent; }
 .page-pager-link:hover .page-pager-name { color: var(--sun, #cf3a31); }
+
