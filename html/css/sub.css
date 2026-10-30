@@ -1669,3 +1669,10 @@ html body .page-hero--logo { align-items: flex-end; }   /* Ho'aikane：文字は
 @media (max-width: 600px) {
   .page-hero--fit.page-hero--full { aspect-ratio: auto; height: 240px; background-position: center bottom; }
 }
+
+/* 初めての方へ：ページの最初のあいさつ文 */
+.page-intro { padding-bottom: 0; }
+.page-intro .intro-text { font-size: 1.08rem; line-height: 2.1; margin: 0; }
+@media (max-width: 600px) {
+  .page-intro .intro-text { font-size: 1rem; line-height: 1.95; }
+}
