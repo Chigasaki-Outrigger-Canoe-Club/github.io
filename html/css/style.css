@@ -260,9 +260,12 @@ img { max-width: 100%; display: block; }
 /* キャッチだけを置くので、下の余白はとらない */
 .hero-title { margin-bottom: 0; }
 
+/* 2 行のキャッチを、改行したまま全体で中央にそろえる */
+.hero-title { text-align: center; }
+
 @media (max-width: 900px) {
   .hero-title {
-    font-size: 32px;
+    font-size: 22px;   /* 2026-10-31 スマホは 32px の 70% に */
     line-height: 1.5;
     letter-spacing: 0.05em;
   }
