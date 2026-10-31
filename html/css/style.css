@@ -244,14 +244,11 @@ img { max-width: 100%; display: block; }
   margin-bottom: 32px;
 }
 
-/* スマホ（縦向き）：動画を画面の高さの 70% で見せる。
-   動画は縦長に切り出したスマホ用（hero_sp.mp4、540×720）で、左右は少し切れる */
+/* スマホ（縦向き）：動画を横幅いっぱい・4:3 の形で見せる（PC の 16:9 より少し高い）。
+   動画は 4:3 に切り出したスマホ用（hero_sp.mp4、960×720）。引き延ばしはしない */
 @media (max-width: 768px) and (orientation: portrait) {
   .hero {
-    aspect-ratio: auto;
-    height: 70vh;
-    height: 70svh;      /* アドレスバーが出ているときの画面の高さで計る */
-    min-height: 420px;
+    aspect-ratio: 4 / 3;
   }
 }
 /* スマホは SCROLL の印は出さない */
