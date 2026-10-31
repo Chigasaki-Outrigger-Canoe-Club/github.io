@@ -270,3 +270,8 @@ html body .news-filter-btn.is-active {
   border-color: #c4c4c4;
   border-left-color: #111;
 }
+
+/* スマホ：動画と ABOUT US の間の区切り（烏帽子の線画）の帯を低く（150px → 90px）。線画の大きさはそのまま */
+@media (max-width: 768px) {
+  .divider-section { padding: 30px 0; }
+}
