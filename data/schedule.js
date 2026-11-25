@@ -35,32 +35,5 @@ window.COCC_SCHEDULE = [
       {"date":"10/31・11/1","name":"HUKILAU CHALLENGE","detail":"茅ヶ崎OC6チャンピオンシップ","place":"COCC／茅ヶ崎","link":"hukilau.html","en":{"date":"10/31–11/1","name":"HUKILAU CHALLENGE","detail":"Chigasaki OC6 Championship","place":"COCC / Chigasaki"}},
       {"date":"12/19","name":"Christmas Race ＆ 忘年会","place":"COCC／茅ヶ崎","en":{"date":"12/19","name":"Christmas Race & year-end party","place":"COCC / Chigasaki"}}
     ]
-  },
-  {
-    year: 2025,
-    footnote: "",
-    footnote_en: "",
-    items: [
-      {"date":"3月","name":"新入会員対象 活動セミナー","detail":"天候、ルール、装備、安全対策ほか","place":"クラブ","en":{"date":"Mar","name":"Seminar for new members","detail":"Weather, rules, equipment, safety and more","place":"Club"}},
-      {"date":"4月","name":"シーズンイン","en":{"date":"Apr","name":"Season opening"}},
-      {"date":"4月","name":"OC1V1 JAPAN CUP","detail":"南伊豆OC1レース","place":"Va'a JAPAN／下田 弓ヶ浜","en":{"date":"Apr","name":"OC1V1 JAPAN CUP","detail":"Minami-Izu OC1 race","place":"Va'a JAPAN / Yumigahama, Shimoda"}},
-      {"date":"5月","name":"GW Paddletrip","place":"COCC／三浦方面","en":{"date":"May","name":"GW Paddletrip","place":"COCC / Miura area"}},
-      {"date":"5月","name":"MOLOKAI SOLO","place":"モロカイ島→オアフ島（ワイキキ）","en":{"date":"May","name":"MOLOKAI SOLO","place":"Molokai to Oahu (Waikiki)"}},
-      {"date":"5月","name":"BBQ","place":"COCC／茅ヶ崎ビーチ","en":{"date":"May","name":"BBQ","place":"COCC / Chigasaki Beach"}},
-      {"date":"5月","name":"JOCAカップ","detail":"逗子OC6レース","place":"JOCA／逗子海岸","en":{"date":"May","name":"JOCA Cup","detail":"Zushi OC6 race","place":"JOCA / Zushi Beach"}},
-      {"date":"6月","name":"湘南パドリングチャレンジ","detail":"江の島OC6レース","place":"SOCC／江ノ島東浜","en":{"date":"Jun","name":"Shonan Paddling Challenge","detail":"Enoshima OC6 race","place":"SOCC / Enoshima Higashihama"}},
-      {"date":"6月","name":"The Race","place":"Wailea／鎌倉 材木座","en":{"date":"Jun","name":"The Race","place":"Wailea / Zaimokuza, Kamakura"}},
-      {"date":"7月","name":"大島クロッシング","detail":"茅ヶ崎⇔大島","place":"COCC／伊豆大島","en":{"date":"Jul","name":"Oshima Crossing","detail":"Chigasaki to Oshima and back","place":"COCC / Izu Oshima"}},
-      {"date":"7月","name":"浜降祭","place":"茅ヶ崎","link":"oshima.html","en":{"date":"Jul","name":"Hamaori Festival","place":"Chigasaki"}},
-      {"date":"8月","name":"小笠原KIDSキャンプ","place":"COCC／小笠原 父島","en":{"date":"Aug","name":"Ogasawara KIDS Camp","place":"COCC / Chichijima, Ogasawara"}},
-      {"date":"8月","name":"Women's Paddle Meet Ho'aikane","place":"COCC／茅ヶ崎","link":"hoaikane.html","en":{"date":"Aug","name":"Women's Paddle Meet Ho'aikane","place":"COCC / Chigasaki"}},
-      {"date":"9月","name":"QUEEN LILI'UOKALANI CANOE RACE","detail":"KONA","place":"ハワイ島","en":{"date":"Sep","name":"QUEEN LILI'UOKALANI CANOE RACE","detail":"KONA","place":"Island of Hawaii"}},
-      {"date":"9月","name":"三浦半島Paddle","detail":"和田浜－油壷－城ヶ島","place":"COCC・SPC／油壷周辺","en":{"date":"Sep","name":"Miura Peninsula Paddle","detail":"Wadahama, Aburatsubo, Jogashima","place":"COCC, SPC / around Aburatsubo"}},
-      {"date":"10月","name":"HAWAIKI NUI VA'A","place":"OCEAN／葉山","en":{"date":"Oct","name":"HAWAIKI NUI VA'A","place":"OCEAN / Hayama"}},
-      {"date":"10月","name":"逗子パドルミート","detail":"逗子OC6スプリントレース","place":"Ohana Hoe／逗子","en":{"date":"Oct","name":"Zushi Paddle Meet","detail":"Zushi OC6 sprint race","place":"Ohana Hoe / Zushi"}},
-      {"date":"10月","name":"湘南パドリングチャレンジU19","detail":"江ノ島OC6レース","place":"SOCC／江ノ島東浜","en":{"date":"Oct","name":"Shonan Paddling Challenge U19","detail":"Enoshima OC6 race","place":"SOCC / Enoshima Higashihama"}},
-      {"date":"10月","name":"HUKILAU CHALLENGE","detail":"茅ヶ崎OC6チャンピオンシップ","place":"COCC／茅ヶ崎","link":"hukilau.html","en":{"date":"Oct","name":"HUKILAU CHALLENGE","detail":"Chigasaki OC6 Championship","place":"COCC / Chigasaki"}},
-      {"date":"12月","name":"Christmas Race ＆ 忘年会","place":"COCC／茅ヶ崎","en":{"date":"Dec","name":"Christmas Race & year-end party","place":"COCC / Chigasaki"}}
-    ]
   }
 ];
