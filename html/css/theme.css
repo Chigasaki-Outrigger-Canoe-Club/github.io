@@ -163,8 +163,6 @@ html body .post-card a:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14); trans
 }
 .card-by { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
 .card-by img { width: auto !important; height: 18px !important; object-fit: contain !important; transform: none !important; }
-.card-time { display: inline-flex; align-items: center; gap: 4px; opacity: 0.9; }
-.card-time svg { width: 12px; height: 12px; }
 html body .card-body { display: block; padding: 12px 14px 16px; }
 .card-meta {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
