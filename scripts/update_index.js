@@ -75,10 +75,10 @@ function thumb(a, i) {
   return `<img src="${escapeHtml(image)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">`;
 }
 
-// 記事ページの本文から、カード用の「書き出し」と「読む時間」を取り出す
+// 記事ページの本文から、カード用の「書き出し」を取り出す
 function postInfo(a) {
   const file = path.join(ROOT, "html", "posts", postRelPath(a));
-  let excerpt = "", minutes = 1;
+  let excerpt = "";
   try {
     const html = fs.readFileSync(file, "utf-8");
     const start = html.indexOf('<div class="post-body">');
@@ -88,23 +88,21 @@ function postInfo(a) {
     const paras = [...body.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].map(m => text(m[1])).filter(t => t.length >= 15);
     excerpt = paras[0] || "";
     if (excerpt.length > 70) excerpt = excerpt.slice(0, 70) + "…";
-    minutes = Math.max(1, Math.round(text(body).replace(/\s/g, "").length / 600));   // 日本語はおよそ 1 分で 600 字
   } catch (e) { /* 記事ページが読めないときは書き出しなし */ }
-  return { excerpt, minutes };
+  return { excerpt };
 }
 
 const LOGO = "images/sites/COMMON/chigasaki_logo_touka_v3.webp";
-const CLOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
-// カード 1 枚の中身（写真＋写真の下の帯（クラブ名と読む時間）、分類と日付、題、書き出し）
+// カード 1 枚の中身（写真＋写真の下の帯（クラブ名）、分類と日付、題、書き出し）
+// 「読む時間（N MIN）」は、投稿からの時間と間違えやすいので出さない（2026-11-25）
 // thumbClass / bodyClass / titleClass は、トップの NEWS と一覧ページで名前が違うため
 function cardInner(a, i, thumbClass, bodyClass, titleClass) {
   const info = postInfo(a);
   const slug = categorySlug(a.category);
   const label = displayLabel(a);
   const cat = label ? `<span class="news-cat news-cat--${slug}">${escapeHtml(label)}</span>` : "";
-  const time = `<span class="card-time">${CLOCK}${info.minutes} MIN</span>`;
-  return `<span class="${thumbClass} card-media">${thumb(a, i)}<span class="card-overlay"><span class="card-by"><img src="${fromPage(LOGO)}" alt="" loading="lazy">COCC</span>${time}</span></span>
+  return `<span class="${thumbClass} card-media">${thumb(a, i)}<span class="card-overlay"><span class="card-by"><img src="${fromPage(LOGO)}" alt="" loading="lazy">COCC</span></span></span>
               <span class="${bodyClass} card-body">
                 <span class="card-meta">${cat}<span class="card-date">${escapeHtml(a.date)}</span></span>
                 <span class="${titleClass} card-title">${escapeHtml(a.title)}</span>
